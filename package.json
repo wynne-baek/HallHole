@@ -11,5 +11,9 @@
     "url": "https://lab.ssafy.com/s07-webmobile2-sub2/S07P12A401.git"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  }
 }
