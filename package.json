@@ -1,0 +1,15 @@
+{
+  "name": "hallhole",
+  "version": "1.0.0",
+  "description": "연극 뮤지컬에 관심있는 사람들을 위해 공연에 대한 실시간 채팅방을 제공하는 서비스",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://lab.ssafy.com/s07-webmobile2-sub2/S07P12A401.git"
+  },
+  "author": "",
+  "license": "ISC"
+}
