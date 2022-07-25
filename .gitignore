@@ -1,2 +1,5 @@
 FE/node_modules
 FE/dist
+BE/hallhole/.idea
+BE/hallhole/.gradle
+BE/hallhole/secret.java
