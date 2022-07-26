@@ -1,7 +1,6 @@
 import * as React from 'react';
 import ButtonUnstyled, { buttonUnstyledClasses } from '@mui/base/ButtonUnstyled';
 import { styled } from '@mui/system';
-import Stack from '@mui/material/Stack';
 
 const PointColor2 = {
   1: '#e37373',
@@ -14,11 +13,13 @@ const CustomButton = styled(ButtonUnstyled)`
   font-size: 16px;
   background-color: ${PointColor2[1]};
   padding: 12px 24px;
-  border-radius: 8px;
+
+  border-radius: 10px;
   color: white;
   transition: all 150ms ease;
   cursor: pointer;
   border: none;
+
   height: 60px;
   width: 380px;
 
@@ -40,9 +41,6 @@ const CustomButton = styled(ButtonUnstyled)`
 
 export default function UnstyledButtonsSimple() {
   return (
-    <Stack spacing={2} direction="row">
-      <CustomButton>시작하기</CustomButton>
-      {/* <CustomButton disabled>Disabled</CustomButton> */}
-    </Stack>
+    <CustomButton>시작하기</CustomButton>
   );
 }
