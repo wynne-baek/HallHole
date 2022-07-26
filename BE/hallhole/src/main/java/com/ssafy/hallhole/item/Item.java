@@ -20,7 +20,8 @@ public class Item {
 
     @NotNull
     @Column(length = 5)
-    private String type;
+    @Enumerated(EnumType.STRING)
+    private ItemType type;
 
     @Builder.Default
     private int price =0;
