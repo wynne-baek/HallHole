@@ -1,9 +1,10 @@
 import React, { Component } from "react";
-import styled from "styled-components";
+
+import { Avatar } from "@mui/material";
 
 class ProfileImageLarge extends Component {
   render() {
-    return <div></div>;
+    return <Avatar sx={{ width: 150, height: 150 }}></Avatar>;
   }
 }
 
