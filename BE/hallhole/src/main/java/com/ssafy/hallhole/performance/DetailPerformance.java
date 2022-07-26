@@ -1,16 +1,25 @@
 package com.ssafy.hallhole.performance;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
-import java.util.*;
+import java.util.LinkedList;
+import java.util.List;
 
 @Entity
 @Getter
 @Builder
-@AllArgsConstructor
+@DynamicInsert
+@DynamicUpdate
 @NoArgsConstructor
+@AllArgsConstructor
 public class DetailPerformance {
+
     @Id
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "performance_id")

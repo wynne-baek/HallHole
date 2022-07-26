@@ -6,15 +6,20 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 
 @Entity
 @Getter
 @Builder
-@AllArgsConstructor
+@DynamicInsert
+@DynamicUpdate
 @NoArgsConstructor
+@AllArgsConstructor
 public class OwnItem {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -25,7 +30,7 @@ public class OwnItem {
     private Item item;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
+    @ManyToOne(fetch = FetchType.LAZY)
     private Member member;
 }

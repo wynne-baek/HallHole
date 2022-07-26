@@ -2,6 +2,7 @@ package com.ssafy.hallhole.chat;
 
 import com.sun.istack.NotNull;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -12,12 +13,13 @@ import javax.persistence.Id;
 import java.time.LocalDateTime;
 
 @Data
-@Document(collection = "chat")
 @Getter
 @Builder
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
+@Document(collection = "chat")
 public class ChatLog {
+
     @Id
     private String id;
 
@@ -54,5 +56,6 @@ public class ChatLog {
 
     @NotNull
     @Builder.Default
+    @ColumnDefault("false")
     private boolean isUpdated = false;
 }

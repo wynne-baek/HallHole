@@ -4,40 +4,48 @@ import com.ssafy.hallhole.member.Member;
 import com.ssafy.hallhole.performance.Performance;
 import com.sun.istack.NotNull;
 import lombok.*;
-import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.*;
 
+import javax.persistence.Entity;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
 @Getter
 @Builder
-@AllArgsConstructor
+@DynamicInsert
+@DynamicUpdate
 @NoArgsConstructor
+@AllArgsConstructor
 public class Review {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(columnDefinition = "INT UNSIGNED")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @NotNull
-    @Column(columnDefinition = "INT UNSIGNED")
-    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @Column(columnDefinition = "INT UNSIGNED")
     private Member member;
 
+    @Setter
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "performance_id")
     private Performance performance;
 
+    @Setter
     @NotNull
     @Column(length = 65)
     private String title;
 
+    @Setter
     @NotNull
     private LocalDateTime performanceDatetime;
 
+    @Setter
     @NotNull
     private String contents;
 
@@ -45,11 +53,14 @@ public class Review {
     @CreationTimestamp
     private LocalDateTime writingTime;
 
+    @UpdateTimestamp
     private LocalDateTime updateTime;
 
+    @Setter
     private double starEval;
 
+    @Setter
     @Builder.Default
+    @ColumnDefault("false")
     private boolean isDelete = false;
-
 }

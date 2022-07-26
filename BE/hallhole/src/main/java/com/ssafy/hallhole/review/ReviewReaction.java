@@ -3,15 +3,21 @@ package com.ssafy.hallhole.review;
 import com.ssafy.hallhole.member.Member;
 import com.sun.istack.NotNull;
 import lombok.*;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 
 @Entity
 @Getter
 @Builder
-@AllArgsConstructor
+@DynamicInsert
+@DynamicUpdate
 @NoArgsConstructor
+@AllArgsConstructor
+@Table(uniqueConstraints = {@UniqueConstraint(name = "reaction", columnNames = {"review", "member"})})
 public class ReviewReaction {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -26,9 +32,9 @@ public class ReviewReaction {
     @JoinColumn(name = "member_id")
     private Member member;
 
+    @Setter
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "reactiontype_id")
+    @JoinColumn(name = "reaction_type_id")
     private ReactionType reactiontype;
-
 }

@@ -7,6 +7,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -14,9 +16,13 @@ import java.time.LocalDateTime;
 @Entity
 @Getter
 @Builder
-@AllArgsConstructor
+@DynamicInsert
+@DynamicUpdate
 @NoArgsConstructor
+@AllArgsConstructor
+@Table(uniqueConstraints = {@UniqueConstraint(name = "follow", columnNames = {"followingMember", "followedMember"})})
 public class Following {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -33,4 +39,18 @@ public class Following {
 
     @CreationTimestamp
     private LocalDateTime dateTime;
+
+    public void follow(Member following, Member followed) {
+        following.addFollowingCnt();
+        followed.addFollowerCnt();
+
+        following.addFollowList(this);
+    }
+
+    public void unfollow(Member following, Member followed) {
+        following.subFollowingCnt();
+        followed.subFollowerCnt();
+
+        following.removeFollowList(this);
+    }
 }

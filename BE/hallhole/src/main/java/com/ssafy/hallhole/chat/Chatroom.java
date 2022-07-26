@@ -7,6 +7,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -14,11 +16,14 @@ import java.time.LocalDateTime;
 @Entity
 @Getter
 @Builder
-@AllArgsConstructor
+@DynamicInsert
+@DynamicUpdate
 @NoArgsConstructor
+@AllArgsConstructor
 public class Chatroom {
+
     @Id
-    @JoinColumn(name="performance_id")
+    @JoinColumn(name = "performance_id")
     @OneToOne(fetch = FetchType.LAZY)
     private Performance performance;
 
@@ -37,13 +42,11 @@ public class Chatroom {
     @NotNull
     private LocalDateTime closeTime;
 
-
-    public void addUser(){
+    public void addUser() {
         this.userCount++;
-        return;
     }
-    public void subUser(){
+
+    public void subUser() {
         this.userCount--;
-        return;
     }
 }

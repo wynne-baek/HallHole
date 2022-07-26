@@ -1,25 +1,24 @@
 package com.ssafy.hallhole.comment;
 
 import com.ssafy.hallhole.member.Member;
-import com.ssafy.hallhole.performance.Performance;
 import com.ssafy.hallhole.review.Review;
 import com.sun.istack.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
+import lombok.*;
+import org.hibernate.annotations.*;
 
+import javax.persistence.Entity;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
 @Getter
 @Builder
-@AllArgsConstructor
+@DynamicInsert
+@DynamicUpdate
 @NoArgsConstructor
+@AllArgsConstructor
 public class Comment {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -35,11 +34,14 @@ public class Comment {
     private Review review;
 
     @NotNull
+    @Setter
     @Column(columnDefinition = "MEDIUMTEXT")
     private String contents;
 
     @NotNull
+    @Setter
     @Builder.Default
+    @ColumnDefault("false")
     private boolean isDelete = false;
 
     @CreationTimestamp

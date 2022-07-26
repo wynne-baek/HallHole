@@ -1,7 +1,10 @@
 package com.ssafy.hallhole.review;
 
 import com.sun.istack.NotNull;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
@@ -11,6 +14,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ReactionType {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;

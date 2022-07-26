@@ -2,15 +2,23 @@ package com.ssafy.hallhole.performance;
 
 import com.ssafy.hallhole.member.Member;
 import com.sun.istack.NotNull;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 
 @Entity
 @Getter
 @Builder
-@AllArgsConstructor
+@DynamicInsert
+@DynamicUpdate
 @NoArgsConstructor
+@AllArgsConstructor
+@Table(uniqueConstraints = {@UniqueConstraint(name = "like", columnNames = {"performance", "member"})})
 public class PerformanceLike {
 
     @Id
@@ -23,9 +31,9 @@ public class PerformanceLike {
     private Performance performance;
 
     @NotNull
-    @Column(columnDefinition = "INT UNSIGNED")
-    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @Column(columnDefinition = "INT UNSIGNED")
     private Member member;
 
 }

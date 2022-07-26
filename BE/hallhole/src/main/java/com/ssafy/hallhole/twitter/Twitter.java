@@ -8,12 +8,12 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.time.LocalDateTime;
 
-@RequiredArgsConstructor
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
 @Entity
 @Getter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@RequiredArgsConstructor
 public class Twitter {
 
     @Id
@@ -27,3 +27,4 @@ public class Twitter {
     private LocalDateTime time;
 
 }
+
