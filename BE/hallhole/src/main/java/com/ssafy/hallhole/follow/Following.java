@@ -20,7 +20,7 @@ import java.time.LocalDateTime;
 @DynamicUpdate
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(uniqueConstraints = {@UniqueConstraint(name = "follow", columnNames = {"followingMember", "followedMember"})})
+@Table(uniqueConstraints = {@UniqueConstraint(name = "follow", columnNames = {"following_member_id", "followed_member_id"})})
 public class Following {
 
     @Id
@@ -28,12 +28,10 @@ public class Following {
     private Long id;
 
     @NotNull
-    @JoinColumn(name = "member_id")
     @ManyToOne(fetch = FetchType.LAZY)
     private Member followingMember;
 
     @NotNull
-    @JoinColumn(name = "member_id")
     @ManyToOne(fetch = FetchType.LAZY)
     private Member followedMember;
 

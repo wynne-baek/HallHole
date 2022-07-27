@@ -16,6 +16,7 @@ import java.time.LocalDateTime;
 @Builder
 @DynamicInsert
 @DynamicUpdate
+@Table(name = "reports")
 @NoArgsConstructor
 @AllArgsConstructor
 public class Report {
@@ -25,12 +26,10 @@ public class Report {
     private Long id;
 
     @NotNull
-    @JoinColumn(name = "member_id")
     @ManyToOne(fetch = FetchType.LAZY)
     private Member member;
 
     @NotNull
-    @JoinColumn(name = "member_id")
     @ManyToOne(fetch = FetchType.LAZY)
     private Member respondentMember;
 
@@ -45,7 +44,6 @@ public class Report {
     @Builder.Default
     @Column(length = 20)
     @Enumerated(EnumType.STRING)
-    @ColumnDefault("REPORTED")
     private ReportStatus status = ReportStatus.REPORTED;
 
     @CreationTimestamp

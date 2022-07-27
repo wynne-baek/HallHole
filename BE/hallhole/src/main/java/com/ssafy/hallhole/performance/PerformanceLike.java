@@ -18,7 +18,7 @@ import javax.persistence.*;
 @DynamicUpdate
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(uniqueConstraints = {@UniqueConstraint(name = "like", columnNames = {"performance", "member"})})
+@Table(uniqueConstraints = {@UniqueConstraint(name = "like", columnNames = {"performance_id", "member_id"})})
 public class PerformanceLike {
 
     @Id
@@ -33,7 +33,7 @@ public class PerformanceLike {
     @NotNull
     @JoinColumn(name = "member_id")
     @ManyToOne(fetch = FetchType.LAZY)
-    @Column(columnDefinition = "INT UNSIGNED")
+//    @Column(columnDefinition = "INT UNSIGNED")
     private Member member;
 
 }

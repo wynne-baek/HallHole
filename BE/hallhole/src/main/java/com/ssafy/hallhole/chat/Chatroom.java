@@ -11,6 +11,7 @@ import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Entity
@@ -20,7 +21,7 @@ import java.time.LocalDateTime;
 @DynamicUpdate
 @NoArgsConstructor
 @AllArgsConstructor
-public class Chatroom {
+public class Chatroom implements Serializable {
 
     @Id
     @JoinColumn(name = "performance_id")
@@ -48,5 +49,30 @@ public class Chatroom {
 
     public void subUser() {
         this.userCount--;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Chatroom chatroom = (Chatroom) o;
+
+        if (userCount != chatroom.userCount) return false;
+        if (performance != null ? !performance.equals(chatroom.performance) : chatroom.performance != null)
+            return false;
+        if (name != null ? !name.equals(chatroom.name) : chatroom.name != null) return false;
+        if (openTime != null ? !openTime.equals(chatroom.openTime) : chatroom.openTime != null) return false;
+        return closeTime != null ? closeTime.equals(chatroom.closeTime) : chatroom.closeTime == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = performance != null ? performance.hashCode() : 0;
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + userCount;
+        result = 31 * result + (openTime != null ? openTime.hashCode() : 0);
+        result = 31 * result + (closeTime != null ? closeTime.hashCode() : 0);
+        return result;
     }
 }

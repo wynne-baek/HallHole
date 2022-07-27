@@ -15,7 +15,7 @@ import javax.persistence.*;
 @DynamicUpdate
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(uniqueConstraints = {@UniqueConstraint(name = "reaction", columnNames = {"review", "member"})})
+@Table(uniqueConstraints = {@UniqueConstraint(name = "reaction", columnNames = {"review_id", "member_id"})})
 public class ReviewReaction {
 
     @Id

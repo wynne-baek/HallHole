@@ -27,7 +27,7 @@ public class Review {
     @NotNull
     @JoinColumn(name = "member_id")
     @ManyToOne(fetch = FetchType.LAZY)
-    @Column(columnDefinition = "INT UNSIGNED")
+//    @Column(columnDefinition = "INT UNSIGNED")
     private Member member;
 
     @Setter
