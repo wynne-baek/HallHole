@@ -32,6 +32,13 @@ const Image = styled("img")({
 });
 
 export default function ImageButton(props) {
+  /**
+   * props
+   *  - size : "large" 또는 "small"
+   *  - src : 이미지 url
+   *  - text : 하단 텍스트
+   *  - onClick : 클릭 시 이벤트
+   */
   return (
     <Content size={props.size} onClick={props.onClick}>
       <Image src={props.src}></Image>
