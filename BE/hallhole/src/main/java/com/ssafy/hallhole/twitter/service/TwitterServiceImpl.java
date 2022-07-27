@@ -18,6 +18,8 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Service
 @RequiredArgsConstructor
@@ -32,7 +34,7 @@ public class TwitterServiceImpl implements TwitterService {
     @Scheduled(cron = "0 0/1 * * * ?")
     public void TestTwitterLoading() {
         LocalDateTime endLocalDateTime = LocalDateTime.now();
-        LocalDateTime startLocalDateTime = endLocalDateTime.minusMinutes(5);
+        LocalDateTime startLocalDateTime = endLocalDateTime.minusDays(1);
         AdditionalParameters additionalParameters = AdditionalParameters.builder().startTime(startLocalDateTime).endTime(endLocalDateTime).build();
 
         TwitterClient twitterClient = new TwitterClient(TwitterCredentials.builder()
@@ -61,7 +63,27 @@ public class TwitterServiceImpl implements TwitterService {
             } else {
                 tweetData = Twitter.builder().id(tweet.getId()).contents(tweet.getText()).time(tweet.getCreatedAt()).build();
             }
-            saveTwitter((tweetData));
+            List<String> splitContent = List.of(tweetData.getContents().split("▶|\uD83D\uDCCD"));
+
+            String contents = splitContent.get(0);
+            if (splitContent.size() == 2) {
+                contents = splitContent.get(0);
+            } else if (splitContent.size() == 3) {
+                contents = splitContent.get(0) + "\n" + splitContent.get(1);
+            } else {
+                contents = tweetData.getContents();
+            }
+            Pattern pattern = Pattern.compile("(http|ftp|https)://([\\w_-]+(?:(?:\\.[\\w_-]+)+))([\\w.,@?^=%&:/~+#-]*[\\w@?^=%&/~+#-])?");
+            Matcher matcher = pattern.matcher(tweetData.getContents());
+
+            String url = "";
+            while (matcher.find()) {
+                String match = matcher.group();
+                url = match;
+                break;
+            }
+            Twitter res = Twitter.builder().id(tweet.getId()).contents(contents).url(url).time(tweetData.getTime()).build();
+            saveTwitter(res);
         }
     }
 
