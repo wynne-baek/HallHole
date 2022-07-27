@@ -4,7 +4,9 @@ import com.ssafy.hallhole.twitter.Twitter;
 import com.ssafy.hallhole.twitter.repository.TwitterRepository;
 import io.github.redouane59.twitter.TwitterClient;
 import io.github.redouane59.twitter.dto.endpoints.AdditionalParameters;
+import io.github.redouane59.twitter.dto.tweet.Tweet;
 import io.github.redouane59.twitter.dto.tweet.TweetList;
+import io.github.redouane59.twitter.dto.tweet.TweetType;
 import io.github.redouane59.twitter.dto.tweet.TweetV2;
 import io.github.redouane59.twitter.dto.user.UserV2;
 import io.github.redouane59.twitter.signature.TwitterCredentials;
@@ -30,8 +32,7 @@ public class TwitterServiceImpl implements TwitterService {
     @Scheduled(cron = "0 0/1 * * * ?")
     public void TestTwitterLoading() {
         LocalDateTime endLocalDateTime = LocalDateTime.now();
-//        LocalDateTime startLocalDateTime = endLocalDateTime.minusMinutes(5);
-        LocalDateTime startLocalDateTime = endLocalDateTime.minusDays(1);
+        LocalDateTime startLocalDateTime = endLocalDateTime.minusMinutes(5);
         AdditionalParameters additionalParameters = AdditionalParameters.builder().startTime(startLocalDateTime).endTime(endLocalDateTime).build();
 
         TwitterClient twitterClient = new TwitterClient(TwitterCredentials.builder()
@@ -53,9 +54,15 @@ public class TwitterServiceImpl implements TwitterService {
                 if (!tweet.getText().contains("뮤지컬") && !tweet.getText().contains("연극") && !tweet.getText().contains("극단"))
                     continue;
             }
-            Twitter tweetData = Twitter.builder().id(tweet.getId()).contents(tweet.getText()).time(tweet.getCreatedAt()).build();
-//            saveTwitter((tweetData));
-           }
+            Twitter tweetData = null;
+            if (tweet.getTweetType().equals(TweetType.RETWEETED)) {
+                Tweet refTweet = twitterClient.getTweet(tweet.getReferencedTweets().get(0).getId());
+                tweetData = Twitter.builder().id(refTweet.getId()).contents(refTweet.getText()).time(refTweet.getCreatedAt()).build();
+            } else {
+                tweetData = Twitter.builder().id(tweet.getId()).contents(tweet.getText()).time(tweet.getCreatedAt()).build();
+            }
+            saveTwitter((tweetData));
+        }
     }
 
     @Override
