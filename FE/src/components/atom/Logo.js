@@ -6,6 +6,7 @@ const Image = styled("img")(
   ({ size }) => `
     width: ${size === "large" ? "216px" : "103px"};
     height: ${size === "large" ? "115px" : "54px"};
+    margin: 10px;
   `,
 );
 
