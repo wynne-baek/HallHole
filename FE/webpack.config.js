@@ -16,15 +16,6 @@ module.exports = {
           loader: "babel-loader",
         },
       },
-      {
-        test: /\.s?[ac]ss$/,
-        exclude: /node_modules/,
-        use: [
-          'style-loader',
-          'css-loader',
-          'sass-loader',
-        ]
-      },
     ],
   },
   plugins: [
@@ -32,4 +23,9 @@ module.exports = {
       template: "./src/index.html",
     }),
   ],
+  devServer: {
+    static: {
+      directory: path.join(__dirname, "static"),
+    },
+  },
 };
