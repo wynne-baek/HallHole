@@ -5,8 +5,7 @@ import { styled } from "@mui/system";
 // 사이즈는 large, medium, small 있으며 각각 30px, 22px, 16px 크기이다.
 // 색상은 primary, white, black 이다.
 
-const CustomText = styled(`text`)({
-  color: "black",
+const CustomText = styled(`p`)({
   fontFamily: "Helvetica Neue",
 });
 
