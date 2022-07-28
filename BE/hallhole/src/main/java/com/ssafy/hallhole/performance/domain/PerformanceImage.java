@@ -1,6 +1,5 @@
-package com.ssafy.hallhole.performance;
+package com.ssafy.hallhole.performance.domain;
 
-import com.ssafy.hallhole.member.Member;
 import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -18,8 +17,7 @@ import javax.persistence.*;
 @DynamicUpdate
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(uniqueConstraints = {@UniqueConstraint(name = "like", columnNames = {"performance_id", "member_id"})})
-public class PerformanceLike {
+public class PerformanceImage {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,10 +28,9 @@ public class PerformanceLike {
     @JoinColumn(name = "performance_id")
     private Performance performance;
 
-    @NotNull
-    @JoinColumn(name = "member_id")
-    @ManyToOne(fetch = FetchType.LAZY)
-//    @Column(columnDefinition = "INT UNSIGNED")
-    private Member member;
+    private String url;
+
+    @Column(columnDefinition = "INT UNSIGNED")
+    private int sortingNum;
 
 }

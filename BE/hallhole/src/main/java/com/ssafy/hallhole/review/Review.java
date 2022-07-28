@@ -1,7 +1,7 @@
 package com.ssafy.hallhole.review;
 
 import com.ssafy.hallhole.member.Member;
-import com.ssafy.hallhole.performance.Performance;
+import com.ssafy.hallhole.performance.domain.Performance;
 import com.sun.istack.NotNull;
 import lombok.*;
 import org.hibernate.annotations.*;
