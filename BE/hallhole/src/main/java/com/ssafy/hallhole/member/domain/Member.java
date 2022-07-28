@@ -1,4 +1,4 @@
-package com.ssafy.hallhole.member;
+package com.ssafy.hallhole.member.domain;
 
 import com.ssafy.hallhole.follow.Following;
 import com.sun.istack.NotNull;
