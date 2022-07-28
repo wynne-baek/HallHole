@@ -18,7 +18,7 @@ public interface PerformanceRepository {
 
     Performance findOnePerformanceById(String id);
 
-    DetailPerformance findOneDetailPerformance(Performance performance);
+    DetailPerformance findOneDetailPerformance(String id);
 
     List<String> findAllFacility();
 

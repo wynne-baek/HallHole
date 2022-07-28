@@ -37,11 +37,10 @@ public class DetailPerformance implements Serializable {
 
     private String productionCompany;
 
-    @Column(columnDefinition = "INT UNSIGNED")
     private String price;
 
     @Builder.Default
-    @OneToMany(mappedBy = "performance")
+    @OneToMany(mappedBy = "performance",cascade = CascadeType.ALL)
     private List<PerformanceImage> images = new LinkedList<>();
 
     @Override

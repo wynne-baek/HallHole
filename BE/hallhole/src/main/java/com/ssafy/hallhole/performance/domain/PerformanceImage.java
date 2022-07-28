@@ -33,4 +33,12 @@ public class PerformanceImage {
     @Column(columnDefinition = "INT UNSIGNED")
     private int sortingNum;
 
+    @Override
+    public String toString() {
+        return "PerformanceImage{" +
+                "id=" + id +
+                ", url='" + url + '\'' +
+                ", sortingNum=" + sortingNum +
+                '}';
+    }
 }

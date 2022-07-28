@@ -3,6 +3,7 @@ package com.ssafy.hallhole.performance.service;
 import com.ssafy.hallhole.performance.domain.DetailPerformance;
 import com.ssafy.hallhole.performance.domain.Facility;
 import com.ssafy.hallhole.performance.domain.Performance;
+import com.ssafy.hallhole.performance.domain.PerformanceImage;
 import com.ssafy.hallhole.performance.repository.PerformanceRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.env.Environment;
@@ -11,19 +12,18 @@ import org.springframework.transaction.annotation.Transactional;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class PerformanceServiceImpl implements PerformanceService {
 
@@ -33,21 +33,21 @@ public class PerformanceServiceImpl implements PerformanceService {
 
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public List<Performance> getPerformances() {
         return null;
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public Performance findOne() {
         return null;
     }
 
     @Override
-    @Transactional
-    public DetailPerformance getDetail() {
-        return null;
+    @Transactional(readOnly = true)
+    public DetailPerformance getDetail(String id) {
+        return performanceRepository.findOneDetailPerformance(id);
     }
 
     @Override
@@ -57,7 +57,8 @@ public class PerformanceServiceImpl implements PerformanceService {
         getFacilityData();
     }
 
-    public void getPerformanceData(String type) throws SAXException, IOException, ParserConfigurationException {
+    @Override
+    public void getPerformanceData(String type) throws Exception {
         for (int pg_num = 1; pg_num <= 5; pg_num++) {
 
             String urlstr = "http://www.kopis.or.kr/openApi/restful/pblprfr?service=" + env.getProperty("kopisApiKey") +
@@ -159,7 +160,6 @@ public class PerformanceServiceImpl implements PerformanceService {
         Node nNode = nList.item(0);
         NodeList items = nNode.getChildNodes();
         HashMap<String, String> map = new HashMap();
-        Facility facility = null;
         for (int i = 0; i < items.getLength(); i++) {
             if (nNode.getNodeType() == Node.ELEMENT_NODE) {
                 Node node = items.item(i);
@@ -176,7 +176,7 @@ public class PerformanceServiceImpl implements PerformanceService {
                 }
             }
         }
-        facility = Facility.builder()
+        Facility facility = Facility.builder()
                 .id(map.get("id"))
                 .addr(map.get("addr"))
                 .name(map.get("name"))
@@ -188,13 +188,70 @@ public class PerformanceServiceImpl implements PerformanceService {
 
 
     @Override
-    public void getDetailPerformanceData() {
-//        List<Performance> performanceList = performanceRepository.findAllPerformance();
-//        for (Performance performance : performanceList) {
-//            if(performanceRepository.findOneDetailPerformance(performance)==null){
-//
-//            }
-//        }
+    public void getDetailPerformanceData() throws Exception {
+        List<Performance> performanceList = performanceRepository.findAllPerformance();
+        for (Performance performance : performanceList) {
+            if (performanceRepository.findOneDetailPerformance(performance.getId()) == null) {
+                String urlstr = "http://www.kopis.or.kr/openApi/restful/pblprfr/" + performance.getId() + "?service=" + env.getProperty("kopisApiKey");
+                DocumentBuilderFactory dbFactoty = DocumentBuilderFactory.newInstance();
+                DocumentBuilder dBuilder = dbFactoty.newDocumentBuilder();
+                Document doc = dBuilder.parse(urlstr);
+
+                doc.getDocumentElement().normalize();
+                NodeList nList = doc.getElementsByTagName("db");
+                Node nNode = nList.item(0);
+                NodeList items = nNode.getChildNodes();
+                HashMap<String, String> map = new HashMap();
+                List<PerformanceImage> urls = new ArrayList<>();
+                for (int i = 0; i < items.getLength(); i++) {
+                    if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+                        Node node = items.item(i);
+                        if (node.getNodeName().equals("prfcast")) {
+                            map.put("cast", node.getTextContent());
+                        } else if (node.getNodeName().equals("prfruntime")) {
+                            map.put("runtime", node.getTextContent());
+                        } else if (node.getNodeName().equals("mt10id")) {
+                            map.put("facility_id", node.getTextContent());
+                        } else if (node.getNodeName().equals("entrpsnm")) {
+                            map.put("company", node.getTextContent());
+                        } else if (node.getNodeName().equals("pcseguidance")) {
+                            map.put("price", node.getTextContent());
+                        } else if (node.getNodeName().equals("styurls")) {
+                            NodeList images = node.getChildNodes();
+                            int num = 1;
+                            for (int j = 0; j < images.getLength(); j++) {
+                                if (images.item(j).getNodeName().equals("styurl")) {
+                                    PerformanceImage performanceImage = PerformanceImage.builder()
+                                            .performance(performance)
+                                            .sortingNum(num)
+                                            .url(images.item(j).getTextContent())
+                                            .build();
+                                    urls.add(performanceImage);
+                                    num++;
+                                }
+
+                            }
+                        }
+                    }
+                }
+                Facility facility = performanceRepository.findOneFacility(map.get("facility_id"));
+                if (facility == null) {
+                    facility = getFacilityDetailData(map.get("facility_id"));
+                    performanceRepository.saveFacility(facility);
+                }
+                DetailPerformance detailPerformance = DetailPerformance.builder()
+                        .performance(performance)
+                        .actor(map.get("cast"))
+                        .runtime(map.get("runtime"))
+                        .productionCompany(map.get("company"))
+                        .facility(facility)
+                        .price(map.get("price"))
+                        .images(urls)
+                        .build();
+                performanceRepository.saveDetail(detailPerformance);
+                System.out.println(detailPerformance);
+            }
+        }
     }
 
 }

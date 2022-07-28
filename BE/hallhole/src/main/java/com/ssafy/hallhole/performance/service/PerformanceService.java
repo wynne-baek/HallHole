@@ -13,14 +13,15 @@ public interface PerformanceService {
 
     Performance findOne();
 
-    DetailPerformance getDetail();
+    DetailPerformance getDetail(String id);
 
     void initData() throws Exception;
 
-    void getPerformanceData(String type) throws SAXException, IOException, ParserConfigurationException;
+    void getPerformanceData(String type) throws Exception;
 
-    void getDetailPerformanceData();
+    void getDetailPerformanceData() throws ParserConfigurationException, Exception;
 
     void getFacilityData() throws ParserConfigurationException, Exception;
+
 
 }

@@ -17,7 +17,6 @@ public class PerformanceRepositoryImpl implements PerformanceRepository{
     private final EntityManager em;
 
     @Override
-    @Transactional
     public void save(Performance performance) {
         em.persist(performance);
     }
@@ -43,8 +42,8 @@ public class PerformanceRepositoryImpl implements PerformanceRepository{
     }
 
     @Override
-    public DetailPerformance findOneDetailPerformance(Performance performance) {
-        return em.find(DetailPerformance.class,performance);
+    public DetailPerformance findOneDetailPerformance(String id) {
+        return em.find(DetailPerformance.class,id);
     }
 
     @Override
