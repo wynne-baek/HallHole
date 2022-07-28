@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 @Entity
 @Getter
 @Builder
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @RequiredArgsConstructor
@@ -22,6 +23,8 @@ public class Twitter {
 
     @NotNull
     private String contents;
+
+    private String url;
 
     @NotNull
     private LocalDateTime time;
