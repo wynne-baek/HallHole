@@ -38,6 +38,7 @@ public class Member {
     private String name;
 
     @NotNull
+    @Column(unique = true)
     private String email;
 
     @Setter
@@ -72,7 +73,7 @@ public class Member {
     @ColumnDefault("false")
     private boolean isOut = false;
 
-    @Column(length = 10, nullable = false)
+    @Column(unique = true, length = 10, nullable = false)
     private String idTag;
 
     @Setter
@@ -117,6 +118,8 @@ public class Member {
     public void addPoint(int delta) {
         this.point += delta;
     }
+
+    public void addIdTag(String tag) {this.idTag+=tag;}
 
     public void subPoint(int delta) {
         int remainPoint = this.point - delta;

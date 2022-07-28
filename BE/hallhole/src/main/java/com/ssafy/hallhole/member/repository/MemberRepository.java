@@ -1,17 +1,11 @@
 package com.ssafy.hallhole.member.repository;
 
 import com.ssafy.hallhole.member.domain.Member;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.util.List;
+public interface MemberRepository extends JpaRepository<Member,Long> {
 
-public interface MemberRepository {
+    Member findByEmail(String email);
 
-    void save(Member member);
-
-    Member findOne(Long id);
-
-    List<Member> findAll();
-
-    List<Member> findByEmail(String email);
-
+    Boolean findByIdTag(String tag);
 }

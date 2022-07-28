@@ -7,7 +7,7 @@ public interface MemberService {
 
     Long join(Member member);
 
-    void duplicateMember(Member member);
+    void duplicateMember(String email);
 
 //    void findPW
 
