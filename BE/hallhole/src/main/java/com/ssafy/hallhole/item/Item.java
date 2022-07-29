@@ -27,7 +27,7 @@ public class Item {
     @NotNull
     @Column(length = 5)
     @Enumerated(EnumType.STRING)
-    private ItemType type;
+    private ItemType itemType;
 
     @Builder.Default
     @ColumnDefault("0")

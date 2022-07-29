@@ -1,26 +1,24 @@
 package com.ssafy.hallhole.member.service;
 
-import com.ssafy.hallhole.member.domain.Member;
+import com.ssafy.hallhole.mail.MailService;
+import com.ssafy.hallhole.member.Gender;
+import com.ssafy.hallhole.member.Member;
 import com.ssafy.hallhole.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDate;
 
 @Service
-@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class MemberServiceImpl implements MemberService {
 
     private final MemberRepository memberRepository;
+    private final MailService mailService;
 
-    @Transactional
     @Override
-    public Long join(Member member){
-
-        // 이메일 중복여부 확인
+    public void join(Member member){
         duplicateMember(member.getEmail());
-
-        // 홀홀태그 부여
         char[] charSet = new char[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F',
                 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z' };
 
@@ -34,28 +32,84 @@ public class MemberServiceImpl implements MemberService {
                 tmpTag += charSet[idx];
             }
 
-            // 태그 중복여부 확인
-            if(memberRepository.findByIdTag(tmpTag)) {
-                tagFlag = true;
-                tag += tmpTag;
+            if(memberRepository.findByIdTag(tmpTag)==null) {
+                tagFlag = false;
+                member.setIdTag(tmpTag);
             }
         }
-
         member.addIdTag(tag);
-
-        // 입력받은 정보 저장
         memberRepository.save(member);
-
-        // return id
-        return member.getId();
+        mailService.sendCongMail(member);
     }
 
     @Override
     public void duplicateMember(String email){
-        Member findMember = memberRepository.findByEmail(email);
-        if(findMember!=null){ // 중복 이메일 존재 시
+        if(memberRepository.findByEmail(email)!=null) {
             throw new IllegalStateException("이미 사용중인 이메일입니다.");
         }
+    }
+
+    @Override
+    public void findPW(String email) {
+        Member member = memberRepository.findByEmail(email);
+        if(member==null){
+            throw new IllegalStateException("해당 이메일은 존재하지 않습니다.");
+        }
+
+        mailService.sendPWMail(email);
+        memberRepository.save(member);
+    }
+
+    @Override
+    public void delMem(Long memberId) {
+        Member member = memberRepository.findById(memberId).get();
+
+        member.setOut(true);
+        member.setBanDate(LocalDate.now());
+        memberRepository.save(member);
+    }
+
+    @Override
+    public void changePW(String email,String password) {
+        Member member = memberRepository.findByEmail(email);
+        System.out.println(member.getPassword());
+        memberRepository.save(member);
+    }
+
+    @Override
+    public Member changeInfo(
+            String tag, String profile, String name, String gender, String age) {
+        Member member = memberRepository.findByIdTag(tag);
+        member.setName(name);
+        member.setProfile(profile);
+
+        Gender g = Gender.N;
+        if(gender.equals("F")) g = Gender.F;
+        else if(gender.equals("M")) g = Gender.M;
+        member.setGender(g);
+        memberRepository.save(member);
+
+        return member;
+    }
+
+    @Override
+    public Member getInfo(String tag) {
+        Member member = memberRepository.findByIdTag(tag);
+        // 현재 사용중인 캐릭터 관련 데이터도 넣어놔야해
+        return member;
+    }
+
+    @Override
+    public Member loginhh(String email, String password) {
+        Member member = memberRepository.findByEmail(email);
+        if(member==null){
+            throw new IllegalStateException("이메일 또는 비밀번호를 다시 입력해주세요.");
+        }
+        if(!member.getPassword().equals(password)){
+            throw new IllegalStateException("이메일 또는 비밀번호를 다시 입력해주세요.");
+        }
+
+        return member;
     }
 
 

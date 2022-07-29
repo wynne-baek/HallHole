@@ -1,6 +1,6 @@
 package com.ssafy.hallhole.review;
 
-import com.ssafy.hallhole.member.domain.Member;
+import com.ssafy.hallhole.member.Member;
 import com.ssafy.hallhole.performance.Performance;
 import com.sun.istack.NotNull;
 import lombok.*;
@@ -22,7 +22,7 @@ public class Review {
     @Id
     @Column(columnDefinition = "INT UNSIGNED")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
     @NotNull
     @JoinColumn(name = "member_id")

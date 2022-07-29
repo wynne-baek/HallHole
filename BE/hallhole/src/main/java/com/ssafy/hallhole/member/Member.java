@@ -1,4 +1,4 @@
-package com.ssafy.hallhole.member.domain;
+package com.ssafy.hallhole.member;
 
 import com.ssafy.hallhole.follow.Following;
 import com.sun.istack.NotNull;
@@ -9,6 +9,7 @@ import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +34,7 @@ public class Member {
 
     private String token;
 
+    @Setter
     @NotNull
     @Column(length = 20)
     private String name;
@@ -46,6 +48,7 @@ public class Member {
     @Column(length = 25)
     private String password;
 
+    @Setter
     @Column(length = 2)
     @Enumerated(EnumType.STRING)
     private Gender gender;
@@ -73,7 +76,9 @@ public class Member {
     @ColumnDefault("false")
     private boolean isOut = false;
 
-    @Column(unique = true, length = 10, nullable = false)
+    @Setter
+    @NotNull
+    @Column(unique = true, length = 10)
     private String idTag;
 
     @Setter
@@ -81,6 +86,10 @@ public class Member {
     @Builder.Default
     @ColumnDefault("false")
     private boolean isBan = false;
+
+    @Setter
+    @ColumnDefault("false")
+    private LocalDate banDate;
 
     @NotNull
     @Builder.Default
@@ -96,8 +105,32 @@ public class Member {
     @Column(length = 52)
     private String profile;
 
+    @Setter
+    @NotNull
+    @Builder.Default
+    @ColumnDefault("0")
+    private int nowBg = 0;
+
+    @Setter
+    @NotNull
+    @Builder.Default
+    @ColumnDefault("0")
+    private int nowChar = 0;
+
+    @Setter
+    @NotNull
+    @Builder.Default
+    @ColumnDefault("0")
+    private int nowAcc = 0;
+
+    public Member(String email, String name, String password) {
+        this.email = email;
+        this.name = name;
+        this.password = password;
+    }
+
     @OneToMany(mappedBy = "followedMember")
-    private List<Following> followList = new ArrayList<>();
+    private List<Following> followList = new ArrayList<>(); // 내가 팔로우한 사람
 
     public void addFollowingCnt() {
         this.followingCnt++;

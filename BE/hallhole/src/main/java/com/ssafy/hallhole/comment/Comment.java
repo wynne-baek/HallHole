@@ -1,6 +1,6 @@
 package com.ssafy.hallhole.comment;
 
-import com.ssafy.hallhole.member.domain.Member;
+import com.ssafy.hallhole.member.Member;
 import com.ssafy.hallhole.review.Review;
 import com.sun.istack.NotNull;
 import lombok.*;
