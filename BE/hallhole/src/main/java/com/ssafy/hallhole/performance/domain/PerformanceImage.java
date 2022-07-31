@@ -11,7 +11,6 @@ import org.hibernate.annotations.DynamicUpdate;
 import javax.persistence.*;
 
 @Entity
-@Getter
 @Builder
 @DynamicInsert
 @DynamicUpdate
@@ -28,17 +27,15 @@ public class PerformanceImage {
     @JoinColumn(name = "performance_id")
     private Performance performance;
 
+    @Getter
     private String url;
 
+    @Getter
     @Column(columnDefinition = "INT UNSIGNED")
     private int sortingNum;
 
     @Override
     public String toString() {
-        return "PerformanceImage{" +
-                "id=" + id +
-                ", url='" + url + '\'' +
-                ", sortingNum=" + sortingNum +
-                '}';
+        return "PerformanceImage{" + "id=" + id + ", url='" + url + '\'' + ", sortingNum=" + sortingNum + '}';
     }
 }

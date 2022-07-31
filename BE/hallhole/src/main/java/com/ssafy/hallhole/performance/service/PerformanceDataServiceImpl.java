@@ -7,6 +7,7 @@ import com.ssafy.hallhole.performance.domain.PerformanceImage;
 import com.ssafy.hallhole.performance.repository.PerformanceRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.env.Environment;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.w3c.dom.Document;
@@ -22,7 +23,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -32,31 +32,37 @@ public class PerformanceDataServiceImpl implements PerformanceDataService {
 
     private final Environment env;
 
+    @Override
+    public void scheduledData() throws Exception {
+        //todo 매일 특정 시간에 공연 데이터 받아와서 저장
+        //새 공연 받아오기
+        getPerformanceData("AAAA",1,100);
+        getPerformanceData("AAAB",1,100);
+        getDetails();
+    }
 
     @Override
-    public void scheduledData(){
-        //todo 매일 특정 시간에 공연 데이터 받아와서 저장
+    @Scheduled(cron = "0 0/1 * * * ?")
+    public void getDetails() {
+        //detail 정보가 없는것만 가져오기
+        List<Performance> performanceList =  performanceRepository.findDetailIsNull();
+        System.out.println(performanceList);
 
     }
 
-
-
     @Override
     public void initData() throws Exception {
-        getPerformanceData("AAAA");
-        getPerformanceData("AAAB");
+        getPerformanceData("AAAA",2,1000);
+        getPerformanceData("AAAB",2,1000);
         getFacilityData();
         getDetailPerformanceData();
     }
 
     @Override
-    public void getPerformanceData(String type) throws Exception {
-        for (int pg_num = 1; pg_num <= 2; pg_num++) {
+    public void getPerformanceData(String type, int num, int rows) throws Exception {
+        for (int pg_num = 1; pg_num <= num; pg_num++) {
 
-            String urlstr = "http://www.kopis.or.kr/openApi/restful/pblprfr?service=" + env.getProperty("kopisApiKey") +
-                    "&shcate=" + type +
-                    "&rows=1000" +
-                    "&cpage=" + pg_num;
+            String urlstr = "http://www.kopis.or.kr/openApi/restful/pblprfr?service=" + env.getProperty("kopisApiKey") + "&shcate=" + type + "&rows=" + rows + "&cpage=" + pg_num;
 
             DocumentBuilderFactory dbFactoty = DocumentBuilderFactory.newInstance();
             DocumentBuilder dBuilder = dbFactoty.newDocumentBuilder();
@@ -95,15 +101,7 @@ public class PerformanceDataServiceImpl implements PerformanceDataService {
                     LocalDateTime startDate = LocalDate.from(LocalDate.parse(map.get("from"), formatter)).atStartOfDay();
                     LocalDateTime endDate = LocalDate.from(LocalDate.parse(map.get("to"), formatter)).atStartOfDay();
 
-                    Performance performance = Performance.builder()
-                            .id(map.get("id"))
-                            .name(map.get("name"))
-                            .startDate(startDate)
-                            .endDate(endDate)
-                            .facility_name(map.get("facility_name"))
-                            .poster(map.get("poster"))
-                            .genre(map.get("genre"))
-                            .build();
+                    Performance performance = Performance.builder().id(map.get("id")).name(map.get("name")).startDate(startDate).endDate(endDate).facility_name(map.get("facility_name")).poster(map.get("poster")).genre(map.get("genre")).build();
                     performanceRepository.save(performance);
                 }
             }
@@ -113,9 +111,7 @@ public class PerformanceDataServiceImpl implements PerformanceDataService {
     @Override
     public void getFacilityData() throws Exception {
 
-        String urlstr = "http://www.kopis.or.kr/openApi/restful/prfplc?service=" + env.getProperty("kopisApiKey") +
-                "&rows=3000" +
-                "&cpage=1";
+        String urlstr = "http://www.kopis.or.kr/openApi/restful/prfplc?service=" + env.getProperty("kopisApiKey") + "&rows=3000" + "&cpage=1";
 
         DocumentBuilderFactory dbFactoty = DocumentBuilderFactory.newInstance();
         DocumentBuilder dBuilder = dbFactoty.newDocumentBuilder();
@@ -169,16 +165,9 @@ public class PerformanceDataServiceImpl implements PerformanceDataService {
                 }
             }
         }
-        Facility facility = Facility.builder()
-                .id(map.get("id"))
-                .addr(map.get("addr"))
-                .name(map.get("name"))
-                .lat(Double.valueOf(map.get("la")))
-                .lon(Double.valueOf(map.get("lo")))
-                .build();
+        Facility facility = Facility.builder().id(map.get("id")).addr(map.get("addr")).name(map.get("name")).lat(Double.valueOf(map.get("la"))).lon(Double.valueOf(map.get("lo"))).build();
         return facility;
     }
-
 
     @Override
     public void getDetailPerformanceData() throws Exception {
@@ -214,11 +203,7 @@ public class PerformanceDataServiceImpl implements PerformanceDataService {
                             int num = 1;
                             for (int j = 0; j < images.getLength(); j++) {
                                 if (images.item(j).getNodeName().equals("styurl")) {
-                                    PerformanceImage performanceImage = PerformanceImage.builder()
-                                            .performance(performance)
-                                            .sortingNum(num)
-                                            .url(images.item(j).getTextContent())
-                                            .build();
+                                    PerformanceImage performanceImage = PerformanceImage.builder().performance(performance).sortingNum(num).url(images.item(j).getTextContent()).build();
                                     urls.add(performanceImage);
                                     num++;
                                 }
@@ -232,15 +217,7 @@ public class PerformanceDataServiceImpl implements PerformanceDataService {
                     facility = getFacilityDetailData(map.get("facility_id"));
                     performanceRepository.saveFacility(facility);
                 }
-                DetailPerformance detailPerformance = DetailPerformance.builder()
-                        .performance(performance)
-                        .actor(map.get("cast"))
-                        .runtime(map.get("runtime"))
-                        .productionCompany(map.get("company"))
-                        .facility(facility)
-                        .price(map.get("price"))
-                        .images(urls)
-                        .build();
+                DetailPerformance detailPerformance = DetailPerformance.builder().performance(performance).actor(map.get("cast")).runtime(map.get("runtime")).productionCompany(map.get("company")).facility(facility).price(map.get("price")).images(urls).build();
                 performanceRepository.saveDetail(detailPerformance);
             }
         }

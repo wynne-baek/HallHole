@@ -33,4 +33,6 @@ public interface PerformanceRepository {
     List<Performance> findAllPerformancePaging(int start, int size);
 
     List<Facility> findAllFacilityPaging(int start, int size);
+
+    List<Performance> findDetailIsNull();
 }

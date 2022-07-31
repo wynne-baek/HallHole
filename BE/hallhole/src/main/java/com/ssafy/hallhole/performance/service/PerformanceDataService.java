@@ -4,11 +4,13 @@ import com.ssafy.hallhole.performance.domain.Facility;
 
 public interface PerformanceDataService {
 
-    void scheduledData();
+    void scheduledData() throws Exception;
+
+    void getDetails();
 
     void initData() throws Exception;
 
-    void getPerformanceData(String type) throws Exception;
+    void getPerformanceData(String type, int num, int rows) throws Exception;
 
     void getFacilityData() throws Exception;
 

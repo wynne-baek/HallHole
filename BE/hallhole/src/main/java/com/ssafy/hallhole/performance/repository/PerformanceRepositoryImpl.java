@@ -43,7 +43,7 @@ public class PerformanceRepositoryImpl implements PerformanceRepository {
 
     @Override
     public List<Performance> findAllPerformance() {
-        return em.createQuery("select p from Performance p")
+        return em.createQuery("select p from Performance p",Performance.class)
                 .getResultList();
     }
 
@@ -59,7 +59,7 @@ public class PerformanceRepositoryImpl implements PerformanceRepository {
 
     @Override
     public List<String> findAllFacility() {
-        return em.createQuery("select distinct(f.facility_name) from Performance f").getResultList();
+        return em.createQuery("select distinct(f.facility_name) from Performance f",String.class).getResultList();
     }
 
     @Override
@@ -69,7 +69,7 @@ public class PerformanceRepositoryImpl implements PerformanceRepository {
 
     @Override
     public List<Performance> findAllPerformancePaging(int start, int size) {
-        return em.createQuery("select p from Performance p order by p.startDate desc ")
+        return em.createQuery("select p from Performance p order by p.startDate desc ",Performance.class)
                 .setFirstResult(start)
                 .setMaxResults(size)
                 .getResultList();
@@ -77,9 +77,14 @@ public class PerformanceRepositoryImpl implements PerformanceRepository {
     }
 
     public List<Facility> findAllFacilityPaging(int start, int size) {
-        return em.createQuery("select f from Facility f")
+        return em.createQuery("select f from Facility f",Facility.class)
                 .setFirstResult(start)
                 .setMaxResults(size)
                 .getResultList();
+    }
+
+    @Override
+    public List<Performance> findDetailIsNull() {
+        return em.createQuery("select p from Performance p left outer join DetailPerformance d on p.id = d.performance where d.performance is null ",Performance.class).getResultList();
     }
 }
