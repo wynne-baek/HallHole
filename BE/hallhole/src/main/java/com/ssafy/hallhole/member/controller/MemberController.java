@@ -16,11 +16,9 @@ public class MemberController {
 
     private final MemberServiceImpl memberService;
 
-    // >>>>>>>>>>>>>>>>>  login & signup  >>>>>>>>>>>>>>>>>>>>>>>>>
-
-    @PostMapping("/join-hh")
+    @PostMapping("/join")
     @ApiOperation(value="[완료] 홀홀 회원가입")
-    public ResponseEntity joinHH(@RequestBody String email, String name, String pw){
+    public ResponseEntity join(@RequestBody String email, String name, String pw){
         try{
             memberService.join(new Member(email,name,pw));
             return new ResponseEntity(HttpStatus.OK);
@@ -29,13 +27,11 @@ public class MemberController {
         }
     }
 
-    // 카카오 로그인
-
     @PostMapping("/login-hh")
     @ApiOperation(value="[완료] 홀홀 로그인")
     public ResponseEntity<Member> login(@RequestBody String email, String password){
         try{
-            Member member = memberService.loginhh(email,password);
+            Member member = memberService.login(email,password);
             return new ResponseEntity(member, HttpStatus.OK);
         }catch(Exception e){
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
@@ -64,18 +60,18 @@ public class MemberController {
         }
     }
 
-    @PutMapping("/out/{memberId}")
+    @PutMapping("/out/{tag}")
     @ApiOperation(value = "[완료] 회원 탈퇴")
-    public ResponseEntity delMember(@RequestBody @PathVariable("memberId") Long memberId){
+    public ResponseEntity delMember(@RequestBody @PathVariable("tag") String tag){
         try{
-            memberService.delMem(memberId);
+            memberService.delMem(tag);
             return new ResponseEntity(HttpStatus.OK);
         }catch(Exception e){
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
     }
 
-    @PutMapping("/my-profile/{tag}")
+    @PutMapping("/{tag}")
     @ApiOperation(value = "[완료] 프로필 변경 (Edit Profile)")
     public ResponseEntity<Member> changeInfo(
             @RequestBody @PathVariable("tag") String tag, String profile, String name, String gender, String age){
@@ -87,7 +83,7 @@ public class MemberController {
         }
     }
 
-    @PostMapping("/get-info/{tag}")
+    @PostMapping("/{tag}")
     @ApiOperation(value = "[완료] 유저 데이터 조회")
     public ResponseEntity<Member> getInfo(@RequestBody @PathVariable("tag") String tag){
         try{

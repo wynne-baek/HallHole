@@ -1,13 +1,20 @@
 package com.ssafy.hallhole.member.service;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
 import com.ssafy.hallhole.mail.MailService;
 import com.ssafy.hallhole.member.Gender;
 import com.ssafy.hallhole.member.Member;
 import com.ssafy.hallhole.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.io.*;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.time.LocalDate;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -61,8 +68,8 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public void delMem(Long memberId) {
-        Member member = memberRepository.findById(memberId).get();
+    public void delMem(String tag) {
+        Member member = memberRepository.findByIdTag(tag);
 
         member.setOut(true);
         member.setBanDate(LocalDate.now());
@@ -77,9 +84,9 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public Member changeInfo(
-            String tag, String profile, String name, String gender, String age) {
+    public Member changeInfo(String tag, String profile, String name, String gender, String age) {
         Member member = memberRepository.findByIdTag(tag);
+        System.out.println(member.getEmail());
         member.setName(name);
         member.setProfile(profile);
 
@@ -100,7 +107,7 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public Member loginhh(String email, String password) {
+    public Member login(String email, String password) {
         Member member = memberRepository.findByEmail(email);
         if(member==null){
             throw new IllegalStateException("이메일 또는 비밀번호를 다시 입력해주세요.");
@@ -109,6 +116,18 @@ public class MemberServiceImpl implements MemberService {
             throw new IllegalStateException("이메일 또는 비밀번호를 다시 입력해주세요.");
         }
 
+        return member;
+    }
+
+    @Override
+    public List<Member> findAllMember() {
+        List<Member> memberList = memberRepository.findAll();
+        return memberList;
+    }
+
+    @Override
+    public Member findKakaoMember(String sid) {
+        Member member = memberRepository.findBySid(sid);
         return member;
     }
 

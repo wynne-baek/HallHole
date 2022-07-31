@@ -129,6 +129,15 @@ public class Member {
         this.password = password;
     }
 
+    public Member(String provider, String kakaoSid, String token, String name, String email, String password) {
+        this.provider=provider;
+        this.kakaoSid=kakaoSid;
+        this.token=token;
+        this.email = email;
+        this.name = name;
+        this.password = password;
+    }
+
     @OneToMany(mappedBy = "followedMember")
     private List<Following> followList = new ArrayList<>(); // 내가 팔로우한 사람
 

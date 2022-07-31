@@ -9,8 +9,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("/review")
 @RequiredArgsConstructor
@@ -41,7 +39,6 @@ public class ReviewController {
         }
     }
 
-    //delete
     @PutMapping("/{reviewId}")
     @ApiOperation(value="[완료] 리뷰 삭제")
     public ResponseEntity<Review> deleteReview(@RequestBody @PathVariable("reviewId") Long reviewId){
@@ -53,18 +50,6 @@ public class ReviewController {
         }
     }
 
-//    @GetMapping("/{pid}")
-//    @ApiOperation(value="리뷰 요약 리스트 받아오기")
-//    public ResponseEntity<SummeryReviewDTO> getReviewList(@RequestBody @PathVariable("pid") String pid){
-//        try{
-//            List<SummeryReviewDTO> srList = reviewService.getSummeryReviewInfo(pid);
-//            return new ResponseEntity(HttpStatus.OK);
-//        }catch(Exception e){
-//            return new ResponseEntity(HttpStatus.BAD_REQUEST);
-//        }
-//    }
-
-    //자세한 하나의 리뷰
     @GetMapping("/{reviewId}")
     @ApiOperation(value="[완료] 후기 상세 페이지(Review Detail)")
     public ResponseEntity<Review> getDetailReview(@RequestBody @PathVariable("reviewId") Long reviewId){
@@ -76,3 +61,15 @@ public class ReviewController {
         }
     }
 }
+
+
+//    @GetMapping("/{pid}")
+//    @ApiOperation(value="리뷰 요약 리스트 받아오기")
+//    public ResponseEntity<SummeryReviewDTO> getReviewList(@RequestBody @PathVariable("pid") String pid){
+//        try{
+//            List<SummeryReviewDTO> srList = reviewService.getSummeryReviewInfo(pid);
+//            return new ResponseEntity(HttpStatus.OK);
+//        }catch(Exception e){
+//            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+//        }
+//    }

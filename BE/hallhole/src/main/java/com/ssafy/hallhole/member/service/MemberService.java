@@ -2,6 +2,8 @@ package com.ssafy.hallhole.member.service;
 
 import com.ssafy.hallhole.member.Member;
 
+import java.util.List;
+
 
 public interface MemberService {
 
@@ -11,7 +13,7 @@ public interface MemberService {
 
     void findPW(String email);
 
-    void delMem(Long memberId);
+    void delMem(String tag);
 
     void changePW(String email, String password);
 
@@ -19,7 +21,11 @@ public interface MemberService {
                     String name, String gender, String age);
 
     Member getInfo(String email);
+    Member login(String email, String password);
 
-    Member loginhh(String email, String password);
+
+    List<Member> findAllMember();
+
+    Member findKakaoMember(String sid);
 
 }

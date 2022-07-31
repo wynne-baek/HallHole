@@ -2,6 +2,7 @@ package com.ssafy.hallhole.mail;
 
 import com.ssafy.hallhole.member.Member;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
@@ -10,7 +11,7 @@ import org.springframework.stereotype.Service;
 @AllArgsConstructor
 public class MailService{
 
-    private JavaMailSender emailSender;
+    private final JavaMailSender emailSender;
 
     public void sendPWMail(String email) {
         SimpleMailMessage message = new SimpleMailMessage();
