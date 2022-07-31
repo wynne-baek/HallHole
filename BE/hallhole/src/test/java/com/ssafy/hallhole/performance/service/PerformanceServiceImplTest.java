@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 class PerformanceServiceImplTest {
 
     @Autowired
-    PerformanceService performanceService;
+    PerformanceDataService performanceService;
 
     @Autowired
     PerformanceRepository performanceRepository;
@@ -30,10 +30,4 @@ class PerformanceServiceImplTest {
         performanceService.getDetailPerformanceData();
     }
 
-    @Test
-    void findTest() {
-        DetailPerformance detailPerformance = performanceService.getDetail("PF187649");
-        System.out.println(detailPerformance.getPerformance());
-        System.out.println(detailPerformance.getImages());
-    }
 }

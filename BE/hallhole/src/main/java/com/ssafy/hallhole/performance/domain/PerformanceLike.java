@@ -33,7 +33,6 @@ public class PerformanceLike {
     @NotNull
     @JoinColumn(name = "member_id")
     @ManyToOne(fetch = FetchType.LAZY)
-//    @Column(columnDefinition = "INT UNSIGNED")
     private Member member;
 
 }

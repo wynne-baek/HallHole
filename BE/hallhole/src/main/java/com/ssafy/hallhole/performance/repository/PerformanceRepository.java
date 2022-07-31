@@ -3,6 +3,8 @@ package com.ssafy.hallhole.performance.repository;
 import com.ssafy.hallhole.performance.domain.DetailPerformance;
 import com.ssafy.hallhole.performance.domain.Facility;
 import com.ssafy.hallhole.performance.domain.Performance;
+import com.ssafy.hallhole.performance.domain.PerformanceLike;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -14,7 +16,11 @@ public interface PerformanceRepository {
 
     void saveFacility(Facility facility);
 
-    List<Performance> findAllPerformance(); //페이징 해야함
+    void savePerformanceLike(PerformanceLike performanceLike);
+
+    void removePerformanceLike(PerformanceLike performanceLike);
+
+    List<Performance> findAllPerformance();
 
     Performance findOnePerformanceById(String id);
 
@@ -23,4 +29,8 @@ public interface PerformanceRepository {
     List<String> findAllFacility();
 
     Facility findOneFacility(String id);
+
+    List<Performance> findAllPerformancePaging(int start, int size);
+
+    List<Facility> findAllFacilityPaging(int start, int size);
 }

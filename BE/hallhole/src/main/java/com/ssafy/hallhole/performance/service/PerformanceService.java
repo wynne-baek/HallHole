@@ -1,27 +1,25 @@
 package com.ssafy.hallhole.performance.service;
 
 import com.ssafy.hallhole.performance.domain.DetailPerformance;
+import com.ssafy.hallhole.performance.domain.Facility;
 import com.ssafy.hallhole.performance.domain.Performance;
-import org.xml.sax.SAXException;
 
-import javax.xml.parsers.ParserConfigurationException;
-import java.io.IOException;
 import java.util.List;
 
 public interface PerformanceService {
-    List<Performance> getPerformances();
+    List<Performance> getPerformances(int start, int size);
 
-    Performance findOne();
+    Performance findOnePerformance(String id);
 
     DetailPerformance getDetail(String id);
 
-    void initData() throws Exception;
+    List<Facility> getFacilities(int start, int size);
 
-    void getPerformanceData(String type) throws Exception;
+    Facility getOneFacility(String id);
 
-    void getDetailPerformanceData() throws ParserConfigurationException, Exception;
+    void scheduledOpenAndCloseChat();
 
-    void getFacilityData() throws ParserConfigurationException, Exception;
+    void likePerformance(String performance_id, String member_id);
 
-
+    void unLikePerformance(String performance_id, String member_id);
 }
