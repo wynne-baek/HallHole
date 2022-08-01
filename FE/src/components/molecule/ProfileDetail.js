@@ -4,7 +4,6 @@ import { CardHeader } from '@mui/material';
 import ProfileImage from "../atom/ProfileImage";
 import TextStyle from "../atom/Text";
 import ButtonStyle from "../atom/Button";
-import { getThemeProps } from "@mui/system";
 
 
 export default function ProfileDetail(props) {
