@@ -1,9 +1,7 @@
 package com.ssafy.hallhole.item.repository;
 
-import com.ssafy.hallhole.item.Item;
-import com.ssafy.hallhole.item.ItemType;
-import com.ssafy.hallhole.item.OwnItem;
-import jdk.jfr.Unsigned;
+import com.ssafy.hallhole.item.domain.Item;
+import com.ssafy.hallhole.item.domain.OwnItem;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

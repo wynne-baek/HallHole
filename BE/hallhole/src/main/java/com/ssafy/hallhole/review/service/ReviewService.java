@@ -1,6 +1,6 @@
 package com.ssafy.hallhole.review.service;
 
-import com.ssafy.hallhole.review.Review;
+import com.ssafy.hallhole.review.domain.Review;
 import com.ssafy.hallhole.review.dto.SummeryReviewDTO;
 
 import java.util.List;

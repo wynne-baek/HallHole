@@ -1,6 +1,6 @@
-package com.ssafy.hallhole.follow;
+package com.ssafy.hallhole.follow.domain;
 
-import com.ssafy.hallhole.member.Member;
+import com.ssafy.hallhole.member.domain.Member;
 import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -21,7 +21,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(uniqueConstraints = {@UniqueConstraint(name = "follow", columnNames = {"following_member_id", "followed_member_id"})})
-public class Following {
+public class Follow {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -41,14 +41,10 @@ public class Following {
     public void follow(Member following, Member followed) {
         following.addFollowingCnt();
         followed.addFollowerCnt();
-
-        following.addFollowList(this);
     }
 
     public void unfollow(Member following, Member followed) {
         following.subFollowingCnt();
         followed.subFollowerCnt();
-
-        following.removeFollowList(this);
     }
 }

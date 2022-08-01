@@ -1,6 +1,6 @@
 package com.ssafy.hallhole.member.service;
 
-import com.ssafy.hallhole.member.Member;
+import com.ssafy.hallhole.member.domain.Member;
 
 import java.util.List;
 

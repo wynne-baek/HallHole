@@ -1,18 +1,12 @@
 package com.ssafy.hallhole.member.service;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParser;
 import com.ssafy.hallhole.mail.MailService;
-import com.ssafy.hallhole.member.Gender;
-import com.ssafy.hallhole.member.Member;
+import com.ssafy.hallhole.member.domain.Gender;
+import com.ssafy.hallhole.member.domain.Member;
 import com.ssafy.hallhole.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.io.*;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.time.LocalDate;
 import java.util.List;
 

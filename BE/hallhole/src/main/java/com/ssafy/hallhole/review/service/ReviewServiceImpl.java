@@ -1,8 +1,8 @@
 package com.ssafy.hallhole.review.service;
 
-import com.ssafy.hallhole.member.Member;
+import com.ssafy.hallhole.member.domain.Member;
 import com.ssafy.hallhole.member.repository.MemberRepository;
-import com.ssafy.hallhole.review.Review;
+import com.ssafy.hallhole.review.domain.Review;
 import com.ssafy.hallhole.review.dto.SummeryReviewDTO;
 import com.ssafy.hallhole.review.repository.ReviewRepository;
 import lombok.RequiredArgsConstructor;

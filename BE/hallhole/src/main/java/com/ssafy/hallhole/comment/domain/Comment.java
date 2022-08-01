@@ -1,7 +1,7 @@
-package com.ssafy.hallhole.review;
+package com.ssafy.hallhole.comment.domain;
 
-import com.ssafy.hallhole.member.Member;
-import com.ssafy.hallhole.performance.Performance;
+import com.ssafy.hallhole.member.domain.Member;
+import com.ssafy.hallhole.review.domain.Review;
 import com.sun.istack.NotNull;
 import lombok.*;
 import org.hibernate.annotations.*;
@@ -17,50 +17,37 @@ import java.time.LocalDateTime;
 @DynamicUpdate
 @NoArgsConstructor
 @AllArgsConstructor
-public class Review {
+public class Comment {
 
     @Id
-    @Column(columnDefinition = "INT UNSIGNED")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotNull
     @JoinColumn(name = "member_id")
     @ManyToOne(fetch = FetchType.LAZY)
-//    @Column(columnDefinition = "INT UNSIGNED")
     private Member member;
 
-    @Setter
     @NotNull
+    @JoinColumn(name = "review_id")
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "performance_id")
-    private Performance performance;
+    private Review review;
 
-    @Setter
     @NotNull
-    @Column(length = 65)
-    private String title;
-
     @Setter
-    @NotNull
-    private LocalDateTime performanceDatetime;
-
-    @Setter
-    @NotNull
+    @Column(columnDefinition = "MEDIUMTEXT")
     private String contents;
 
     @NotNull
+    @Setter
+    @Builder.Default
+    @ColumnDefault("false")
+    private boolean isDelete = false;
+
     @CreationTimestamp
     private LocalDateTime writingTime;
 
     @UpdateTimestamp
     private LocalDateTime updateTime;
 
-    @Setter
-    private double starEval;
-
-    @Setter
-    @Builder.Default
-    @ColumnDefault("false")
-    private boolean isDelete = false;
 }

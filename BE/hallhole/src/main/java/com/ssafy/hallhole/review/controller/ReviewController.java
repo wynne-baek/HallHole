@@ -1,7 +1,6 @@
 package com.ssafy.hallhole.review.controller;
 
-import com.ssafy.hallhole.review.Review;
-import com.ssafy.hallhole.review.dto.SummeryReviewDTO;
+import com.ssafy.hallhole.review.domain.Review;
 import com.ssafy.hallhole.review.service.ReviewServiceImpl;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;

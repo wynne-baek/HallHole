@@ -1,10 +1,12 @@
 package com.ssafy.hallhole.member.dto;
 
-import com.ssafy.hallhole.member.Gender;
+import com.ssafy.hallhole.member.domain.Gender;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.time.LocalDate;
 
 @Getter
 @NoArgsConstructor
@@ -24,7 +26,7 @@ public class MyProfileDTO {
     private Gender gender;
 
     @Setter
-    private String age;
+    private LocalDate birth;
 
     @Setter
     private int nowBg;

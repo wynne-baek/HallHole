@@ -1,6 +1,6 @@
 package com.ssafy.hallhole.member.controller;
 
-import com.ssafy.hallhole.member.Member;
+import com.ssafy.hallhole.member.domain.Member;
 import com.ssafy.hallhole.member.service.OAuthServiceImpl;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
