@@ -38,4 +38,6 @@ public interface PerformanceRepository {
     List<Performance> findPerformancesByNamePaging(int start, int size, String name);
 
     List<Facility> findFacilitiesByName(int start, int size, String name);
+
+    List<Performance> findRunningPerformances();
 }

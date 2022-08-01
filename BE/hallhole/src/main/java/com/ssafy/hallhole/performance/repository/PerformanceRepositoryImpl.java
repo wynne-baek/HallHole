@@ -105,4 +105,9 @@ public class PerformanceRepositoryImpl implements PerformanceRepository {
                 .setMaxResults(size)
                 .getResultList();
     }
+
+    @Override
+    public List<Performance> findRunningPerformances() {
+        return em.createQuery("select p from Performance p where current_date between p.startDate and p.endDate").getResultList();
+    }
 }

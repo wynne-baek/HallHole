@@ -47,6 +47,14 @@ public class PerformanceServiceImpl implements PerformanceService {
 //    @Scheduled(cron = "")
     public void scheduledOpenAndCloseChat() {
         //todo 당일 오픈되는 공연과 닫히는 공연 체크 후 채팅방 생성 / 소멸 시키기
+        List<Performance> runningPerformances = performanceRepository.findRunningPerformances();
+        for (int i = 0; i < runningPerformances.size(); i++) {
+            //채팅방 없으면 생성
+            System.out.println(runningPerformances.get(i));
+            
+            //채팅방 리스트 불러와서 날짜가 지났으면 삭제
+
+        }
     }
 
     @Override

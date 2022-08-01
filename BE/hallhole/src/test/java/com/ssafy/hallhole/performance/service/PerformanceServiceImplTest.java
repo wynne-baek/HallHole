@@ -1,6 +1,7 @@
 package com.ssafy.hallhole.performance.service;
 
 import com.ssafy.hallhole.performance.domain.DetailPerformance;
+import com.ssafy.hallhole.performance.domain.Performance;
 import com.ssafy.hallhole.performance.repository.PerformanceRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import org.w3c.dom.NodeList;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import java.util.List;
 
 @SpringBootTest
 @Transactional
@@ -41,7 +43,7 @@ class PerformanceServiceImplTest {
     }
 
     @Test
-    void test() throws Exception {
+    void apiTest() throws Exception {
         String urlstr = "http://www.kopis.or.kr/openApi/restful/prfstsTotal?service=" + env.getProperty("kopisApiKey") + "&ststype=day&stdate=202208";
 
         DocumentBuilderFactory dbFactoty = DocumentBuilderFactory.newInstance();
@@ -51,6 +53,14 @@ class PerformanceServiceImplTest {
         doc.getDocumentElement().normalize();
         NodeList nList = doc.getElementsByTagName("prfst");
         System.out.println(nList);
+    }
+
+    @Test
+    void test(){
+        List<Performance> runningPerformances = performanceRepository.findRunningPerformances();
+        System.out.println("runningPerformances = " + runningPerformances);
+        System.out.println("cnt = " + runningPerformances.size());
+
     }
 
 }
