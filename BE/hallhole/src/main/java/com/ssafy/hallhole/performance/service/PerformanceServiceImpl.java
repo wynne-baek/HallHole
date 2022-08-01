@@ -62,4 +62,14 @@ public class PerformanceServiceImpl implements PerformanceService {
 
     }
 
+    @Override
+    public List<Performance> findPerformancesByName(int start, int size, String name) {
+        return performanceRepository.findPerformancesByNamePaging(start,size,name);
+    }
+
+    @Override
+    public List<Facility> findFacilitiesByName(int start, int size, String name) {
+        return performanceRepository.findFacilitiesByName(start,size,name);
+    }
+
 }

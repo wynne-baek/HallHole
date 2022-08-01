@@ -87,4 +87,22 @@ public class PerformanceRepositoryImpl implements PerformanceRepository {
     public List<Performance> findDetailIsNull() {
         return em.createQuery("select p from Performance p left outer join DetailPerformance d on p.id = d.performance where d.performance is null ",Performance.class).getResultList();
     }
+
+    @Override
+    public List<Performance> findPerformancesByNamePaging(int start, int size, String name) {
+        return em.createQuery("select p from Performance p where p.name like :name ",Performance.class)
+                .setParameter("name","%"+name+"%")
+                .setFirstResult(start)
+                .setMaxResults(size)
+                .getResultList();
+    }
+
+    @Override
+    public List<Facility> findFacilitiesByName(int start, int size, String name) {
+        return em.createQuery("select f from Facility f where f.name like :name ",Facility.class)
+                .setParameter("name","%"+name+"%")
+                .setFirstResult(start)
+                .setMaxResults(size)
+                .getResultList();
+    }
 }

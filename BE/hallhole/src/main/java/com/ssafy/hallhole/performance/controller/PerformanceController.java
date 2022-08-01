@@ -24,6 +24,11 @@ public class PerformanceController {
         return performanceService.getDetail(id);
     }
 
+    @GetMapping("/search/{name}")
+    public List<Performance> searchPerformanceByName(@RequestParam("start") int start, @RequestParam("size") int size, @PathVariable("name") String name) {
+        return performanceService.findPerformancesByName(start,size,name);
+    }
+
     @PostMapping("/like")
     public void likePerformance(@RequestBody PerformanceLikeVo performancelikeVo) {
         performanceService.likePerformance(performancelikeVo.performance_id, performancelikeVo.member_id);
