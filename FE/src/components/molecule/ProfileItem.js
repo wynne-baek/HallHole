@@ -1,5 +1,4 @@
 import React from 'react';
-import Box from '@mui/material/Box';
 
 import ProfileImage from '../atom/ProfileImage';
 import TextStyle from '../atom/Text';
@@ -10,9 +9,9 @@ import { CardHeader } from '@mui/material';
 
 export default function ProfileItem(props) {
   return (
-      <CardHeader 
-        avatar={<ProfileImage type="small" src="" onClick="" />} 
-        title={<TextStyle size="medium" variant="black">{props.username}</TextStyle>}>
-      </CardHeader>
+    <CardHeader 
+      avatar={<ProfileImage type="small" src="" onClick="" />} 
+      title={<TextStyle size="medium" variant="black">{props.username}</TextStyle>}>
+    </CardHeader>
   )
 }
