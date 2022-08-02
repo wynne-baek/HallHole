@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface ChatLogService {
 
-    void saveChat(ChatLog chatLog);
+    ChatLog saveChat(ChatLog chatLog);
 
     List<ChatLog> getLogs(String roomId, Pageable pageable);
 }

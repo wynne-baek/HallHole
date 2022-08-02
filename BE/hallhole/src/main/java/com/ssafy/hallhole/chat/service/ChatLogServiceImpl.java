@@ -16,8 +16,8 @@ public class ChatLogServiceImpl implements ChatLogService {
 
 
     @Override
-    public void saveChat(ChatLog chatLog) {
-        chatLogRepository.save(chatLog);
+    public ChatLog saveChat(ChatLog chatLog) {
+        return chatLogRepository.save(chatLog);
     }
 
     @Override

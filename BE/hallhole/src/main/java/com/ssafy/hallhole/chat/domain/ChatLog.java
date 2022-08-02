@@ -4,6 +4,7 @@ import com.sun.istack.NotNull;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.persistence.Column;
@@ -15,6 +16,7 @@ import java.time.LocalDateTime;
 @Data
 @Getter
 @Builder
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @Document(collection = "chat")
@@ -37,7 +39,7 @@ public class ChatLog {
     @Enumerated(EnumType.STRING)
     private ChatType type;
 
-    @CreationTimestamp
+    @CreatedDate
     private LocalDateTime messageTime;
 
     @NotNull

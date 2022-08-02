@@ -33,7 +33,8 @@ public class MessageController {
 
         } else if (ChatType.TALK.equals(message.getType())) {
             //db 저장
-            chatLogService.saveChat(message);
+            ChatLog log = chatLogService.saveChat(message);
+            System.out.println(log);
 
         } else if (ChatType.OUT.equals(message.getType())) {
             message.setMessage(message.getMemberId() + "님이 퇴장하였습니다.");
