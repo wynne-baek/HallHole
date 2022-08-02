@@ -13,10 +13,10 @@ export default function TextStyle({ children, variant }) {
   // primary, white는 variant 값을 적용해야 하며
   // 없으면 black으로 색상이 지정된다.
   if (variant === "primary") {
-    return <CustomText sx={{ fontWeight: "bold", color: "primary.main" }}>{children}</CustomText>;
+    return <CustomText sx={{ color: "primary.main" }}>{children}</CustomText>;
   } else if (variant === "white") {
-    return <CustomText sx={{ fontWeight: "bold", color: "white" }}>{children}</CustomText>;
+    return <CustomText sx={{ color: "white" }}>{children}</CustomText>;
   } else {
-    return <CustomText sx={{ fontWeight: "bold", color: "black" }}>{children}</CustomText>;
+    return <CustomText sx={{ color: "black" }}>{children}</CustomText>;
   }
 }
