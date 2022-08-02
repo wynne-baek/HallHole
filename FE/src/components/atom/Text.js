@@ -7,6 +7,8 @@ import { styled } from "@mui/system";
 
 const CustomText = styled(`p`)({
   fontFamily: "Helvetica Neue",
+  margin: 0,
+  padding: 0,
 });
 
 export default function TextStyle({ children, size, variant }) {
