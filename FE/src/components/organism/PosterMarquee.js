@@ -12,7 +12,7 @@ const MarqueeAnimation = keyframes`
   }
 `;
 const ScrollChild = styled(Grid)(
-  ({ key }) => css`
+  ({}) => css`
     animation: ${MarqueeAnimation} 60s linear infinite;
   `,
 );
