@@ -24,7 +24,6 @@ public class MemberServiceImpl implements MemberService {
                 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z' };
 
         boolean tagFlag=true;
-        String tag="";
         while(tagFlag){
             String tmpTag = "";
             int idx = 0;
@@ -38,9 +37,8 @@ public class MemberServiceImpl implements MemberService {
                 member.setIdTag(tmpTag);
             }
         }
-        member.addIdTag(tag);
         memberRepository.save(member);
-        mailService.sendCongMail(member);
+//        mailService.sendCongMail(member);
     }
 
     @Override
@@ -66,7 +64,6 @@ public class MemberServiceImpl implements MemberService {
         Member member = memberRepository.findByIdTag(tag);
 
         member.setOut(true);
-        member.setBanDate(LocalDate.now());
         memberRepository.save(member);
     }
 

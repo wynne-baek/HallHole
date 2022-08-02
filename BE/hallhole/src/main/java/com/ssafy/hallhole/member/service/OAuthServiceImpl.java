@@ -131,12 +131,7 @@ public class OAuthServiceImpl implements OAuthService{
                 else gender = "M";
             }
 
-            if(hasEmail){
-                member = new Member(id,id,token,name,email,id);
-            }
-            else {
-                member = new Member(id,id,token,name,id,id);
-            }
+            member = new Member("KAKAO",id,name,email);
             br.close();
 
         } catch (IOException e) {

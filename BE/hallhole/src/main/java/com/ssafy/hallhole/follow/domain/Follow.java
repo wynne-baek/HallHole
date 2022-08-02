@@ -38,6 +38,11 @@ public class Follow {
     @CreationTimestamp
     private LocalDateTime dateTime;
 
+    public Follow(Member followingMember, Member followedMember) {
+        this.followingMember = followingMember;
+        this.followedMember = followedMember;
+    }
+
     public void follow(Member following, Member followed) {
         following.addFollowingCnt();
         followed.addFollowerCnt();

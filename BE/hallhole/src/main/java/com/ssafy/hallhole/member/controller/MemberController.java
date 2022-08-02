@@ -27,7 +27,7 @@ public class MemberController {
         }
     }
 
-    @PostMapping("/login-hh")
+    @PostMapping("/login")
     @ApiOperation(value="[완료] 홀홀 로그인")
     public ResponseEntity<Member> login(@RequestBody String email, String password){
         try{
