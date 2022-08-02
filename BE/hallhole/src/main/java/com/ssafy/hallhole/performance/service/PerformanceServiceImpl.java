@@ -3,7 +3,6 @@ package com.ssafy.hallhole.performance.service;
 import com.ssafy.hallhole.performance.domain.DetailPerformance;
 import com.ssafy.hallhole.performance.domain.Facility;
 import com.ssafy.hallhole.performance.domain.Performance;
-import com.ssafy.hallhole.performance.domain.PerformanceLike;
 import com.ssafy.hallhole.performance.repository.PerformanceRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -51,7 +50,7 @@ public class PerformanceServiceImpl implements PerformanceService {
         for (int i = 0; i < runningPerformances.size(); i++) {
             //채팅방 없으면 생성
             System.out.println(runningPerformances.get(i));
-            
+
             //채팅방 리스트 불러와서 날짜가 지났으면 삭제
 
         }
@@ -72,12 +71,12 @@ public class PerformanceServiceImpl implements PerformanceService {
 
     @Override
     public List<Performance> findPerformancesByName(int start, int size, String name) {
-        return performanceRepository.findPerformancesByNamePaging(start,size,name);
+        return performanceRepository.findPerformancesByNamePaging(start, size, name);
     }
 
     @Override
     public List<Facility> findFacilitiesByName(int start, int size, String name) {
-        return performanceRepository.findFacilitiesByName(start,size,name);
+        return performanceRepository.findFacilitiesByName(start, size, name);
     }
 
 }

@@ -7,7 +7,6 @@ import com.ssafy.hallhole.performance.domain.PerformanceImage;
 import com.ssafy.hallhole.performance.repository.PerformanceRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.env.Environment;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.w3c.dom.Document;
@@ -33,27 +32,26 @@ public class PerformanceDataServiceImpl implements PerformanceDataService {
     private final Environment env;
 
     @Override
+    //    @Scheduled(cron = "0 0/1 * * * ?")
     public void scheduledData() throws Exception {
         //todo 매일 특정 시간에 공연 데이터 받아와서 저장
         //새 공연 받아오기
-        getPerformanceData("AAAA",1,100);
-        getPerformanceData("AAAB",1,100);
+        getPerformanceData("AAAA", 1, 100);
+        getPerformanceData("AAAB", 1, 100);
         getDetails();
     }
 
     @Override
-    @Scheduled(cron = "0 0/1 * * * ?")
     public void getDetails() {
         //detail 정보가 없는것만 가져오기
-        List<Performance> performanceList =  performanceRepository.findDetailIsNull();
-        System.out.println(performanceList);
+        List<Performance> performanceList = performanceRepository.findDetailIsNull();
 
     }
 
     @Override
     public void initData() throws Exception {
-        getPerformanceData("AAAA",2,1000);
-        getPerformanceData("AAAB",2,1000);
+        getPerformanceData("AAAA", 2, 1000);
+        getPerformanceData("AAAB", 2, 1000);
         getFacilityData();
         getDetailPerformanceData();
     }
