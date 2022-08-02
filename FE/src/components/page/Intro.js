@@ -3,6 +3,7 @@ import React from "react";
 import Logo from "../atom/Logo";
 import Text from "../atom/Text";
 import Button from "../atom/Button";
+import InfiniteLoopScroll from "../organism/InifiniteLoopScroll";
 import { Box, ImageList, ImageListItem } from "@mui/material";
 import { styled } from "@mui/system";
 
@@ -19,9 +20,6 @@ const posterListStyle = {
   margin: "3%",
   top: 0,
   left: 0,
-
-  width: "94%",
-  height: "100%",
 };
 
 const screenCoverStyle = {
@@ -83,18 +81,63 @@ const itemData = [
     img: "poster_6.gif",
     title: "살아있는 자를 수선하기",
   },
+  {
+    img: "poster_7.gif",
+    title: "The Helmet",
+  },
+  {
+    img: "poster_8.gif",
+    title: "햄릿",
+  },
+  {
+    img: "poster_9.jpg",
+    title: "두여자",
+  },
+  {
+    img: "poster_10.gif",
+    title: "킹키부츠",
+  },
+  {
+    img: "poster_11.gif",
+    title: "터칭 더 보이드",
+  },
+  {
+    img: "poster_12.gif",
+    title: "빈센트 리버",
+  },
+  {
+    img: "poster_13.gif",
+    title: "마틸다",
+  },
+  {
+    img: "poster_14.gif",
+    title: "오만과 편견",
+  },
+  {
+    img: "poster_15.gif",
+    title: "해적",
+  },
 ];
+
+const Poster = styled("img")`
+  width: 100%;
+  border-radius: 10%;
+`;
 
 export default function Intro() {
   return (
     <Box sx={contentStyle}>
-      <ImageList sx={posterListStyle} cols={2} gap={10}>
+      {/* <ImageList sx={posterListStyle} cols={3} gap={10}>
         {itemData.map(item => (
-          <ImageListItem sx={{ width: 180, height: 50 }} key={item.img}>
-            <img src={item.img} alt={item.title} loading="lazy" />
+          <ImageListItem key={item.img}>
+            <Poster src={item.img} alt={item.title} loading="lazy" />
           </ImageListItem>
         ))}
-      </ImageList>
+      </ImageList> */}
+
+      <Box sx={posterListStyle}>
+        <InfiniteLoopScroll items={itemData}></InfiniteLoopScroll>
+      </Box>
 
       <Box sx={screenCoverStyle}>
         <Box sx={logoBoxStyle}>
