@@ -1,6 +1,7 @@
 package com.ssafy.hallhole.review.controller;
 
 import com.ssafy.hallhole.review.domain.Review;
+import com.ssafy.hallhole.review.dto.ReviewInputDTO;
 import com.ssafy.hallhole.review.dto.SummaryReviewDTO;
 import com.ssafy.hallhole.review.service.ReviewServiceImpl;
 import io.swagger.annotations.ApiOperation;
@@ -22,9 +23,9 @@ public class ReviewController {
 
     @PostMapping("/write")
     @ApiOperation(value="[완료] 리뷰 작성")
-    public ResponseEntity writeReview(@RequestBody Review review){
+    public ResponseEntity writeReview(@RequestBody ReviewInputDTO reviewDto){
         try{
-            reviewService.writeReview(review);
+            reviewService.writeReview(reviewDto);
             return new ResponseEntity(HttpStatus.OK);
         }catch(Exception e){
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
@@ -33,9 +34,9 @@ public class ReviewController {
 
     @PostMapping("/{reviewId}")
     @ApiOperation(value="[완료] 리뷰 수정")
-    public ResponseEntity updateReview(@PathVariable("reviewId") Long reviewId,@RequestBody Review review){
+    public ResponseEntity updateReview(@PathVariable("reviewId") Long reviewId, @RequestBody ReviewInputDTO reviewDto){
         try{
-            reviewService.updateReview(review);
+            reviewService.updateReview(reviewId,reviewDto);
             return new ResponseEntity(HttpStatus.OK);
         }catch(Exception e){
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
@@ -54,7 +55,7 @@ public class ReviewController {
     }
 
     @GetMapping("/{reviewId}")
-    @ApiOperation(value="[완료] 후기 상세 페이지(Review Detail)")
+    @ApiOperation(value="[완료] 리뷰 상세 정보 가져오기")
     public ResponseEntity<Review> getDetailReview(@PathVariable("reviewId") Long reviewId){
         try{
             Review review = reviewService.getDetailReviewInfo(reviewId);
@@ -64,15 +65,14 @@ public class ReviewController {
         }
     }
 
-//    @GetMapping("/list/{tag}")
-//    @ApiOperation(value="프로필 후기 요약 리스트")
-//    public ResponseEntity<SummaryReviewDTO> getDetailReview(@PathVariable("tag") String tag){
-//        try{
-//
-//            List<SummaryReviewDTO> list = reviewService.getSummeryReviewInfo(tag);
-//            return new ResponseEntity<SummaryReviewDTO>(list,HttpStatus.OK);
-//        }catch(Exception e){
-//            return new ResponseEntity(HttpStatus.BAD_REQUEST);
-//        }
-//    }
+    @PostMapping("/summary-list")
+    @ApiOperation(value="[완료] 프로필 후기 요약 리스트")
+    public ResponseEntity<SummaryReviewDTO> getSummaryList(@RequestBody Long mId){
+        try{
+            List<SummaryReviewDTO> summaryList = reviewService.getSummeryReviewInfo(mId);
+            return new ResponseEntity(summaryList,HttpStatus.OK);
+        }catch(Exception e){
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        }
+    }
 }

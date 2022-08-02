@@ -1,4 +1,4 @@
-package com.ssafy.hallhole.performance;
+package com.ssafy.hallhole.performance.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -1,6 +1,6 @@
 package com.ssafy.hallhole.chat;
 
-import com.ssafy.hallhole.performance.Performance;
+import com.ssafy.hallhole.performance.domain.Performance;
 import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

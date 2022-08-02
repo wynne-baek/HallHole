@@ -1,4 +1,4 @@
-package com.ssafy.hallhole.performance;
+package com.ssafy.hallhole.performance.domain;
 
 import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
@@ -9,7 +9,6 @@ import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Entity
