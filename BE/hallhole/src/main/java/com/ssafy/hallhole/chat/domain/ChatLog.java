@@ -1,4 +1,4 @@
-package com.ssafy.hallhole.chat;
+package com.ssafy.hallhole.chat.domain;
 
 import com.sun.istack.NotNull;
 import lombok.*;
@@ -27,7 +27,7 @@ public class ChatLog {
     private String performanceId;
 
     @NotNull
-    private Long member_id;
+    private Long memberId;
 
     @NotNull
     private String message;
