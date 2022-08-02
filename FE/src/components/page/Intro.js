@@ -1,11 +1,12 @@
 import React from "react";
 
+import { Box } from "@mui/material";
+import { styled } from "@mui/system";
+
 import Logo from "../atom/Logo";
 import Text from "../atom/Text";
 import Button from "../atom/Button";
-import InfiniteLoopScroll from "../organism/InifiniteLoopScroll";
-import { Box, ImageList, ImageListItem } from "@mui/material";
-import { styled } from "@mui/system";
+import PosterMarquee from "../organism/PosterMarquee";
 
 const contentStyle = {
   width: "100vw",
@@ -16,7 +17,7 @@ const contentStyle = {
 
 const posterListStyle = {
   position: "fixed",
-  padding: 0,
+  padding: "0 3% 0 3%",
   margin: "3%",
   top: 0,
   left: 0,
@@ -41,20 +42,60 @@ const screenCoverStyle = {
 };
 
 const logoBoxStyle = {
-  marginTop: "25vh",
+  marginTop: "auto",
+  marginBottom: "15%",
 };
 const mainDescriptionBoxStyle = {
-  marginTop: "5vh",
+  marginTop: 0,
+  marginBottom: "5%",
 };
-const subDescriptionBoxStyle = {};
+const subDescriptionBoxStyle = {
+  marginTop: 0,
+  marginBottom: "50%",
+};
 const startButtonBoxStyle = {
-  marginTop: "auto",
-  marginBottom: "5vh",
+  marginTop: 0,
+  marginBottom: "10%",
 };
 
 const IntroLogo = styled(Logo)`
   margin: auto;
 `;
+
+export default function Intro() {
+  return (
+    <Box sx={contentStyle}>
+      <Box sx={posterListStyle}>
+        <PosterMarquee items={itemData} cols={3} />
+      </Box>
+
+      <Box sx={screenCoverStyle}>
+        <Box sx={logoBoxStyle}>
+          <IntroLogo size="large" src="logo.png" />
+        </Box>
+        <Box sx={mainDescriptionBoxStyle}>
+          <Text size="large" variant="white">
+            홀홀, 공연 채팅을
+            <br /> 실시간으로
+          </Text>
+        </Box>
+        <Box sx={subDescriptionBoxStyle}>
+          <Text size="small" variant="white">
+            다양한 공간에서 실시간으로 자유롭게
+            <br /> 채팅하며 공연을 즐겨보세요
+          </Text>
+        </Box>
+        <Box sx={startButtonBoxStyle}>
+          <Button size="large" variant="primary">
+            <Text size="medium" variant="white">
+              시작하기
+            </Text>
+          </Button>
+        </Box>
+      </Box>
+    </Box>
+  );
+}
 
 const itemData = [
   {
@@ -90,8 +131,8 @@ const itemData = [
     title: "햄릿",
   },
   {
-    img: "poster_9.jpg",
-    title: "두여자",
+    img: "poster_9.gif",
+    title: "번지점프를 하다",
   },
   {
     img: "poster_10.gif",
@@ -118,51 +159,3 @@ const itemData = [
     title: "해적",
   },
 ];
-
-const Poster = styled("img")`
-  width: 100%;
-  border-radius: 10%;
-`;
-
-export default function Intro() {
-  return (
-    <Box sx={contentStyle}>
-      {/* <ImageList sx={posterListStyle} cols={3} gap={10}>
-        {itemData.map(item => (
-          <ImageListItem key={item.img}>
-            <Poster src={item.img} alt={item.title} loading="lazy" />
-          </ImageListItem>
-        ))}
-      </ImageList> */}
-
-      <Box sx={posterListStyle}>
-        <InfiniteLoopScroll items={itemData}></InfiniteLoopScroll>
-      </Box>
-
-      <Box sx={screenCoverStyle}>
-        <Box sx={logoBoxStyle}>
-          <IntroLogo size="large" src="logo.png" />
-        </Box>
-        <Box sx={mainDescriptionBoxStyle}>
-          <Text size="large" variant="white">
-            홀홀, 공연 채팅을
-            <br /> 실시간으로
-          </Text>
-        </Box>
-        <Box sx={subDescriptionBoxStyle}>
-          <Text size="small" variant="white">
-            다양한 공간에서 실시간으로 자유롭게
-            <br /> 채팅하며 공연을 즐겨보세요
-          </Text>
-        </Box>
-        <Box sx={startButtonBoxStyle}>
-          <Button size="large" variant="primary">
-            <Text size="medium" variant="white">
-              시작하기
-            </Text>
-          </Button>
-        </Box>
-      </Box>
-    </Box>
-  );
-}
