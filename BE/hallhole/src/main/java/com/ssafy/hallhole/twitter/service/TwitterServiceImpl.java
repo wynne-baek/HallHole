@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.core.env.Environment;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -31,6 +32,7 @@ public class TwitterServiceImpl implements TwitterService {
 
 
     @Override
+    @Transactional
     @Scheduled(cron = "0 0/1 * * * ?")
     public void TestTwitterLoading() {
         LocalDateTime endLocalDateTime = LocalDateTime.now();
@@ -88,6 +90,7 @@ public class TwitterServiceImpl implements TwitterService {
     }
 
     @Override
+    @Transactional
     public void saveTwitter(Twitter twitter) {
         if (findOne(twitter.getId()).isEmpty()) {
             twitterRepository.save(twitter);
@@ -95,11 +98,13 @@ public class TwitterServiceImpl implements TwitterService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Optional<Twitter> findOne(String id) {
         return Optional.ofNullable(twitterRepository.findTwitterById(id));
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Twitter> findAllTweet() {
         return twitterRepository.findAll();
     }

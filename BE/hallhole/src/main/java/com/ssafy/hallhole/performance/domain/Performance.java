@@ -1,20 +1,17 @@
-package com.ssafy.hallhole.performance;
+package com.ssafy.hallhole.performance.domain;
 
 import com.sun.istack.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Entity
 @Getter
 @Builder
+@ToString
 @DynamicInsert
 @DynamicUpdate
 @NoArgsConstructor
@@ -25,12 +22,10 @@ public class Performance{
     private String id;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "facility_id")
-    private Facility facility;
+    private String facility_name;
 
     @NotNull
-    @Column(length = 50)
+    @Column(length = 100)
     private String name;
 
     @NotNull
