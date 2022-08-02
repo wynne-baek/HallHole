@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class FollowerOutputDTO {
+public class FollowOutputDTO {
 
     private String name;
 
@@ -20,4 +20,3 @@ public class FollowerOutputDTO {
     private int nowAcc;
 
 }
-

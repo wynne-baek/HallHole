@@ -9,8 +9,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class FollowInputDTO {
 
-    private String ing_tag;
+    private Long ing_id;
 
-    private String ed_tag;
+    private Long er_id;
 
 }

@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class SummeryReviewDTO {
+public class SummaryReviewDTO {
 
     private Long id;
     private Long member_id;
@@ -27,7 +27,7 @@ public class SummeryReviewDTO {
     @Setter
     private int memberAcc;
 
-    public SummeryReviewDTO(Long id, Long member_id, String title, LocalDateTime writing_time, Double star_eval){
+    public SummaryReviewDTO(Long id, Long member_id, String title, LocalDateTime writing_time, Double star_eval){
         this.id = id;
         this.member_id=member_id;
         this.title=title;
