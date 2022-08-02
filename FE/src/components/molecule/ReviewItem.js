@@ -5,7 +5,7 @@ import TextStyle from '../atom/Text'
 
 export default function ReviewItem (props) {
   return (
-    <Box sx={{ width: 1 }}>
+    <Box sx={{ width: 1 , marginY : 1 }}>
       <div>
         <TextStyle size="medium" variant="black" sx={{ fontWeight: "bold", mx: 5 }}>[{props.performance_name}] {props.title}</TextStyle>
       </div>
