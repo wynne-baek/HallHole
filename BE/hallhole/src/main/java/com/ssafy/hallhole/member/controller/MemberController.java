@@ -1,9 +1,14 @@
 package com.ssafy.hallhole.member.controller;
 
 import com.ssafy.hallhole.member.domain.Member;
+import com.ssafy.hallhole.member.dto.CharacterDTO;
+import com.ssafy.hallhole.member.dto.LoginDTO;
+import com.ssafy.hallhole.member.dto.MemberJoinDTO;
+import com.ssafy.hallhole.member.dto.MyProfileDTO;
 import com.ssafy.hallhole.member.service.MemberServiceImpl;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.java.Log;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,9 +23,9 @@ public class MemberController {
 
     @PostMapping("/join")
     @ApiOperation(value="[완료] 홀홀 회원가입")
-    public ResponseEntity join(@RequestBody String email, String name, String pw){
+    public ResponseEntity join(@RequestBody MemberJoinDTO member){
         try{
-            memberService.join(new Member(email,name,pw));
+            memberService.join(member);
             return new ResponseEntity(HttpStatus.OK);
         }catch(Exception e){
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
@@ -29,10 +34,10 @@ public class MemberController {
 
     @PostMapping("/login")
     @ApiOperation(value="[완료] 홀홀 로그인")
-    public ResponseEntity<Member> login(@RequestBody String email, String password){
+    public ResponseEntity login(@RequestBody LoginDTO member){
         try{
-            Member member = memberService.login(email,password);
-            return new ResponseEntity(member, HttpStatus.OK);
+            Member m = memberService.login(member.getEmail(), member.getPw());
+            return new ResponseEntity(HttpStatus.OK);
         }catch(Exception e){
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
@@ -51,55 +56,60 @@ public class MemberController {
 
     @PostMapping("/new-pw")
     @ApiOperation(value = "[완료] 비밀번호 링크 접속 후 변경")
-    public ResponseEntity changePW(@RequestBody String email, String password){
+    public ResponseEntity changePW(@RequestBody LoginDTO member){
         try{
-            memberService.changePW(email,password);
+            memberService.changePW(member.getEmail(), member.getPw());
             return new ResponseEntity(HttpStatus.OK);
         }catch(Exception e){
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
     }
 
-    @PutMapping("/out/{tag}")
+    @PutMapping("/out")
     @ApiOperation(value = "[완료] 회원 탈퇴")
-    public ResponseEntity delMember(@RequestBody @PathVariable("tag") String tag){
+    public ResponseEntity delMember(@RequestBody Long id){
         try{
-            memberService.delMem(tag);
+            memberService.delMem(id);
             return new ResponseEntity(HttpStatus.OK);
         }catch(Exception e){
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
     }
 
-    @PutMapping("/{tag}")
-    @ApiOperation(value = "[완료] 프로필 변경 (Edit Profile)")
-    public ResponseEntity<Member> changeInfo(
-            @RequestBody @PathVariable("tag") String tag, String profile, String name, String gender, String age){
+    @PutMapping("")
+    @ApiOperation(value = "[완료] 프로필 변경")
+    public ResponseEntity<Member> changeInfo(@RequestBody MyProfileDTO myDto){
         try{
-            Member member = memberService.changeInfo(tag, profile, name, gender, age);
-            return new ResponseEntity<Member>(member,HttpStatus.OK);
+            Member member = memberService.changeInfo(myDto);
+            return new ResponseEntity(member,HttpStatus.OK);
         }catch(Exception e){
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
     }
 
-    @PostMapping("/{tag}")
+    @PostMapping("")
     @ApiOperation(value = "[완료] 유저 데이터 조회")
-    public ResponseEntity<Member> getInfo(@RequestBody @PathVariable("tag") String tag){
+    public ResponseEntity<Member> getInfo(@RequestBody Long id){
         try{
-            Member member = memberService.getInfo(tag);
-            return new ResponseEntity<Member>(member,HttpStatus.OK);
+            Member member = memberService.getInfo(id);
+            return new ResponseEntity(member,HttpStatus.OK);
         }catch(Exception e){
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
     }
 
-    // 팔로워 정보 가져오기: 유저 별 캐릭터 포함 (user profile)
+    @PostMapping("/deco")
+    @ApiOperation(value = "캐릭터 꾸미기 현재")
+    public ResponseEntity<CharacterDTO> getCharacter(@RequestBody Long id){
+        try{
+            CharacterDTO current = memberService.getCharacter(id);
+            return new ResponseEntity(current,HttpStatus.OK);
+        }catch(Exception e){
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        }
+    }
 
-    // 팔로잉 정보 가져오기: 유저 별 캐릭터 포함 (user profile)
 
-    // 캐릭터 꾸미기(edit profile)
 
-    // 유저 프로필 정보 가져오기:mem,plike(관련된 모든 것),following, comment, review, rreaction (user profile)
 
 }

@@ -3,11 +3,13 @@ package com.ssafy.hallhole.member.service;
 import com.ssafy.hallhole.mail.MailService;
 import com.ssafy.hallhole.member.domain.Gender;
 import com.ssafy.hallhole.member.domain.Member;
+import com.ssafy.hallhole.member.dto.CharacterDTO;
+import com.ssafy.hallhole.member.dto.MemberJoinDTO;
+import com.ssafy.hallhole.member.dto.MyProfileDTO;
 import com.ssafy.hallhole.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -18,7 +20,9 @@ public class MemberServiceImpl implements MemberService {
     private final MailService mailService;
 
     @Override
-    public void join(Member member){
+    public void join(MemberJoinDTO m){
+
+        Member member = new Member(m.getEmail(),m.getName(),m.getPw());
         duplicateMember(member.getEmail());
         char[] charSet = new char[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F',
                 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z' };
@@ -38,7 +42,7 @@ public class MemberServiceImpl implements MemberService {
             }
         }
         memberRepository.save(member);
-//        mailService.sendCongMail(member);
+//        mailService.sendCongMail(member); // 테스트 데이터를 넣기 위해 지움. 나중에 풀기
     }
 
     @Override
@@ -60,9 +64,8 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public void delMem(String tag) {
-        Member member = memberRepository.findByIdTag(tag);
-
+    public void delMem(Long id) {
+        Member member = memberRepository.findById(id).get();
         member.setOut(true);
         memberRepository.save(member);
     }
@@ -75,13 +78,14 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public Member changeInfo(String tag, String profile, String name, String gender, String age) {
-        Member member = memberRepository.findByIdTag(tag);
-        System.out.println(member.getEmail());
-        member.setName(name);
-        member.setProfile(profile);
+    public Member changeInfo(MyProfileDTO myDto) {
+
+        Member member = memberRepository.findById(myDto.getId()).get();
+        member.setName(myDto.getName());
+        member.setProfile(myDto.getProfile());
 
         Gender g = Gender.N;
+        Gender gender = myDto.getGender();
         if(gender.equals("F")) g = Gender.F;
         else if(gender.equals("M")) g = Gender.M;
         member.setGender(g);
@@ -91,9 +95,8 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public Member getInfo(String tag) {
-        Member member = memberRepository.findByIdTag(tag);
-        // 현재 사용중인 캐릭터 관련 데이터도 넣어놔야해
+    public Member getInfo(Long id) {
+        Member member = memberRepository.findById(id).get();
         return member;
     }
 
@@ -108,6 +111,18 @@ public class MemberServiceImpl implements MemberService {
         }
 
         return member;
+    }
+
+    @Override
+    public CharacterDTO getCharacter(Long id) {
+        Member m = memberRepository.findById(id).get();
+        if(m==null){
+            throw new IllegalStateException("이메일이 유효하지 않습니다.");
+        }
+
+        CharacterDTO character = new CharacterDTO(id, m.getNowBg(),
+                m.getNowChar(), m.getNowAcc());
+        return character;
     }
 
     @Override

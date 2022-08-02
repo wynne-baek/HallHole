@@ -15,26 +15,20 @@ public class MyProfileDTO {
 
     private Long id;
 
-    @Setter
     private String name;
 
     private String email;
 
-    private String idTag;
-
-    @Setter
     private Gender gender;
 
-    @Setter
     private LocalDate birth;
 
-    @Setter
+    private String profile;
+
     private int nowBg;
 
-    @Setter
     private int nowChar;
 
-    @Setter
     private int nowAcc;
 
 }
