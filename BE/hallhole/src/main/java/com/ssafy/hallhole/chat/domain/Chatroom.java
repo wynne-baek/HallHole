@@ -44,7 +44,6 @@ public class Chatroom implements Serializable {
     private List<String> memberNameList = new ArrayList<>();
 
     public void addUser(String name) {
-        System.out.println(this.memberNameList);
         if (!memberNameList.contains(name)) {
             memberNameList.add(name);
         }
