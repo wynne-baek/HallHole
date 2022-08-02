@@ -2,35 +2,32 @@ package com.ssafy.hallhole.chat.controller;
 
 
 import com.ssafy.hallhole.chat.domain.Chatroom;
-import com.ssafy.hallhole.chat.service.ChatService;
-import com.ssafy.hallhole.performance.domain.Performance;
+import com.ssafy.hallhole.chat.service.ChatroomService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/chat")
 public class ChatRoomController {
-    private final ChatService chatService;
+    private final ChatroomService chatroomService;
 
     // 모든 채팅방 목록 반환
     @GetMapping("/rooms")
     @ResponseBody
     public List<Chatroom> findRooms() {
-        return chatService.findAllRoom();
+        return chatroomService.findAllRoom();
     }
 
     // 특정 채팅방 조회
     @GetMapping("/room/{roomId}")
     @ResponseBody
     public Chatroom roomInfo(@PathVariable String roomId) {
-        return chatService.findById(roomId);
+        return chatroomService.findById(roomId);
     }
 
     // 채팅방 리스트

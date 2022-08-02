@@ -1,7 +1,6 @@
 package com.ssafy.hallhole.chat.service;
 
 import com.ssafy.hallhole.chat.domain.Chatroom;
-import com.ssafy.hallhole.chat.repository.ChatLogRepository;
 import com.ssafy.hallhole.chat.repository.ChatroomRepository;
 import com.ssafy.hallhole.performance.domain.Performance;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +13,7 @@ import java.util.List;
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
-public class ChatServiceImpl implements ChatService {
+public class ChatroomServiceImpl implements ChatroomService {
 
     private final ChatroomRepository chatroomRepository;
 

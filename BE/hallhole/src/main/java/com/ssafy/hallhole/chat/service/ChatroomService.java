@@ -5,7 +5,7 @@ import com.ssafy.hallhole.performance.domain.Performance;
 
 import java.util.List;
 
-public interface ChatService {
+public interface ChatroomService {
     //채팅방 불러오기
     List<Chatroom> findAllRoom();
 

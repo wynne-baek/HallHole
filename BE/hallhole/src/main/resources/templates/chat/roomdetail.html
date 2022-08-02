@@ -97,11 +97,11 @@
                 var recv = JSON.parse(message.body);
                 vm.recvMessage(recv);
             });
-            axios.get('/chat/room/' + vm.$data.roomId).then(response => {
-                // let msgs = response.data;
-                // for (let i = 0; i < msgs.length; i++) {
-                //     vm.recvMessage(msgs[i]);
-                // }
+            axios.get('/chat/logs/' + vm.$data.roomId+"?size=10&start=0").then(response => {
+                let msgs = response.data;
+                for (let i = 0; i < msgs.length; i++) {
+                    vm.recvMessage(msgs[i]);
+                }
                 ws.send("/app/chat/message", {}, JSON.stringify({
                     type  : 'ENTER',
                     performanceId : vm.$data.roomId,
