@@ -82,7 +82,7 @@
                 this.message = '';
             },
             recvMessage: function (recv) {
-                this.messages.unshift({
+                this.messages.push({
                     "type"   : recv.type,
                     "sender" : recv.type == 'ENTER' ? '[알림]' : recv.memberNickName,
                     "message": recv.message
@@ -99,7 +99,7 @@
                 vm.recvMessage(recv);
             });
             axios.get('/chat/logs/' + vm.$data.roomId+"?size=10&start=0").then(response => {
-                let msgs = response.data;
+                let msgs = response.data.reverse();
                 for (let i = 0; i < msgs.length; i++) {
                     vm.recvMessage(msgs[i]);
                 }
