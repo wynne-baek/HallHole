@@ -1,13 +1,18 @@
 package com.ssafy.hallhole.performance.service;
 
+import com.ssafy.hallhole.chat.domain.Chatroom;
+import com.ssafy.hallhole.chat.service.ChatroomService;
 import com.ssafy.hallhole.performance.domain.DetailPerformance;
 import com.ssafy.hallhole.performance.domain.Facility;
 import com.ssafy.hallhole.performance.domain.Performance;
 import com.ssafy.hallhole.performance.repository.PerformanceRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -16,6 +21,8 @@ import java.util.List;
 public class PerformanceServiceImpl implements PerformanceService {
 
     private final PerformanceRepository performanceRepository;
+
+    private final ChatroomService chatroomService;
 
     @Override
     public List<Performance> getPerformances(int start, int size) {
@@ -42,18 +49,30 @@ public class PerformanceServiceImpl implements PerformanceService {
         return performanceRepository.findOneFacility(id);
     }
 
+
+    //todo 스케쥴링 설정하기
     @Override
-//    @Scheduled(cron = "")
+    @Scheduled(cron = "0 0 1 * * *")
+    @Transactional
     public void scheduledOpenAndCloseChat() {
-        //todo 당일 오픈되는 공연과 닫히는 공연 체크 후 채팅방 생성 / 소멸 시키기
+        List<Chatroom> openChatRooms = chatroomService.findAllRoom();
+        // 지난 채팅방 삭제
+        for (int i = 0; i < openChatRooms.size(); i++) {
+            Chatroom chatroom = openChatRooms.get(i);
+            if (chatroom.getCloseTime().isBefore(LocalDateTime.now())) {
+                chatroomService.deleteRoom(chatroom.getPerformance().getId());
+            }
+        }
         List<Performance> runningPerformances = performanceRepository.findRunningPerformances();
         for (int i = 0; i < runningPerformances.size(); i++) {
             //채팅방 없으면 생성
-            System.out.println(runningPerformances.get(i));
-
-            //채팅방 리스트 불러와서 날짜가 지났으면 삭제
-
+            Performance performance = runningPerformances.get(i);
+            if (chatroomService.findById(performance.getId()) == null) {
+                chatroomService.createRoom(performance);
+            }
         }
+        System.out.println("openChatRooms = " + openChatRooms);
+        System.out.println("runningPerformances = " + runningPerformances);
     }
 
     @Override

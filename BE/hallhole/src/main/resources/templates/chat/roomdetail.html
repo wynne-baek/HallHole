@@ -56,7 +56,7 @@
         data: {
             roomId  : '',
             room    : {},
-            sender  : 1,
+            sender  : "",
             message : '',
             messages: []
         },
@@ -75,15 +75,16 @@
                 ws.send("/app/chat/message", {}, JSON.stringify({
                     type   : 'TALK',
                     performanceId : this.roomId,
-                    memberId : this.sender,
+                    memberNickName : this.sender,
                     message: this.message
+                    // + idTag도 보내야함 실제로는
                 }));
                 this.message = '';
             },
             recvMessage: function (recv) {
                 this.messages.unshift({
                     "type"   : recv.type,
-                    "sender" : recv.type == 'ENTER' ? '[알림]' : recv.memberId,
+                    "sender" : recv.type == 'ENTER' ? '[알림]' : recv.memberNickName,
                     "message": recv.message
                 })
             },
@@ -105,7 +106,7 @@
                 ws.send("/app/chat/message", {}, JSON.stringify({
                     type  : 'ENTER',
                     performanceId : vm.$data.roomId,
-                    memberId : vm.$data.sender,
+                    memberNickName : vm.$data.sender,
                 }));
             });
         }, function (error) {
@@ -126,9 +127,8 @@
         ws.send("/app/chat/message", {}, JSON.stringify({
             type  : 'OUT',
             performanceId : vm.$data.roomId,
-            memberId : vm.$data.sender,
+            memberNickName : vm.$data.sender,
         }));
-        console.log(vm.$data.sender);
         ws.disconnect();
     }
 
