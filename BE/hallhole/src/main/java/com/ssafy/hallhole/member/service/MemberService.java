@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface MemberService {
 
-    void join(MemberJoinDTO m);
+    Member join(MemberJoinDTO m);
 
     void duplicateMember(String email);
 

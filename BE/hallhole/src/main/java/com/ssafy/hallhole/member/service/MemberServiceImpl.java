@@ -19,8 +19,10 @@ public class MemberServiceImpl implements MemberService {
     private final MemberRepository memberRepository;
     private final MailService mailService;
 
+
+
     @Override
-    public void join(MemberJoinDTO m){
+    public Member join(MemberJoinDTO m){
 
         Member member = new Member(m.getEmail(),m.getName(),m.getPw());
         duplicateMember(member.getEmail());
@@ -43,6 +45,7 @@ public class MemberServiceImpl implements MemberService {
         }
         memberRepository.save(member);
 //        mailService.sendCongMail(member); // 테스트 데이터를 넣기 위해 지움. 나중에 풀기
+        return member;
     }
 
     @Override
@@ -102,10 +105,7 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public Member login(String email, String password) {
-        System.out.println("email: "+email);
-        System.out.println("pw: "+password);
         Member member = memberRepository.findByEmail(email);
-        System.out.println(member.getEmail());
         if(member==null){
             throw new IllegalStateException("이메일 또는 비밀번호를 다시 입력해주세요.");
         }

@@ -27,10 +27,10 @@ public class MemberController {
 
     @PostMapping("/join")
     @ApiOperation(value="[완료] 홀홀 회원가입")
-    public ResponseEntity join(@RequestBody MemberJoinDTO member){
+    public ResponseEntity<String> join(@RequestBody MemberJoinDTO member,HttpSession session){
         try{
-            memberService.join(member);
-            return new ResponseEntity(HttpStatus.OK);
+            Member m = memberService.join(member);
+            return new ResponseEntity(jwtTokenService.createToken(m.getId(),session.getId()),HttpStatus.OK);
         }catch(Exception e){
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
@@ -38,7 +38,7 @@ public class MemberController {
 
     @PostMapping("/login")
     @ApiOperation(value="[완료] 홀홀 로그인")
-    public ResponseEntity login(@RequestBody LoginDTO member, HttpSession session){
+    public ResponseEntity<String> login(@RequestBody LoginDTO member, HttpSession session){
         try{
             Member m = memberService.login(member.getEmail(), member.getPw());
             return new ResponseEntity(jwtTokenService.createToken(m.getId(),session.getId()),HttpStatus.OK);
@@ -93,8 +93,11 @@ public class MemberController {
 
     @PostMapping("")
     @ApiOperation(value = "[완료] 유저 데이터 조회")
-    public ResponseEntity<Member> getInfo(@RequestBody Long id){
+    public ResponseEntity<Member> getInfo(@RequestBody Long id, String token){
         try{
+            System.out.println("token : "+token);
+            String contents = jwtTokenService.getUserPk(token);
+            System.out.println(contents);
             Member member = memberService.getInfo(id);
             return new ResponseEntity(member,HttpStatus.OK);
         }catch(Exception e){
