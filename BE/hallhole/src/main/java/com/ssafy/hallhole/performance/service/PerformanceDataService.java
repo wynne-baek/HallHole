@@ -6,7 +6,7 @@ public interface PerformanceDataService {
 
     void scheduledData() throws Exception;
 
-    void getDetails();
+    void getDetails() throws Exception;
 
     void initData() throws Exception;
 

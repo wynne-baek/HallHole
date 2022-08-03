@@ -7,6 +7,7 @@ import com.ssafy.hallhole.performance.domain.Facility;
 import com.ssafy.hallhole.performance.domain.Performance;
 import com.ssafy.hallhole.performance.repository.PerformanceRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -51,7 +52,7 @@ public class PerformanceServiceImpl implements PerformanceService {
 
     //todo 스케쥴링 설정하기
     @Override
-//    @Scheduled(cron = "")
+    @Scheduled(cron = "0 0 1 * * *")
     @Transactional
     public void scheduledOpenAndCloseChat() {
         List<Chatroom> openChatRooms = chatroomService.findAllRoom();
@@ -70,6 +71,8 @@ public class PerformanceServiceImpl implements PerformanceService {
                 chatroomService.createRoom(performance);
             }
         }
+        System.out.println("openChatRooms = " + openChatRooms);
+        System.out.println("runningPerformances = " + runningPerformances);
     }
 
     @Override

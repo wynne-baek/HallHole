@@ -7,6 +7,7 @@ import com.ssafy.hallhole.performance.domain.PerformanceImage;
 import com.ssafy.hallhole.performance.repository.PerformanceRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.env.Environment;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.w3c.dom.Document;
@@ -33,20 +34,70 @@ public class PerformanceDataServiceImpl implements PerformanceDataService {
 
     //todo 스케쥴링 설정하기
     @Override
-    //    @Scheduled(cron = "0 0/1 * * * ?")
+    @Scheduled(cron = "0 0 3 * * *")
     public void scheduledData() throws Exception {
-        //todo 매일 특정 시간에 공연 데이터 받아와서 저장
-        //새 공연 받아오기
+        System.out.println("데이터 받아오기");
         getPerformanceData("AAAA", 1, 100);
         getPerformanceData("AAAB", 1, 100);
         getDetails();
     }
 
     @Override
-    public void getDetails() {
+    public void getDetails() throws Exception {
         //detail 정보가 없는것만 가져오기
         List<Performance> performanceList = performanceRepository.findDetailIsNull();
+        for (Performance performance : performanceList) {
+            getDetailPerformanceDataByPerformanceId(performance);
+        }
 
+    }
+
+    private void getDetailPerformanceDataByPerformanceId(Performance performance) throws Exception {
+        String urlstr = "http://www.kopis.or.kr/openApi/restful/pblprfr/" + performance.getId() + "?service=" + env.getProperty("kopisApiKey");
+        DocumentBuilderFactory dbFactoty = DocumentBuilderFactory.newInstance();
+        DocumentBuilder dBuilder = dbFactoty.newDocumentBuilder();
+        Document doc = dBuilder.parse(urlstr);
+
+        doc.getDocumentElement().normalize();
+        NodeList nList = doc.getElementsByTagName("db");
+        Node nNode = nList.item(0);
+        NodeList items = nNode.getChildNodes();
+        HashMap<String, String> map = new HashMap();
+        List<PerformanceImage> urls = new ArrayList<>();
+        for (int i = 0; i < items.getLength(); i++) {
+            if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+                Node node = items.item(i);
+                if (node.getNodeName().equals("prfcast")) {
+                    map.put("cast", node.getTextContent());
+                } else if (node.getNodeName().equals("prfruntime")) {
+                    map.put("runtime", node.getTextContent());
+                } else if (node.getNodeName().equals("mt10id")) {
+                    map.put("facility_id", node.getTextContent());
+                } else if (node.getNodeName().equals("entrpsnm")) {
+                    map.put("company", node.getTextContent());
+                } else if (node.getNodeName().equals("pcseguidance")) {
+                    map.put("price", node.getTextContent());
+                } else if (node.getNodeName().equals("styurls")) {
+                    NodeList images = node.getChildNodes();
+                    int num = 1;
+                    for (int j = 0; j < images.getLength(); j++) {
+                        if (images.item(j).getNodeName().equals("styurl")) {
+                            PerformanceImage performanceImage = PerformanceImage.builder().performance(performance).sortingNum(num).url(images.item(j).getTextContent()).build();
+                            urls.add(performanceImage);
+                            num++;
+                        }
+
+                    }
+                }
+            }
+        }
+        Facility facility = performanceRepository.findOneFacility(map.get("facility_id"));
+        if (facility == null) {
+            facility = getFacilityDetailData(map.get("facility_id"));
+            performanceRepository.saveFacility(facility);
+        }
+        DetailPerformance detailPerformance = DetailPerformance.builder().performance(performance).actor(map.get("cast")).runtime(map.get("runtime")).productionCompany(map.get("company")).facility(facility).price(map.get("price")).images(urls).build();
+        performanceRepository.saveDetail(detailPerformance);
     }
 
     @Override
