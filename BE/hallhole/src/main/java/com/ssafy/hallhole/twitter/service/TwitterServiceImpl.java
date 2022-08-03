@@ -30,7 +30,7 @@ public class TwitterServiceImpl implements TwitterService {
 
     private final Environment env;
 
-
+    //todo 스케쥴링 설정변경 하기
     @Override
     @Transactional
     @Scheduled(cron = "0 0/1 * * * ?")

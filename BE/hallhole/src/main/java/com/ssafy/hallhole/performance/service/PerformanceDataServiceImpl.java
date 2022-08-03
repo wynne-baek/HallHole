@@ -31,6 +31,7 @@ public class PerformanceDataServiceImpl implements PerformanceDataService {
 
     private final Environment env;
 
+    //todo 스케쥴링 설정하기
     @Override
     //    @Scheduled(cron = "0 0/1 * * * ?")
     public void scheduledData() throws Exception {
