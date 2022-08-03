@@ -102,7 +102,10 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public Member login(String email, String password) {
+        System.out.println("email: "+email);
+        System.out.println("pw: "+password);
         Member member = memberRepository.findByEmail(email);
+        System.out.println(member.getEmail());
         if(member==null){
             throw new IllegalStateException("이메일 또는 비밀번호를 다시 입력해주세요.");
         }

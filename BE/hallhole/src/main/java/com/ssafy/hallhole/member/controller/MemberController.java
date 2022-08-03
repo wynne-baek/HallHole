@@ -5,6 +5,7 @@ import com.ssafy.hallhole.member.dto.CharacterDTO;
 import com.ssafy.hallhole.member.dto.LoginDTO;
 import com.ssafy.hallhole.member.dto.MemberJoinDTO;
 import com.ssafy.hallhole.member.dto.MyProfileDTO;
+import com.ssafy.hallhole.member.service.JwtTokenServiceImpl;
 import com.ssafy.hallhole.member.service.MemberServiceImpl;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +14,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
+
 @RestController
 @RequestMapping("/member")
 @RequiredArgsConstructor
@@ -20,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 public class MemberController {
 
     private final MemberServiceImpl memberService;
+    private final JwtTokenServiceImpl jwtTokenService;
 
     @PostMapping("/join")
     @ApiOperation(value="[완료] 홀홀 회원가입")
@@ -34,10 +38,10 @@ public class MemberController {
 
     @PostMapping("/login")
     @ApiOperation(value="[완료] 홀홀 로그인")
-    public ResponseEntity login(@RequestBody LoginDTO member){
+    public ResponseEntity login(@RequestBody LoginDTO member, HttpSession session){
         try{
             Member m = memberService.login(member.getEmail(), member.getPw());
-            return new ResponseEntity(HttpStatus.OK);
+            return new ResponseEntity(jwtTokenService.createToken(m.getId(),session.getId()),HttpStatus.OK);
         }catch(Exception e){
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
