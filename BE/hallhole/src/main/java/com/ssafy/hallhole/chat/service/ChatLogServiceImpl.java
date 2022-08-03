@@ -22,6 +22,6 @@ public class ChatLogServiceImpl implements ChatLogService {
 
     @Override
     public List<ChatLog> getLogs(String id, Pageable pageable) {
-        return chatLogRepository.findAllChatLogByPerformanceIdOrderByMessageTime(id,pageable);
+        return chatLogRepository.findAllChatLogByPerformanceIdOrderByMessageTimeDesc(id,pageable);
     }
 }

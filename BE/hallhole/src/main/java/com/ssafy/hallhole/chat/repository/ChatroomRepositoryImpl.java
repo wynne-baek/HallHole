@@ -20,7 +20,7 @@ public class ChatroomRepositoryImpl implements ChatroomRepository{
 
     @Override
     public Chatroom findRoomById(String roomId) {
-        return em.createQuery("select r from Chatroom r where r.performance.id = :id",Chatroom.class).setParameter("id",roomId).getSingleResult();
+        return em.find(Chatroom.class,roomId);
     }
 
     @Override
@@ -31,5 +31,10 @@ public class ChatroomRepositoryImpl implements ChatroomRepository{
     @Override
     public void update(Chatroom chatroom){
         em.merge(chatroom);
+    }
+
+    @Override
+    public void closeChatRoom(String id) {
+        em.createQuery("delete from Chatroom c where c.performance.id = :id").setParameter("id",id).executeUpdate();
     }
 }

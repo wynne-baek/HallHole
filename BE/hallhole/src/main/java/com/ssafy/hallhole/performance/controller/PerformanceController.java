@@ -39,6 +39,11 @@ public class PerformanceController {
         performanceService.unLikePerformance(performancelikeVo.performance_id, performancelikeVo.member_id);
     }
 
+    @GetMapping("/test")
+    public void createTest(){
+        performanceService.scheduledOpenAndCloseChat();
+    }
+
     class PerformanceLikeVo {
         String performance_id;
         String member_id;
