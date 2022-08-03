@@ -98,16 +98,29 @@ public class PerformanceRepositoryImpl implements PerformanceRepository {
     }
 
     @Override
-    public List<Facility> findFacilitiesByName(int start, int size, String name) {
-        return em.createQuery("select f from Facility f where f.name like :name ",Facility.class)
+    public List<Facility> findFacilitiesByPerformanceName(int start, int size, String name) {
+        return em.createQuery("select distinct (d.facility) from DetailPerformance d where d.performance.name like :name",Facility.class)
                 .setParameter("name","%"+name+"%")
                 .setFirstResult(start)
                 .setMaxResults(size)
                 .getResultList();
     }
+    @Override
+    public Long findFacilitiesCntByPerformanceName(String name){
+        return em.createQuery("select count( distinct d.facility) from DetailPerformance d where d.performance.name like :name",Long.class)
+                .setParameter("name","%"+name+"%")
+                .getSingleResult();
+    }
 
     @Override
     public List<Performance> findRunningPerformances() {
         return em.createQuery("select p from Performance p where current_date between p.startDate and p.endDate").getResultList();
+    }
+
+    @Override
+    public Long getPerformanceCntByName(String name) {
+        return em.createQuery("select count(p) from Performance p where p.name like :name ",Long.class)
+                .setParameter("name","%"+name+"%")
+                .getSingleResult();
     }
 }

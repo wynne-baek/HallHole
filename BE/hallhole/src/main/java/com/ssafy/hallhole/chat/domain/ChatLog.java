@@ -29,7 +29,7 @@ public class ChatLog {
     private String performanceId;
 
     @NotNull
-    private Long memberId;
+    private String memberNickName;
 
     @NotNull
     private String message;

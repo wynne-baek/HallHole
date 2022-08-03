@@ -49,4 +49,10 @@ public class ChatroomServiceImpl implements ChatroomService {
         chatroomRepository.update(chatroom);
     }
 
+    @Override
+    @Transactional
+    public void deleteRoom(String id){
+        chatroomRepository.closeChatRoom(id);
+    }
+
 }

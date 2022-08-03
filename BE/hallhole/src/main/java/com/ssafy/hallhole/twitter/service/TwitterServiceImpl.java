@@ -30,7 +30,6 @@ public class TwitterServiceImpl implements TwitterService {
 
     private final Environment env;
 
-
     @Override
     @Transactional
     @Scheduled(cron = "0 0/1 * * * ?")

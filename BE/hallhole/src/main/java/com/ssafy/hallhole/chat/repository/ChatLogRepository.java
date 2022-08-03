@@ -12,6 +12,6 @@ public interface ChatLogRepository extends MongoRepository<ChatLog, String> {
 
     ChatLog save(ChatLog chatLog);
 
-    List<ChatLog> findAllChatLogByPerformanceIdOrderByMessageTime(String id, Pageable pageable);
+    List<ChatLog> findAllChatLogByPerformanceIdOrderByMessageTimeDesc(String id, Pageable pageable);
 
 }

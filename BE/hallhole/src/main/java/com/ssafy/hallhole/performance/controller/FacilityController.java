@@ -1,7 +1,7 @@
 package com.ssafy.hallhole.performance.controller;
 
 import com.ssafy.hallhole.performance.domain.Facility;
-import com.ssafy.hallhole.performance.domain.Performance;
+import com.ssafy.hallhole.performance.dto.FacilitySearchResult;
 import com.ssafy.hallhole.performance.service.PerformanceService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -26,7 +26,12 @@ public class FacilityController {
     }
 
     @GetMapping("/search/{name}")
-    public List<Facility> searchFacilityByName(@RequestParam("start") int start, @RequestParam("size") int size, @PathVariable("name") String name) {
-        return performanceService.findFacilitiesByName(start,size,name);
+    public FacilitySearchResult searchFacilityByName(@RequestParam("start") int start, @RequestParam("size") int size, @PathVariable("name") String name) {
+        FacilitySearchResult facilitySearchResult = FacilitySearchResult.builder()
+                .facilities(performanceService.findFacilitiesByPerformanceName(start, size, name))
+                .facilityCnt(performanceService.findFacilitiesCntByPerformanceName(name))
+                .build();
+        return facilitySearchResult;
+
     }
 }
