@@ -98,7 +98,7 @@
                 var recv = JSON.parse(message.body);
                 vm.recvMessage(recv);
             });
-            axios.get('/chat/logs/' + vm.$data.roomId+"?size=10&start=0").then(response => {
+            axios.get('/chat/logs/' + vm.$data.roomId+"?size=50&start="+vm.$data.messages.length).then(response => {
                 let msgs = response.data.reverse();
                 for (let i = 0; i < msgs.length; i++) {
                     vm.recvMessage(msgs[i]);
