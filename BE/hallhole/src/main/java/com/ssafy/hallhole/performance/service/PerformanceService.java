@@ -19,11 +19,11 @@ public interface PerformanceService {
 
     void scheduledOpenAndCloseChat();
 
-    void likePerformance(String performance_id, String member_id);
-
-    void unLikePerformance(String performance_id, String member_id);
-
     List<Performance> findPerformancesByName(int start, int size, String name);
 
-    List<Facility> findFacilitiesByName(int start, int size, String name);
+    List<Facility> findFacilitiesByPerformanceName(int start, int size, String name);
+
+    Long getPerformancesCntByName(String name);
+
+    Long findFacilitiesCntByPerformanceName(String name);
 }

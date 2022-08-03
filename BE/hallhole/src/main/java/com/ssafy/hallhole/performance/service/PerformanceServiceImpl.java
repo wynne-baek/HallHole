@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -76,26 +75,23 @@ public class PerformanceServiceImpl implements PerformanceService {
     }
 
     @Override
-    public void likePerformance(String performance_id, String member_id) {
-        //todo 좋아요 추가
-        // member 통합 후 추가
-    }
-
-    @Override
-    public void unLikePerformance(String performance_id, String member_id) {
-        //todo 좋아요 취소
-        // member 통합 후 추가
-
-    }
-
-    @Override
     public List<Performance> findPerformancesByName(int start, int size, String name) {
         return performanceRepository.findPerformancesByNamePaging(start, size, name);
     }
 
     @Override
-    public List<Facility> findFacilitiesByName(int start, int size, String name) {
-        return performanceRepository.findFacilitiesByName(start, size, name);
+    public List<Facility> findFacilitiesByPerformanceName(int start, int size, String name) {
+        return performanceRepository.findFacilitiesByPerformanceName(start, size, name);
+    }
+
+    @Override
+    public Long getPerformancesCntByName(String name) {
+        return performanceRepository.getPerformanceCntByName(name);
+    }
+
+    @Override
+    public Long findFacilitiesCntByPerformanceName(String name) {
+        return performanceRepository.findFacilitiesCntByPerformanceName(name);
     }
 
 }

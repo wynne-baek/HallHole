@@ -2,6 +2,7 @@ package com.ssafy.hallhole.performance.controller;
 
 import com.ssafy.hallhole.performance.domain.DetailPerformance;
 import com.ssafy.hallhole.performance.domain.Performance;
+import com.ssafy.hallhole.performance.dto.PerformanceSearchResult;
 import com.ssafy.hallhole.performance.service.PerformanceService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -25,19 +26,14 @@ public class PerformanceController {
     }
 
     @GetMapping("/search/{name}")
-    public List<Performance> searchPerformanceByName(@RequestParam("start") int start, @RequestParam("size") int size, @PathVariable("name") String name) {
-        return performanceService.findPerformancesByName(start,size,name);
+    public PerformanceSearchResult searchPerformanceByName(@RequestParam("start") int start, @RequestParam("size") int size, @PathVariable("name") String name) {
+        PerformanceSearchResult performanceSearchResult = PerformanceSearchResult.builder()
+                .performances(performanceService.findPerformancesByName(start,size,name))
+                .PerformancesCnt(performanceService.getPerformancesCntByName(name))
+                .build();
+        return performanceSearchResult;
     }
 
-    @PostMapping("/like")
-    public void likePerformance(@RequestBody PerformanceLikeVo performancelikeVo) {
-        performanceService.likePerformance(performancelikeVo.performance_id, performancelikeVo.member_id);
-    }
-
-    @PostMapping("/unlike")
-    public void unLikePerformance(@RequestBody PerformanceLikeVo performancelikeVo) {
-        performanceService.unLikePerformance(performancelikeVo.performance_id, performancelikeVo.member_id);
-    }
 
     @GetMapping("/test")
     public void createTest(){
