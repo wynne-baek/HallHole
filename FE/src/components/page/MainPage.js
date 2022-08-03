@@ -7,6 +7,7 @@ import FamousPerformances from "../molecule/FamousPerformance";
 import Box from "@mui/material/Box";
 import PosterSize from "../atom/PosterSize";
 import Input from "../atom/Input";
+import TwitterIcon from "@mui/icons-material/Twitter";
 
 export default function ActionAreaCard() {
   const FamousPerformanceList = [
@@ -71,7 +72,7 @@ export default function ActionAreaCard() {
           </CardActionArea>
         </Card>
 
-        <Button size="large" variant="primary">
+        <Button size="large" variant="primary" onclick="window.open('https://www.naver.com/">
           <Text variant="white">
             <h2>💬 채팅 하러 가기</h2>
           </Text>
@@ -82,11 +83,28 @@ export default function ActionAreaCard() {
           </Text>
         </Box>
         <Box sx={{ marginLeft: 5, marginY: 5 }}>
-          <Input size="large">검색</Input>
+          <Input size="large"></Input>
         </Box>
         <br />
         <Box>
           <FamousPerformances FamousPerformances={FamousPerformanceList} />
+        </Box>
+        {/* 중간 지점 트위터 내용 시작 */}
+        <Box sx={{ width: 330, height: 330, marginX: 4, border: 2, borderColor: "SteelBlue", boxShadow: 3 }}>
+          <Box
+            sx={{
+              boxShadow: 7,
+              margin: 1,
+              width: 35,
+              backgroundColor: "SteelBlue",
+              marginLeft: "85%",
+              marginTop: 0,
+              height: 60,
+              translateX: 45,
+            }}
+          >
+            <TwitterIcon style={{ color: "white" }} fontSize="large" />
+          </Box>
         </Box>
       </div>
     </div>
