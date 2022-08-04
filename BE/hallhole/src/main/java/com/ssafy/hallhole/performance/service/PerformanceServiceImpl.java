@@ -60,7 +60,6 @@ public class PerformanceServiceImpl implements PerformanceService {
             Chatroom chatroom = openChatRooms.get(i);
             if (chatroom.getCloseTime().plusDays(1).isBefore(LocalDateTime.now())) {
                 chatroomService.deleteRoom(chatroom.getPerformance().getId());
-                System.out.println("chatroom = " + chatroom);
             }
         }
         List<Performance> runningPerformances = performanceRepository.findRunningPerformances();
@@ -69,7 +68,6 @@ public class PerformanceServiceImpl implements PerformanceService {
             Performance performance = runningPerformances.get(i);
             if (chatroomService.findById(performance.getId()) == null) {
                 chatroomService.createRoom(performance);
-                System.out.println(performance);
             }
         }
     }

@@ -9,6 +9,7 @@ import com.ssafy.hallhole.chat.service.ChatroomService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -22,15 +23,12 @@ public class MessageController {
     private final ChatLogService chatLogService;
 
     @MessageMapping("/chat/message")
+    @Transactional
     public void enter(ChatLog message) {
         if (ChatType.ENTER.equals(message.getType())) {
             message.setMessage(message.getMemberNickName() + "님이 입장하였습니다.");
             // 사용자 추가
-            Chatroom chatroom = chatroomService.findById(message.getPerformanceId());
-            chatroom.addUser(message.getMemberNickName());
-//            실제로는 id태그 저장
-//            chatroom.addUser(message.getIdTag());
-            chatroomService.update(chatroom);
+            chatroomService.addUser(message);
 
         } else if (ChatType.TALK.equals(message.getType())) {
             //db 저장
@@ -40,11 +38,7 @@ public class MessageController {
         } else if (ChatType.OUT.equals(message.getType())) {
             message.setMessage(message.getMemberNickName() + "님이 퇴장하였습니다.");
             // 사용자 제거
-            Chatroom chatroom = chatroomService.findById(message.getPerformanceId());
-            chatroom.subUser(message.getMemberNickName());
-//            실제로는 id태그 삭제
-//            chatroom.subUser(message.getIdTag());
-            chatroomService.update(chatroom);
+            chatroomService.subUser(message);
         }
         sendingOperations.convertAndSend("/topic/chat/room/" + message.getPerformanceId(), message);
     }

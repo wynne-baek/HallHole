@@ -1,5 +1,6 @@
 package com.ssafy.hallhole.chat.service;
 
+import com.ssafy.hallhole.chat.domain.ChatLog;
 import com.ssafy.hallhole.chat.domain.Chatroom;
 import com.ssafy.hallhole.performance.domain.Performance;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,6 +19,9 @@ public interface ChatroomService {
 
     void update(Chatroom chatroom);
 
-    @Transactional
     void deleteRoom(String id);
+
+    void addUser(ChatLog message);
+
+    void subUser(ChatLog message);
 }
