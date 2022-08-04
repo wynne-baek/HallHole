@@ -6,6 +6,46 @@ import Box from "@mui/material/Box";
 import PosterSize from "../atom/PosterSize";
 import Input from "../atom/Input";
 import TwitterBox from "../organism/TwitterBox";
+import LikePerformance from "../molecule/LikePerformance";
+import Button from "../atom/Button";
+
+const likePerformanceList = [
+  {
+    id: 1,
+    title: "웃는 남자",
+    img: "https://cdnticket.melon.co.kr/resource/image/upload/product/2019/11/2019112812171593082da1-3771-458f-ab20-7777146d2066.jpg",
+  },
+  {
+    id: 2,
+    title: "웃는 남자",
+    img: "https://cdnticket.melon.co.kr/resource/image/upload/product/2019/11/2019112812171593082da1-3771-458f-ab20-7777146d2066.jpg",
+  },
+  {
+    id: 3,
+    title: "웃는 남자",
+    img: "https://cdnticket.melon.co.kr/resource/image/upload/product/2019/11/2019112812171593082da1-3771-458f-ab20-7777146d2066.jpg",
+  },
+  {
+    id: 4,
+    title: "웃는 남자",
+    img: "https://cdnticket.melon.co.kr/resource/image/upload/product/2019/11/2019112812171593082da1-3771-458f-ab20-7777146d2066.jpg",
+  },
+  {
+    id: 5,
+    title: "웃는 남자",
+    img: "https://cdnticket.melon.co.kr/resource/image/upload/product/2019/11/2019112812171593082da1-3771-458f-ab20-7777146d2066.jpg",
+  },
+  {
+    id: 6,
+    title: "웃는 남자",
+    img: "https://cdnticket.melon.co.kr/resource/image/upload/product/2019/11/2019112812171593082da1-3771-458f-ab20-7777146d2066.jpg",
+  },
+  {
+    id: 7,
+    title: "웃는 남자",
+    img: "https://cdnticket.melon.co.kr/resource/image/upload/product/2019/11/2019112812171593082da1-3771-458f-ab20-7777146d2066.jpg",
+  },
+];
 
 const userCheckBox = {
   position: "absolute",
@@ -57,7 +97,8 @@ const posterCard = {
 
 const textQuestionDesign = {
   marginLeft: 8,
-  marginTop: 6,
+  marginTop: 8,
+  marginBottom: 5,
 };
 
 const inputPosition = {
@@ -69,9 +110,21 @@ const inputPositionDetail = {
   marginLeft: 3,
 };
 
+const TwitterBoxBackground = {
+  marginTop: 15,
+  paddingTop: 10,
+  paddingBottom: 2,
+  backgroundColor: "rgba(255, 0, 0, 0.2)",
+};
+
 export default function Main() {
   return (
-    <Box>
+    <Box
+      sx={{
+        width: "100vw",
+        height: "200vh",
+      }}
+    >
       <Box sx={userCheckBox}>
         <Box>
           <Box sx={userCheckText}>
@@ -100,7 +153,8 @@ export default function Main() {
 
         <Box sx={textQuestionDesign}>
           <Text variant="black" size="medium">
-            찾고있는 <Text variant="primary">뮤지컬</Text>이 있나요?
+            찾고있는
+            <Text variant="primary"> 뮤지컬 </Text>이 있나요?
           </Text>
         </Box>
         <Box sx={inputPosition}>
@@ -108,8 +162,27 @@ export default function Main() {
             <Input size="large"></Input>
           </Box>
         </Box>
-        <Box sx={{ marginY: 10 }}></Box>
-        <TwitterBox></TwitterBox>
+        <Box sx={{ marginY: 10 }}>
+          <LikePerformance likePerformances={likePerformanceList} />
+        </Box>
+
+        <Box sx={{ marginY: 10, marginLeft: 5 }}>
+          <Text variant="black" size="medium">
+            내가 팔로우한 <br />
+            <Text variant="primary">유저 네임</Text>
+            님이 후기를 남겼어요.
+          </Text>
+        </Box>
+        <Box>
+          <Button variant="white" size="large"></Button>
+        </Box>
+
+        <Box sx={TwitterBoxBackground}>
+          <TwitterBox></TwitterBox>
+          <Box sx={{ marginLeft: 12, marginTop: 20, marginBottom: 5 }}>
+            <Text>@2022 footer position</Text>
+          </Box>
+        </Box>
       </Box>
     </Box>
   );
