@@ -6,6 +6,7 @@ import { Box } from "@mui/material";
 import Text from "../atom/Text";
 
 const Background = styled(Box)`
+  display: inline-block;
   width: 80vw;
   height: 5vh;
   border-radius: 2.5vh;
@@ -14,7 +15,7 @@ const Background = styled(Box)`
 `;
 
 const Toggled = styled(Box)`
-  position: fixed;
+  position: relative;
   width: 40vw;
   height: 5vh;
   border-radius: 2.5vh;
@@ -26,10 +27,12 @@ const Toggled = styled(Box)`
 `;
 
 const TextBox = styled(Box)`
-  position: fixed;
+  position: relative;
   width: 80vw;
   height: 5vh;
   line-height: 5vh;
+
+  top: -100%;
 
   display: flex;
   justify-content: space-around;
