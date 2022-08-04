@@ -21,6 +21,8 @@ public class StringListConverter implements AttributeConverter<List<String>, Str
         if(string==null){
             return new ArrayList<>();
         }
-        return  new ArrayList<>(Arrays.asList(string.split(SPLIT_CHAR)));
+        List<String> list = new ArrayList<>(Arrays.asList(string.split(SPLIT_CHAR)));
+        list.remove("");
+        return  list;
     }
 }

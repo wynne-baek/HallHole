@@ -58,8 +58,9 @@ public class PerformanceServiceImpl implements PerformanceService {
         // 지난 채팅방 삭제
         for (int i = 0; i < openChatRooms.size(); i++) {
             Chatroom chatroom = openChatRooms.get(i);
-            if (chatroom.getCloseTime().isBefore(LocalDateTime.now())) {
+            if (chatroom.getCloseTime().plusDays(1).isBefore(LocalDateTime.now())) {
                 chatroomService.deleteRoom(chatroom.getPerformance().getId());
+                System.out.println("chatroom = " + chatroom);
             }
         }
         List<Performance> runningPerformances = performanceRepository.findRunningPerformances();
@@ -68,10 +69,9 @@ public class PerformanceServiceImpl implements PerformanceService {
             Performance performance = runningPerformances.get(i);
             if (chatroomService.findById(performance.getId()) == null) {
                 chatroomService.createRoom(performance);
+                System.out.println(performance);
             }
         }
-        System.out.println("openChatRooms = " + openChatRooms);
-        System.out.println("runningPerformances = " + runningPerformances);
     }
 
     @Override
