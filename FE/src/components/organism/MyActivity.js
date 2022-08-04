@@ -6,21 +6,21 @@ import { Box } from "@mui/system";
 import CategorySelectButton from "../molecule/CategorySelectButton";
 import ProfileReviewItem from "../molecule/ProfileReviewItem";
 
-const ActivityCategory = ["후기", "댓글", "리액션"];
+const activityCategory = ["후기", "댓글", "리액션"];
 const reviewList = [{}];
 const commentList = [{}];
 const reactionList = [{}];
 
 export default function MyActivity(props) {
-  const [selectedCategory, setSelectedCategory] = useState(ActivityCategory[0]);
+  const [selectedCategory, setSelectedCategory] = useState(activityCategory[0]);
   const [categoryList, setCategoryList] = useState(reviewList);
 
   function selectActivityCategory(e) {
     e.preventDefault();
     setSelectedCategory(e.target.innerText);
-    if (e.target.innerText === ActivityCategory[0]) {
+    if (e.target.innerText === activityCategory[0]) {
       setCategoryList(reviewList);
-    } else if (e.target.innerText === ActivityCategory[1]) {
+    } else if (e.target.innerText === activityCategory[1]) {
       setCategoryList(commentList);
     } else {
       setCategoryList(reactionList);
@@ -30,7 +30,7 @@ export default function MyActivity(props) {
   return (
     <Box sx={{ width: "95%", marginY: 2, marginLeft: 2 }}>
       <Box sx={{ display: "flex" }}>
-        {ActivityCategory.map((item, i) => (
+        {activityCategory.map((item, i) => (
           <CategorySelectButton
             key={i}
             category={item}
