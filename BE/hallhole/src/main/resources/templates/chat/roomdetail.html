@@ -23,6 +23,12 @@
     <div>
         <h2>{{room.name}}</h2>
     </div>
+
+    <ul class="list-group">
+        <li class="list-group-item" v-for="message in messages">
+            {{message.sender}} : {{message.message}}    -      {{message.time}}
+        </li>
+    </ul>
     <div class="input-group">
         <div class="input-group-prepend">
             <label class="input-group-text">내용</label>
@@ -32,12 +38,10 @@
             <button @click="sendMessage" class="btn btn-primary" type="button">보내기</button>
         </div>
     </div>
-    <ul class="list-group">
-        <li class="list-group-item" v-for="message in messages">
-            {{message.sender}} - {{message.message}}
-        </li>
-    </ul>
-    <div></div>
+    <div style="margin: 150px;"></div>
+    <div id="container" ref="msgContainer">
+        <!-- content -->
+    </div>
 </div>
 <!-- JavaScript -->
 <script src="/webjars/vue/2.5.16/dist/vue.min.js"></script>
@@ -52,13 +56,15 @@
     var reconnect = 0;
     // vue.js
     var vm = new Vue({
-        el  : '#app',
-        data: {
-            roomId  : '',
-            room    : {},
-            sender  : "",
-            message : '',
-            messages: []
+        el: '#app',
+        data() {
+            return {
+                roomId: '',
+                room: {},
+                sender: "",
+                message: '',
+                messages: []
+            }
         },
         created() {
             this.roomId = localStorage.getItem('wschat.roomId');
@@ -66,28 +72,35 @@
             this.findRoom();
         },
         methods: {
-            findRoom   : function () {
+            findRoom: function () {
                 axios.get('/chat/room/' + this.roomId).then(response => {
                     this.room = response.data;
                 });
             },
             sendMessage: function () {
+                this.scrollToBottom();
                 ws.send("/app/chat/message", {}, JSON.stringify({
-                    type   : 'TALK',
-                    performanceId : this.roomId,
-                    memberNickName : this.sender,
-                    message: this.message
-                    // + idTag도 보내야함 실제로는
+                    type: 'TALK',
+                    performanceId: this.roomId,
+                    memberNickName: this.sender,
+                    message: this.message,
+                    idTag: this.sessionId,
                 }));
                 this.message = '';
+
             },
             recvMessage: function (recv) {
                 this.messages.push({
-                    "type"   : recv.type,
-                    "sender" : recv.type == 'ENTER' ? '[알림]' : recv.memberNickName,
-                    "message": recv.message
+                    "type": recv.type,
+                    "sender": recv.type == 'ENTER' ? '[알림]' : recv.memberNickName,
+                    "message": recv.message,
+                    "time" : recv.messageTime,
                 })
             },
+            scrollToBottom: function() {
+                const container = this.$el.querySelector("#container");
+                container.scrollIntoView({ behavior: "smooth" });
+            }
         }
     });
 
@@ -98,15 +111,15 @@
                 var recv = JSON.parse(message.body);
                 vm.recvMessage(recv);
             });
-            axios.get('/chat/logs/' + vm.$data.roomId+"?size=50&start="+vm.$data.messages.length).then(response => {
+            axios.get('/chat/logs/' + vm.$data.roomId + "?size=50&start=" + vm.$data.messages.length).then(response => {
                 let msgs = response.data.reverse();
                 for (let i = 0; i < msgs.length; i++) {
                     vm.recvMessage(msgs[i]);
                 }
                 ws.send("/app/chat/message", {}, JSON.stringify({
-                    type  : 'ENTER',
-                    performanceId : vm.$data.roomId,
-                    memberNickName : vm.$data.sender,
+                    type: 'ENTER',
+                    performanceId: vm.$data.roomId,
+                    memberNickName: vm.$data.sender,
                 }));
             });
         }, function (error) {
@@ -125,9 +138,9 @@
 
     function disconnect_test() {
         ws.send("/app/chat/message", {}, JSON.stringify({
-            type  : 'OUT',
-            performanceId : vm.$data.roomId,
-            memberNickName : vm.$data.sender,
+            type: 'OUT',
+            performanceId: vm.$data.roomId,
+            memberNickName: vm.$data.sender,
         }));
         ws.disconnect();
     }
