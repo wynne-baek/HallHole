@@ -1,7 +1,7 @@
 import { Box } from "@mui/system";
 import React from "react";
 
-import ProfileReviewItem from "./ProfileReviewItem";
+import ProfileReviewItem from "../molecule/ProfileReviewItem";
 import TextStyle from "../atom/Text";
 import CategoryDivider from "../atom/CategoryDivider";
 import { List } from "@mui/material";

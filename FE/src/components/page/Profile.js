@@ -1,10 +1,10 @@
 import React from "react";
-import LikePerformances from "../molecule/LikePerformance";
-import ProfileDetail from "../molecule/ProfileDetail";
-import UserActivity from "../molecule/UserActivity";
+import LikePerformances from "../organism/LikePerformance";
+import ProfileDetail from "../organism/ProfileDetail";
+import UserActivity from "../organism/UserActivity";
 
 import { Box } from "@mui/system";
-import MyActivity from "../molecule/MyActivity";
+import MyActivity from "../organism/MyActivity";
 
 const likePerformanceList = [
   {
@@ -71,7 +71,7 @@ const reviews = [
     star_eval: 4.5,
     performance_name: "웃는 남자",
   },
-]
+];
 
 export default function Profile() {
   return (
