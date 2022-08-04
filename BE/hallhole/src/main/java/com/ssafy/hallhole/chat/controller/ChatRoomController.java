@@ -4,6 +4,7 @@ package com.ssafy.hallhole.chat.controller;
 import com.ssafy.hallhole.chat.domain.Chatroom;
 import com.ssafy.hallhole.chat.service.ChatroomService;
 import com.ssafy.hallhole.performance.domain.Performance;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,6 +25,7 @@ public class ChatRoomController {
     // 모든 채팅방 목록 반환
     @GetMapping("/rooms")
     @ResponseBody
+    @ApiOperation(value = "모든 채팅방 목록 가져오기")
     public List<Chatroom> findRooms() {
         return chatroomService.findAllRoom();
     }
@@ -31,12 +33,14 @@ public class ChatRoomController {
     // 특정 채팅방 조회
     @GetMapping("/room/{roomId}")
     @ResponseBody
+    @ApiOperation(value = "단일 채팅방 정보")
     public Chatroom roomInfo(@PathVariable String roomId) {
         return chatroomService.findById(roomId);
     }
 
     // 채팅방 리스트
     @GetMapping("/room")
+    @ApiOperation(value = "채팅방 목록 페이지 이동 메서드 -> react와 병합후 삭제 예정")
     public String rooms(Model model) {
         return "/chat/room";
     }
@@ -44,6 +48,7 @@ public class ChatRoomController {
 
     // 채팅방 입장 화면
     @GetMapping("/room/enter/{roomId}")
+    @ApiOperation(value = "채팅방 입장 메서드 -> react와 병합후 삭제 예정")
     public String roomDetail(Model model, @PathVariable String roomId) {
         model.addAttribute("roomId", roomId);
         return "/chat/roomdetail";
@@ -51,6 +56,7 @@ public class ChatRoomController {
 
     @GetMapping("/make")
     @ResponseBody
+    @ApiOperation(value = "채팅방 생성 테스트용 메서드 -> 삭제 예정")
     public void makeRoomTest() {
         Performance performance = Performance.builder().name("테스트").facility_name("test").endDate(LocalDateTime.now())
                 .startDate(LocalDateTime.now()).id("PF183213").genre("연극").poster("url").build();
@@ -59,6 +65,7 @@ public class ChatRoomController {
 
     @GetMapping("/delete")
     @ResponseBody
+    @ApiOperation(value = "채팅방 삭제 테스트용 메서드 -> 삭제 예정")
     public void deleteRoomTest() {
         chatroomService.deleteRoom("PF183213");
     }

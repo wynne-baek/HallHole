@@ -55,4 +55,5 @@ public class ChatroomServiceImpl implements ChatroomService {
         chatroomRepository.closeChatRoom(id);
     }
 
+
 }
