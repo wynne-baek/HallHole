@@ -9,6 +9,8 @@ import TwitterBox from "../organism/TwitterBox";
 import LikePerformance from "../molecule/LikePerformance";
 import Button from "../atom/Button";
 
+import ProfileImage from "../atom/ProfileImage";
+
 const likePerformanceList = [
   {
     id: 1,
@@ -117,12 +119,18 @@ const TwitterBoxBackground = {
   backgroundColor: "rgba(255, 0, 0, 0.2)",
 };
 
+const userAlarm = {
+  position: "absolute",
+  zIndex: 1,
+  marginTop: 0.5,
+  marginLeft: 0.5,
+};
+
 export default function Main() {
   return (
     <Box
       sx={{
         width: "100vw",
-        height: "200vh",
       }}
     >
       <Box sx={userCheckBox}>
@@ -165,16 +173,30 @@ export default function Main() {
         <Box sx={{ marginY: 10 }}>
           <LikePerformance likePerformances={likePerformanceList} />
         </Box>
-
-        <Box sx={{ marginY: 10, marginLeft: 5 }}>
-          <Text variant="black" size="medium">
-            내가 팔로우한 <br />
-            <Text variant="primary">유저 네임</Text>
-            님이 후기를 남겼어요.
-          </Text>
-        </Box>
         <Box>
-          <Button variant="white" size="large"></Button>
+          <Box sx={{ marginY: 10, marginLeft: 5 }}>
+            <Text variant="black" size="medium">
+              내가 팔로우한 <br />
+              <Text variant="primary">유저 네임</Text>
+              님이 후기를 남겼어요.
+            </Text>
+          </Box>
+          <Box>
+            <Box sx={userAlarm}>
+              <ProfileImage size="small"></ProfileImage>
+            </Box>
+            <Button variant="white" size="large" color="black">
+              @username | 공연 꿀 잼 ..
+            </Button>
+          </Box>
+          <Box>
+            <Box sx={userAlarm}>
+              <ProfileImage size="small"></ProfileImage>
+            </Box>
+            <Button variant="white" size="large" color="black">
+              @username | 공연 또 보러 가자!
+            </Button>
+          </Box>
         </Box>
 
         <Box sx={TwitterBoxBackground}>
