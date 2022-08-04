@@ -24,8 +24,8 @@ export default function ProfileEdit(props) {
   
   return (
     // 프로필 설정에서 변경할 수 있는 모든 폼들이 모여있습니다.
-    <Box>
-        <Box sx={{ m:10 }}>
+    <Box sx={{ml:3, mt:2}}>
+        <Box>
           <TextStyle size="medium">닉네임</TextStyle>
           <br></br>
           <Input size="large"></Input>
@@ -40,7 +40,7 @@ export default function ProfileEdit(props) {
           <br></br>
         </Box>
         <Box sx={{ display: 'flex' }}>
-          <Box sx={{ ml:10 }}>
+          <Box>
             <TextStyle size="medium">성별</TextStyle>
             <FormControl sx={{ m: 1, minWidth: 120 }}>
               <InputLabel id="gender">성별</InputLabel>
