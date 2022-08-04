@@ -9,7 +9,7 @@ import { CardHeader } from '@mui/material';
 
 export default function ProfileItem(props) {
   return (
-    <CardHeader 
+    <CardHeader sx={{ padding: 0.5 }}
       avatar={<ProfileImage type="small" src="" onClick="" />} 
       title={<TextStyle size="medium" variant="black">{props.username}</TextStyle>}>
     </CardHeader>
