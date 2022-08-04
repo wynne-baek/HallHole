@@ -24,7 +24,7 @@ const followerList = [
 ];
 
 export default function FollowList(props) {
-  const [selectedTarget, setSelectedTarget] = useState("팔로워");
+  const [selectedTarget, setSelectedTarget] = useState(target[0]);
   const [selectedTargetList, setSelectedTargetList] = useState(followerList);
 
   function selectFollowList(e) {
@@ -32,7 +32,7 @@ export default function FollowList(props) {
     // 선택한 버튼 active 처리
     setSelectedTarget(e.target.innerText);
     // 선택한 버튼에 따라 팔로워, 팔로잉 목록 변경(추후, user의 follow 목록 넣으면 됨!)
-    if (e.target.innerText === "팔로워") {
+    if (e.target.innerText === target[0]) {
       setSelectedTargetList(followerList);
     } else {
       setSelectedTargetList(followList);
