@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
@@ -20,17 +21,12 @@ public class ChatroomRepositoryImpl implements ChatroomRepository{
 
     @Override
     public Chatroom findRoomById(String roomId) {
-        return em.find(Chatroom.class,roomId);
+        return Optional.ofNullable(em.find(Chatroom.class,roomId)).orElseThrow(()-> new IllegalStateException("존재하지 않는 채팅방 입니다."));
     }
 
     @Override
     public void save(Chatroom chatroom) {
         em.persist(chatroom);
-    }
-
-    @Override
-    public void update(Chatroom chatroom){
-        em.merge(chatroom);
     }
 
     @Override

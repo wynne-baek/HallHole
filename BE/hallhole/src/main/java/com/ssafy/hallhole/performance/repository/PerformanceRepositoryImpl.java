@@ -1,14 +1,15 @@
 package com.ssafy.hallhole.performance.repository;
 
+import com.ssafy.hallhole.advice.exceptions.NotFoundException;
 import com.ssafy.hallhole.performance.domain.DetailPerformance;
 import com.ssafy.hallhole.performance.domain.Facility;
 import com.ssafy.hallhole.performance.domain.Performance;
-import com.ssafy.hallhole.performance.domain.PerformanceLike;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
@@ -32,29 +33,19 @@ public class PerformanceRepositoryImpl implements PerformanceRepository {
     }
 
     @Override
-    public void savePerformanceLike(PerformanceLike performanceLike){
-        em.persist(performanceLike);
-    }
-
-    @Override
-    public void removePerformanceLike(PerformanceLike performanceLike){
-        em.remove(performanceLike);
-    }
-
-    @Override
     public List<Performance> findAllPerformance() {
         return em.createQuery("select p from Performance p",Performance.class)
                 .getResultList();
     }
 
     @Override
-    public Performance findOnePerformanceById(String id) {
-        return em.find(Performance.class, id);
+    public Performance findOnePerformanceById(String id) throws NotFoundException {
+        return Optional.ofNullable(em.find(Performance.class, id)).orElseThrow(() -> new NotFoundException("존재하지 않는 공연 id 입니다."));
     }
 
     @Override
-    public DetailPerformance findOneDetailPerformance(String id) {
-        return em.find(DetailPerformance.class, id);
+    public DetailPerformance findOneDetailPerformance(String id) throws NotFoundException {
+        return Optional.ofNullable(em.find(DetailPerformance.class, id)).orElseThrow(() -> new NotFoundException("존재하지 않는 공연 id 입니다."));
     }
 
     @Override
@@ -63,8 +54,9 @@ public class PerformanceRepositoryImpl implements PerformanceRepository {
     }
 
     @Override
-    public Facility findOneFacility(String id) {
-        return em.find(Facility.class, id);
+    public Facility findOneFacility(String id) throws NotFoundException {
+
+        return Optional.ofNullable(em.find(Facility.class, id)).orElseThrow(()-> new NotFoundException("존재하지 않는 극장 id 입니다."));
     }
 
     @Override
