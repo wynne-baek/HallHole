@@ -6,6 +6,7 @@ import com.ssafy.hallhole.member.domain.Member;
 import com.ssafy.hallhole.member.dto.CharacterDTO;
 import com.ssafy.hallhole.member.dto.MemberJoinDTO;
 import com.ssafy.hallhole.member.dto.MyProfileDTO;
+import com.ssafy.hallhole.member.repository.HashMapRepository;
 import com.ssafy.hallhole.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,10 +20,13 @@ public class MemberServiceImpl implements MemberService {
     private final MemberRepository memberRepository;
     private final MailService mailService;
 
+    private final JwtTokenProviderImpl jwtTokenService;
+    private final HashMapRepository sessionRepository;
+
 
 
     @Override
-    public Member join(MemberJoinDTO m){
+    public String join(MemberJoinDTO m,String sessionId){
 
         Member member = new Member(m.getEmail(),m.getName(),m.getPw());
         duplicateMember(member.getEmail());
@@ -45,7 +49,9 @@ public class MemberServiceImpl implements MemberService {
         }
         memberRepository.save(member);
 //        mailService.sendCongMail(member); // 테스트 데이터를 넣기 위해 지움. 나중에 풀기
-        return member;
+        sessionRepository.addSession(member.getId(),sessionId);
+
+        return jwtTokenService.createToken(member.getId(), sessionId);
     }
 
     @Override
@@ -62,7 +68,7 @@ public class MemberServiceImpl implements MemberService {
             throw new IllegalStateException("해당 이메일은 존재하지 않습니다.");
         }
 
-        mailService.sendPWMail(email);
+//        mailService.sendPWMail(email);
         memberRepository.save(member);
     }
 
@@ -104,7 +110,7 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public Member login(String email, String password) {
+    public String login(String email, String password, String sessionId) {
         Member member = memberRepository.findByEmail(email);
         if(member==null){
             throw new IllegalStateException("이메일 또는 비밀번호를 다시 입력해주세요.");
@@ -113,7 +119,7 @@ public class MemberServiceImpl implements MemberService {
             throw new IllegalStateException("이메일 또는 비밀번호를 다시 입력해주세요.");
         }
 
-        return member;
+        return jwtTokenService.createToken(member.getId(), sessionId);
     }
 
     @Override

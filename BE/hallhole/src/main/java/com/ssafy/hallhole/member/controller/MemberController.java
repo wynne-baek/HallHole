@@ -1,20 +1,16 @@
 package com.ssafy.hallhole.member.controller;
 
 import com.ssafy.hallhole.member.domain.Member;
-import com.ssafy.hallhole.member.dto.CharacterDTO;
-import com.ssafy.hallhole.member.dto.LoginDTO;
-import com.ssafy.hallhole.member.dto.MemberJoinDTO;
-import com.ssafy.hallhole.member.dto.MyProfileDTO;
-import com.ssafy.hallhole.member.service.JwtTokenServiceImpl;
+import com.ssafy.hallhole.member.dto.*;
 import com.ssafy.hallhole.member.service.MemberServiceImpl;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.java.Log;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.util.Arrays;
 
 @RestController
 @RequestMapping("/member")
@@ -23,14 +19,14 @@ import javax.servlet.http.HttpSession;
 public class MemberController {
 
     private final MemberServiceImpl memberService;
-    private final JwtTokenServiceImpl jwtTokenService;
 
     @PostMapping("/join")
     @ApiOperation(value="[완료] 홀홀 회원가입")
-    public ResponseEntity<String> join(@RequestBody MemberJoinDTO member,HttpSession session){
+    public ResponseEntity join(@RequestBody MemberJoinDTO member, HttpSession session){
         try{
-            Member m = memberService.join(member);
-            return new ResponseEntity(jwtTokenService.createToken(m.getId(),session.getId()),HttpStatus.OK);
+            String token = memberService.join(member, session.getId());
+            TokenDto tokenDto = new TokenDto(token);
+            return new ResponseEntity(tokenDto,HttpStatus.OK);
         }catch(Exception e){
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
@@ -38,10 +34,11 @@ public class MemberController {
 
     @PostMapping("/login")
     @ApiOperation(value="[완료] 홀홀 로그인")
-    public ResponseEntity<String> login(@RequestBody LoginDTO member, HttpSession session){
+    public ResponseEntity<TokenDto> login(@RequestBody LoginDTO member,HttpSession session){
         try{
-            Member m = memberService.login(member.getEmail(), member.getPw());
-            return new ResponseEntity(jwtTokenService.createToken(m.getId(),session.getId()),HttpStatus.OK);
+            String token = memberService.login(member.getEmail(), member.getPw(), session.getId());
+            TokenDto tokenDto = new TokenDto(token);
+            return new ResponseEntity(tokenDto,HttpStatus.OK);
         }catch(Exception e){
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
@@ -49,9 +46,9 @@ public class MemberController {
 
     @PostMapping("/pwmail")
     @ApiOperation(value="[완료] 비밀번호 변경 링크 메일 전송")
-    public ResponseEntity findPW(@RequestBody String email){
+    public ResponseEntity findPW(@RequestBody EmailDTO emailDto){
         try{
-            memberService.findPW(email);
+            memberService.findPW(emailDto.getEmail());
             return new ResponseEntity(HttpStatus.OK);
         }catch(Exception e){
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
@@ -71,9 +68,9 @@ public class MemberController {
 
     @PutMapping("/out")
     @ApiOperation(value = "[완료] 회원 탈퇴")
-    public ResponseEntity delMember(@RequestBody Long id){
+    public ResponseEntity delMember(@RequestBody IDDTO iddto){
         try{
-            memberService.delMem(id);
+            memberService.delMem(iddto.getId());
             return new ResponseEntity(HttpStatus.OK);
         }catch(Exception e){
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
@@ -93,23 +90,22 @@ public class MemberController {
 
     @PostMapping("")
     @ApiOperation(value = "[완료] 유저 데이터 조회")
-    public ResponseEntity<Member> getInfo(@RequestBody Long id, String token){
+    public ResponseEntity<Member> getInfo(@RequestBody IDDTO iddto){
         try{
-            System.out.println("token : "+token);
-            String contents = jwtTokenService.getUserPk(token);
-            System.out.println(contents);
-            Member member = memberService.getInfo(id);
+            Member member = memberService.getInfo(iddto.getId());
             return new ResponseEntity(member,HttpStatus.OK);
         }catch(Exception e){
+            System.out.println("memberController");
+            System.out.println(Arrays.toString(e.getStackTrace()));
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
     }
 
     @PostMapping("/deco")
     @ApiOperation(value = "캐릭터 꾸미기 현재")
-    public ResponseEntity<CharacterDTO> getCharacter(@RequestBody Long id){
+    public ResponseEntity<CharacterDTO> getCharacter(@RequestBody IDDTO iddto){
         try{
-            CharacterDTO current = memberService.getCharacter(id);
+            CharacterDTO current = memberService.getCharacter(iddto.getId());
             return new ResponseEntity(current,HttpStatus.OK);
         }catch(Exception e){
             return new ResponseEntity(HttpStatus.BAD_REQUEST);

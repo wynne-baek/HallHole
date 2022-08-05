@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface MemberService {
 
-    Member join(MemberJoinDTO m);
+    String join(MemberJoinDTO m,String sessionId);
 
     void duplicateMember(String email);
 
@@ -24,7 +24,7 @@ public interface MemberService {
 
     Member getInfo(Long id);
 
-    Member login(String email, String password);
+    String login(String email, String password, String sessionId);
 
     CharacterDTO getCharacter(Long id);
 

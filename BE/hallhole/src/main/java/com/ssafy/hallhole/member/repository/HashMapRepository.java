@@ -2,21 +2,24 @@ package com.ssafy.hallhole.member.repository;
 
 
 import com.ssafy.hallhole.member.dto.SessionDTO;
+import org.springframework.stereotype.Repository;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
+@Repository
 public class HashMapRepository {
 
     private HashMap<Long, List<SessionDTO>> sessionHashMap = new HashMap<>();
     private long tokenValidTime = 60 * 60 * 1000L;
 
     // insert
-    public void addSession(Long uid, SessionDTO sessionDto) {
+    public void addSession(Long uid, String sessionId) {
         Date now = new Date();
         List<SessionDTO> sList = new LinkedList<>();
+        SessionDTO sessionDto = new SessionDTO(sessionId,new Date(now.getTime() + tokenValidTime));
         if(sessionHashMap.containsKey(uid)){
             // uid가 있으면
             List<SessionDTO> sessionList = sessionHashMap.get(uid);
@@ -74,7 +77,7 @@ public class HashMapRepository {
                     sessionList.remove(i);
                     break;
                 }
-            } // for
+            }
         }
     }
 
