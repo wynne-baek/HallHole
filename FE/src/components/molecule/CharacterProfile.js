@@ -7,9 +7,9 @@ import ButtonStyle from "../atom/Button";
 export default function CharacterProfile (props) {
   return (
     <Box>
-      <div style={{display: "flex", justifyContent: 'center', alignItems:'center'}}>
+      <Box sx={{ display: "flex", justifyContent: 'center', alignItems:'center' }}>
       <ProfileImage type="large" src=""></ProfileImage>
-      </div>
+      </Box>
       <ButtonStyle size={"large"} variant={"primary"}>캐릭터 꾸미기</ButtonStyle>
     </Box>
   )
