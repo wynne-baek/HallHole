@@ -1,4 +1,4 @@
-package com.ssafy.hallhole.follow.dto;
+package com.ssafy.hallhole.review.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -7,9 +7,10 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class FollowInputDTO {
+public class InputDTO {
 
-    private Long followingId;
-    private Long followerId;
+    Long memberId;
+
+    String performanceId;
 
 }

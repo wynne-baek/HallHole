@@ -13,9 +13,11 @@ public interface ReviewService {
 
     void updateReview(Long rId, ReviewInputDTO reviewDto) throws NotFoundException; // review detail
 
-    void deleteReview(Long rId); // review detail
+    void deleteReview(Long rId) throws NotFoundException; // review detail
 
-    List<SummaryReviewDTO> getSummeryReviewInfo(Long mId);
+    List<SummaryReviewDTO> getUserSummeryReviewInfo(Long mId) throws NotFoundException;
 
-    Review getDetailReviewInfo(Long rId); //review detail
+    List<SummaryReviewDTO> getPerformanceSummeryReviewInfo(String pId) throws NotFoundException;
+
+    Review getDetailReviewInfo(Long rId) throws NotFoundException; //review detail
 }

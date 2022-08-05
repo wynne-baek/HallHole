@@ -18,4 +18,7 @@ public interface FollowRepository extends JpaRepository<Follow,Long> {
     @Query(value="select * from follow where followed_member_id=:ed_id", nativeQuery = true)
     List<Follow> findByFollowedMemberId(@Param("ed_id") Long ed_id);
 
+    @Query(value="select * from follow where followed_member_id=:ed_id and following_member_id=:ing_id", nativeQuery = true)
+    Follow findByRelation(@Param("ing_id") Long ing_id, @Param("ed_id") Long ed_id);
+
 }

@@ -37,30 +37,46 @@ public class ReviewServiceImpl implements ReviewService {
     @Override
     public void updateReview(Long rId, ReviewInputDTO reviewDto) throws NotFoundException { // review detail
         Performance p = performanceRepository.findOnePerformanceById(reviewDto.getPerformance_id());
+        if(p==null){
+            throw new NotFoundException("해당하는 공연이 존재하지 않습니다.");
+        }
         Member m = memberRepository.findById(reviewDto.getWriter_id()).get();
+        if(m==null){
+            throw new NotFoundException(" 유효한 사용자가 아닙니다.");
+        }
         Review r = reviewRepository.findById(rId).get();
+        if(r==null){
+            throw new NotFoundException("해당하는 후기가 없습니다.");
+        }
         Review review = new Review(rId,m,p,reviewDto.getTitle(),reviewDto.getPerformance_time(),
                 reviewDto.getContents(), r.getWritingTime(), LocalDateTime.now(), reviewDto.getStar(),r.isDelete());
         reviewRepository.save(review);
     }
 
     @Override
-    public void deleteReview(Long rId) { // review detail
+    public void deleteReview(Long rId) throws NotFoundException { // review detail
+        Review review = reviewRepository.findById(rId).get();
+        if(review==null || review.isDelete()){
+            throw new NotFoundException("해당 후기가 존재하지 않습니다.");
+        }
         reviewRepository.deleteById(rId);
     }
 
     @Override
-    public Review getDetailReviewInfo(Long rId) { // review detail
+    public Review getDetailReviewInfo(Long rId) throws NotFoundException { // review detail
         Review review = reviewRepository.findById(rId).get();
+        if(review==null || review.isDelete()){
+            throw new NotFoundException("해당 후기가 존재하지 않습니다.");
+        }
         return review;
     }
 
     @Override
-    public List<SummaryReviewDTO> getSummeryReviewInfo(Long mId) {
+    public List<SummaryReviewDTO> getUserSummeryReviewInfo(Long mId) throws NotFoundException {
         Member member = memberRepository.findById(mId).get();
 
         if(member==null){
-            throw new IllegalStateException("사용자 입력 오류");
+            throw new NotFoundException("유효한 사용자가 아닙니다.");
         }
 
         List<Review> reviewList = reviewRepository.findAllByMemberId(member.getId());
@@ -72,6 +88,36 @@ public class ReviewServiceImpl implements ReviewService {
                     r.getStarEval(),writer.getName(),writer.getNowBg(),writer.getNowChar(), writer.getNowAcc());
             if(r.getUpdateTime()!=null) s.setWriting_time(r.getUpdateTime());
             summaryList.add(s);
+        }
+
+        if(summaryList.size()==0){
+            throw new NotFoundException("해당 사용자가 작성한 리뷰가 없습니다.");
+        }
+
+        return summaryList;
+    }
+
+    @Override
+    public List<SummaryReviewDTO> getPerformanceSummeryReviewInfo(String pId) throws NotFoundException {
+        Performance p = performanceRepository.findOnePerformanceById(pId);
+
+        if(p==null){
+            throw new NotFoundException("유효한 공연이 아닙니다.");
+        }
+
+        List<Review> reviewList = reviewRepository.findAllByPerformanceId(pId);
+        List<SummaryReviewDTO> summaryList = new LinkedList<>();
+
+        for(Review r : reviewList){
+            Member writer = r.getMember();
+            SummaryReviewDTO s = new SummaryReviewDTO(r.getId(),writer.getId(),r.getTitle(), r.getWritingTime(),
+                    r.getStarEval(),writer.getName(),writer.getNowBg(),writer.getNowChar(), writer.getNowAcc());
+            if(r.getUpdateTime()!=null) s.setWriting_time(r.getUpdateTime());
+            summaryList.add(s);
+        }
+
+        if(summaryList.size()==0){
+            throw new NotFoundException("해당 사용자가 작성한 리뷰가 없습니다.");
         }
 
         return summaryList;
