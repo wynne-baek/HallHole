@@ -4,7 +4,6 @@ import { Box } from "@mui/system";
 
 import PosterImage from "../atom/PosterSize";
 import TextStyle from "../atom/Text";
-import zIndex from "@mui/material/styles/zIndex";
 import ButtonStyle from "../atom/Button";
 
 const posterBackgroundStyle = {
@@ -18,8 +17,8 @@ const posterBackgroundStyle = {
 
 const smallPosterStyle = {
   position: "relative",
-  top: 220,
-  zIndex: 30,
+  top: "25vh",
+  zIndex: 1,
   marginX: 2,
   display: "flex",
   justifyContent: "space-between",
@@ -28,10 +27,9 @@ const smallPosterStyle = {
 
 const performanceDetailStyle = {
   position: "relative",
-  top: 150,
-  zIndex: 10,
+  top: "17vh",
   width: 1,
-  height: "100vh",
+  height: "40vh",
 };
 
 export default function PerformanceInformation() {
