@@ -19,8 +19,8 @@ public class MailService{
         message.setTo(email);
         message.setSubject("비밀번호 변경 메일입니다.");
 
-        String url="www.naver.com";
-        message.setText(url+"\n"+"비밀번호 바꾸려면 눌러주세요.");
+//        String url="www.naver.com";
+//        message.setText(url+"\n"+"비밀번호 바꾸려면 눌러주세요.");
         emailSender.send(message);
     }
 
