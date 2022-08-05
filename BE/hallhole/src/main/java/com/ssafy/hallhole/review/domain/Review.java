@@ -1,6 +1,6 @@
-package com.ssafy.hallhole.review;
+package com.ssafy.hallhole.review.domain;
 
-import com.ssafy.hallhole.member.Member;
+import com.ssafy.hallhole.member.domain.Member;
 import com.ssafy.hallhole.performance.domain.Performance;
 import com.sun.istack.NotNull;
 import lombok.*;
@@ -20,14 +20,12 @@ import java.time.LocalDateTime;
 public class Review {
 
     @Id
-    @Column(columnDefinition = "INT UNSIGNED")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
     @NotNull
     @JoinColumn(name = "member_id")
     @ManyToOne(fetch = FetchType.LAZY)
-//    @Column(columnDefinition = "INT UNSIGNED")
     private Member member;
 
     @Setter
@@ -63,4 +61,13 @@ public class Review {
     @Builder.Default
     @ColumnDefault("false")
     private boolean isDelete = false;
+
+    public Review(Member member, Performance performance, String title, LocalDateTime performanceDatetime, String contents, double starEval) {
+        this.member = member;
+        this.performance = performance;
+        this.title = title;
+        this.performanceDatetime = performanceDatetime;
+        this.contents = contents;
+        this.starEval = starEval;
+    }
 }

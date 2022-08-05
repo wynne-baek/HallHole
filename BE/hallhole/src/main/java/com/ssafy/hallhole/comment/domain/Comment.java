@@ -1,7 +1,7 @@
-package com.ssafy.hallhole.comment;
+package com.ssafy.hallhole.comment.domain;
 
-import com.ssafy.hallhole.member.Member;
-import com.ssafy.hallhole.review.Review;
+import com.ssafy.hallhole.member.domain.Member;
+import com.ssafy.hallhole.review.domain.Review;
 import com.sun.istack.NotNull;
 import lombok.*;
 import org.hibernate.annotations.*;

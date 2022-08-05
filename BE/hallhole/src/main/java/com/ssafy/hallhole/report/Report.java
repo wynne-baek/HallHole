@@ -1,9 +1,8 @@
 package com.ssafy.hallhole.report;
 
-import com.ssafy.hallhole.member.Member;
+import com.ssafy.hallhole.member.domain.Member;
 import com.sun.istack.NotNull;
 import lombok.*;
-import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;

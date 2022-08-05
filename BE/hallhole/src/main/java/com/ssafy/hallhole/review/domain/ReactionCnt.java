@@ -1,4 +1,4 @@
-package com.ssafy.hallhole.review;
+package com.ssafy.hallhole.review.domain;
 
 import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;

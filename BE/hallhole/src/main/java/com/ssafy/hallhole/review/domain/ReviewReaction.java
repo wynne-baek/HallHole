@@ -1,6 +1,6 @@
-package com.ssafy.hallhole.review;
+package com.ssafy.hallhole.review.domain;
 
-import com.ssafy.hallhole.member.Member;
+import com.ssafy.hallhole.member.domain.Member;
 import com.sun.istack.NotNull;
 import lombok.*;
 import org.hibernate.annotations.DynamicInsert;

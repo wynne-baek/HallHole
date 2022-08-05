@@ -1,6 +1,6 @@
-package com.ssafy.hallhole.item;
+package com.ssafy.hallhole.item.domain;
 
-import com.ssafy.hallhole.member.Member;
+import com.ssafy.hallhole.member.domain.Member;
 import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
