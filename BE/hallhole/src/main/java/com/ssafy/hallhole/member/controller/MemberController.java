@@ -1,5 +1,7 @@
 package com.ssafy.hallhole.member.controller;
 
+import com.ssafy.hallhole.advice.exceptions.BadRequestException;
+import com.ssafy.hallhole.advice.exceptions.NotFoundException;
 import com.ssafy.hallhole.member.domain.Member;
 import com.ssafy.hallhole.member.dto.*;
 import com.ssafy.hallhole.member.service.MemberServiceImpl;
@@ -22,26 +24,16 @@ public class MemberController {
 
     @PostMapping("/join")
     @ApiOperation(value="[완료] 홀홀 회원가입")
-    public ResponseEntity join(@RequestBody MemberJoinDTO member, HttpSession session){
-        try{
-            String token = memberService.join(member, session.getId());
-            TokenDto tokenDto = new TokenDto(token);
-            return new ResponseEntity(tokenDto,HttpStatus.OK);
-        }catch(Exception e){
-            return new ResponseEntity(HttpStatus.BAD_REQUEST);
-        }
+    public TokenDto join(@RequestBody MemberJoinDTO member, HttpSession session) throws NotFoundException {
+        String token = memberService.join(member, session.getId());
+        return new TokenDto(token);
     }
 
     @PostMapping("/login")
     @ApiOperation(value="[완료] 홀홀 로그인")
-    public ResponseEntity<TokenDto> login(@RequestBody LoginDTO member,HttpSession session){
-        try{
-            String token = memberService.login(member.getEmail(), member.getPw(), session.getId());
-            TokenDto tokenDto = new TokenDto(token);
-            return new ResponseEntity(tokenDto,HttpStatus.OK);
-        }catch(Exception e){
-            return new ResponseEntity(HttpStatus.BAD_REQUEST);
-        }
+    public TokenDto login(@RequestBody LoginDTO member,HttpSession session) throws NotFoundException {
+        String token = memberService.login(member.getEmail(), member.getPw(), session.getId());
+        return new TokenDto(token);
     }
 
     @PostMapping("/pwmail")
@@ -50,66 +42,49 @@ public class MemberController {
         try{
             memberService.findPW(emailDto.getEmail());
             return new ResponseEntity(HttpStatus.OK);
-        }catch(Exception e){
-            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        }catch(NotFoundException e){
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
     }
 
     @PostMapping("/new-pw")
     @ApiOperation(value = "[완료] 비밀번호 링크 접속 후 변경")
-    public ResponseEntity changePW(@RequestBody LoginDTO member){
+    public ResponseEntity changePW(@RequestBody LoginDTO member)  throws NotFoundException {
         try{
             memberService.changePW(member.getEmail(), member.getPw());
             return new ResponseEntity(HttpStatus.OK);
-        }catch(Exception e){
-            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        }catch(NotFoundException e){
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
     }
 
     @PutMapping("/out")
     @ApiOperation(value = "[완료] 회원 탈퇴")
-    public ResponseEntity delMember(@RequestBody IDDTO iddto){
+    public ResponseEntity delMember(@RequestBody IDDTO iddto) throws NotFoundException {
         try{
             memberService.delMem(iddto.getId());
             return new ResponseEntity(HttpStatus.OK);
-        }catch(Exception e){
-            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        }catch(NotFoundException e){
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
     }
 
     @PutMapping("")
     @ApiOperation(value = "[완료] 프로필 변경")
-    public ResponseEntity<Member> changeInfo(@RequestBody MyProfileDTO myDto){
-        try{
-            Member member = memberService.changeInfo(myDto);
-            return new ResponseEntity(member,HttpStatus.OK);
-        }catch(Exception e){
-            return new ResponseEntity(HttpStatus.BAD_REQUEST);
-        }
+    public Member changeInfo(@RequestBody MyProfileDTO myDto) throws NotFoundException {
+        return memberService.changeInfo(myDto);
     }
 
     @PostMapping("")
     @ApiOperation(value = "[완료] 유저 데이터 조회")
-    public ResponseEntity<Member> getInfo(@RequestBody IDDTO iddto){
-        try{
-            Member member = memberService.getInfo(iddto.getId());
-            return new ResponseEntity(member,HttpStatus.OK);
-        }catch(Exception e){
-            System.out.println("memberController");
-            System.out.println(Arrays.toString(e.getStackTrace()));
-            return new ResponseEntity(HttpStatus.BAD_REQUEST);
-        }
+    public Member getInfo(@RequestBody IDDTO iddto) throws NotFoundException {
+        return memberService.getInfo(iddto.getId());
     }
 
     @PostMapping("/deco")
     @ApiOperation(value = "캐릭터 꾸미기 현재")
-    public ResponseEntity<CharacterDTO> getCharacter(@RequestBody IDDTO iddto){
-        try{
-            CharacterDTO current = memberService.getCharacter(iddto.getId());
-            return new ResponseEntity(current,HttpStatus.OK);
-        }catch(Exception e){
-            return new ResponseEntity(HttpStatus.BAD_REQUEST);
-        }
+    public CharacterDTO getCharacter(@RequestBody IDDTO iddto) throws NotFoundException{
+        return memberService.getCharacter(iddto.getId());
     }
 
 
