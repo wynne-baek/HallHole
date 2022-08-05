@@ -21,7 +21,7 @@ public class ChatroomRepositoryImpl implements ChatroomRepository{
 
     @Override
     public Chatroom findRoomById(String roomId) {
-        return Optional.ofNullable(em.find(Chatroom.class,roomId)).orElseThrow(()-> new IllegalStateException("존재하지 않는 채팅방 입니다."));
+        return em.find(Chatroom.class,roomId);
     }
 
     @Override
