@@ -1,5 +1,7 @@
 package com.ssafy.hallhole.follow.controller;
 
+import com.ssafy.hallhole.advice.exceptions.NotFoundException;
+import com.ssafy.hallhole.follow.domain.Follow;
 import com.ssafy.hallhole.follow.dto.FollowInputDTO;
 import com.ssafy.hallhole.follow.dto.FollowOutputDTO;
 import com.ssafy.hallhole.follow.service.FollowServiceImpl;
@@ -23,10 +25,10 @@ public class FollowController {
     @ApiOperation(value="[완료] 팔로우 하기 following -> follower")
     public ResponseEntity addFollow(@RequestBody FollowInputDTO dto){
         try{
-            followService.addFollow(dto.getIng_id(),dto.getEr_id());
+            followService.addFollow(dto.getFollowingId(),dto.getFollowerId());
             return new ResponseEntity(HttpStatus.OK);
         }catch(Exception e){
-            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
     }
 
@@ -34,33 +36,40 @@ public class FollowController {
     @ApiOperation(value="[완료] 팔로우 취소 following -> follower")
     public ResponseEntity delFollow(@RequestBody FollowInputDTO dto){
         try{
-            followService.delFollow(dto.getIng_id(),dto.getEr_id());
+            followService.delFollow(dto.getFollowingId(),dto.getFollowerId());
             return new ResponseEntity(HttpStatus.OK);
         }catch(Exception e){
-            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
     }
 
     @PostMapping("/following")
-    @ApiOperation(value="[완료] 내 ID로 내가 팔로잉 중인 사용자 찾기")
-    public ResponseEntity<FollowOutputDTO> getFollowing(@RequestBody Long id){
+    @ApiOperation(value="[완료] 내 ID로 내가 팔로잉 중인 사용자 찾기 >> input: followingId")
+    public ResponseEntity<FollowOutputDTO> getFollowing(@RequestBody FollowInputDTO inputDto){
         try{
-            List<FollowOutputDTO> followingList = followService.findFollowing(id);
+            List<FollowOutputDTO> followingList = followService.findFollowing(inputDto.getFollowingId());
             return new ResponseEntity(followingList, HttpStatus.OK);
         }catch(Exception e){
-            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
     }
 
     @PostMapping("/follower")
-    @ApiOperation(value="[완료] 내 ID로 나를 팔로잉 중인 사용자 찾기")
-    public ResponseEntity<FollowOutputDTO> getFollower(@RequestBody Long id){
+    @ApiOperation(value="[완료] 내 ID로 나를 팔로잉 중인 사용자 찾기 >> input: followerId")
+    public ResponseEntity<FollowOutputDTO> getFollower(@RequestBody FollowInputDTO inputDto){
         try{
-            List<FollowOutputDTO> followerList = followService.findFollower(id);
+            List<FollowOutputDTO> followerList = followService.findFollower(inputDto.getFollowerId());
             return new ResponseEntity(followerList, HttpStatus.OK);
         }catch(Exception e){
-            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
+    }
+
+    @PostMapping("/chk-follow")
+    @ApiOperation(value="[완료] 팔로우 관계인지 알아보기 >> input: followingId, followerId")
+    public Follow findRelation(@RequestBody FollowInputDTO inputDto) throws NotFoundException {
+        Follow relation = followService.findRelation(inputDto);
+        return relation;
     }
 
 
