@@ -75,7 +75,7 @@ public class ReviewServiceImpl implements ReviewService {
     public List<SummaryReviewDTO> getUserSummeryReviewInfo(Long mId) throws NotFoundException {
         Member member = memberRepository.findById(mId).get();
 
-        if(member==null){
+        if(member==null||member.isOut()){
             throw new NotFoundException("유효한 사용자가 아닙니다.");
         }
 

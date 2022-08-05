@@ -27,6 +27,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         // 그래서 basic이 아닌 bearer를 사용한다.
         http.httpBasic().disable().authorizeRequests() // 요청에 대한 사용권한 체크
                 .antMatchers("/**").permitAll()
+                .antMatchers(HttpMethod.POST,"/member").permitAll()
                 .and()
                 // JwtAuthenticationFilter를 UsernamePasswordAuthenticationFilter 전에 넣는다
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenService),

@@ -77,14 +77,14 @@ public class MemberController {
 
     @PostMapping("")
     @ApiOperation(value = "[완료] 유저 데이터 조회")
-    public Member getInfo(@RequestBody IDDTO iddto) throws NotFoundException {
-        return memberService.getInfo(iddto.getId());
+    public Member getInfo(@RequestBody IDDTO idDto) throws NotFoundException {
+        return memberService.getInfo(idDto.getId());
     }
 
     @PostMapping("/deco")
     @ApiOperation(value = "캐릭터 꾸미기 현재")
-    public CharacterDTO getCharacter(@RequestBody IDDTO iddto) throws NotFoundException{
-        return memberService.getCharacter(iddto.getId());
+    public CharacterDTO getCharacter(@RequestBody IDDTO idDto) throws NotFoundException{
+        return memberService.getCharacter(idDto.getId());
     }
 
 }
