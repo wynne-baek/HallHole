@@ -1,5 +1,6 @@
 package com.ssafy.hallhole.review.service;
 
+import com.ssafy.hallhole.advice.exceptions.NotFoundException;
 import com.ssafy.hallhole.member.domain.Member;
 import com.ssafy.hallhole.member.repository.MemberRepository;
 import com.ssafy.hallhole.performance.domain.Performance;
@@ -24,9 +25,9 @@ public class ReviewServiceImpl implements ReviewService {
     private final PerformanceRepository performanceRepository;
 
     @Override
-    public void writeReview(ReviewInputDTO reviewDto) { // review form
+    public void writeReview(ReviewInputDTO reviewDto) throws NotFoundException { // review form
 
-        Performance p = performanceRepository.findById(reviewDto.getPerformance_id()).get();
+        Performance p = performanceRepository.findOnePerformanceById(reviewDto.getPerformance_id());
         Member m = memberRepository.findById(reviewDto.getWriter_id()).get();
         Review r = new Review(m,p,reviewDto.getTitle(),reviewDto.getPerformance_time(),
                 reviewDto.getContents(), reviewDto.getStar());
@@ -34,8 +35,8 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    public void updateReview(Long rId, ReviewInputDTO reviewDto) { // review detail
-        Performance p = performanceRepository.findById(reviewDto.getPerformance_id()).get();
+    public void updateReview(Long rId, ReviewInputDTO reviewDto) throws NotFoundException { // review detail
+        Performance p = performanceRepository.findOnePerformanceById(reviewDto.getPerformance_id());
         Member m = memberRepository.findById(reviewDto.getWriter_id()).get();
         Review r = reviewRepository.findById(rId).get();
         Review review = new Review(rId,m,p,reviewDto.getTitle(),reviewDto.getPerformance_time(),
