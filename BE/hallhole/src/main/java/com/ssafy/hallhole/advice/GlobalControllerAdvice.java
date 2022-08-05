@@ -12,7 +12,7 @@ public class GlobalControllerAdvice {
 
     @ExceptionHandler(NotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ErrorResponse notFount(final NotFoundException e) {
+    public ErrorResponse notFound(final NotFoundException e) {
         final ErrorResponse response = new ErrorResponse(e.getMessage(), e.getStatus());
         return response;
     }

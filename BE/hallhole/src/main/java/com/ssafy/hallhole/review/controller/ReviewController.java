@@ -1,6 +1,8 @@
 package com.ssafy.hallhole.review.controller;
 
+import com.ssafy.hallhole.advice.exceptions.NotFoundException;
 import com.ssafy.hallhole.review.domain.Review;
+import com.ssafy.hallhole.review.dto.InputDTO;
 import com.ssafy.hallhole.review.dto.ReviewInputDTO;
 import com.ssafy.hallhole.review.dto.SummaryReviewDTO;
 import com.ssafy.hallhole.review.service.ReviewServiceImpl;
@@ -28,7 +30,7 @@ public class ReviewController {
             reviewService.writeReview(reviewDto);
             return new ResponseEntity(HttpStatus.OK);
         }catch(Exception e){
-            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
     }
 
@@ -39,7 +41,7 @@ public class ReviewController {
             reviewService.updateReview(reviewId,reviewDto);
             return new ResponseEntity(HttpStatus.OK);
         }catch(Exception e){
-            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
     }
 
@@ -50,7 +52,7 @@ public class ReviewController {
             reviewService.deleteReview(reviewId);
             return new ResponseEntity(HttpStatus.OK);
         }catch(Exception e){
-            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
     }
 
@@ -61,18 +63,19 @@ public class ReviewController {
             Review review = reviewService.getDetailReviewInfo(reviewId);
             return new ResponseEntity<Review>(review,HttpStatus.OK);
         }catch(Exception e){
-            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
     }
 
-    @PostMapping("/summary-list")
-    @ApiOperation(value="[완료] 프로필 후기 요약 리스트")
-    public ResponseEntity<SummaryReviewDTO> getSummaryList(@RequestBody Long mId){
-        try{
-            List<SummaryReviewDTO> summaryList = reviewService.getSummeryReviewInfo(mId);
-            return new ResponseEntity(summaryList,HttpStatus.OK);
-        }catch(Exception e){
-            return new ResponseEntity(HttpStatus.BAD_REQUEST);
-        }
+    @PostMapping("/user-review-list")
+    @ApiOperation(value="[완료] 유저별 후기 요약 리스트 >> input: memberId")
+    public List<SummaryReviewDTO> getUserSummaryList(@RequestBody InputDTO inputDto) throws NotFoundException  {
+        return reviewService.getUserSummeryReviewInfo(inputDto.getMemberId());
+    }
+
+    @PostMapping("/performance-review-list")
+    @ApiOperation(value="[완료] 공연별 후기 요약 리스트 >> input: performanceId")
+    public List<SummaryReviewDTO> getPerformanceSummaryList(@RequestBody InputDTO inputDto) throws NotFoundException  {
+        return reviewService.getPerformanceSummeryReviewInfo(inputDto.getPerformanceId());
     }
 }

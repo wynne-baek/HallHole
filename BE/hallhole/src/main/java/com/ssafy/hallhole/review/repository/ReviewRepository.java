@@ -13,4 +13,7 @@ public interface ReviewRepository extends JpaRepository<Review,Long> {
     @Query(value="select * from review where member_id=:mId and is_delete=false", nativeQuery = true)
     List<Review> findAllByMemberId(@Param("mId") Long mId);
 
+    @Query(value="select * from review where performance_id=:pId and is_delete=false", nativeQuery = true)
+    List<Review> findAllByPerformanceId(@Param("pId") String pId);
+
 }

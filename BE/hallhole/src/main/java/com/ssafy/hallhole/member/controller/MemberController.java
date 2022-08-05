@@ -38,7 +38,7 @@ public class MemberController {
 
     @PostMapping("/pwmail")
     @ApiOperation(value="[완료] 비밀번호 변경 링크 메일 전송")
-    public ResponseEntity findPW(@RequestBody EmailDTO emailDto){
+    public ResponseEntity findPW(@RequestBody EmailDTO emailDto) throws NotFoundException {
         try{
             memberService.findPW(emailDto.getEmail());
             return new ResponseEntity(HttpStatus.OK);
@@ -86,8 +86,5 @@ public class MemberController {
     public CharacterDTO getCharacter(@RequestBody IDDTO iddto) throws NotFoundException{
         return memberService.getCharacter(iddto.getId());
     }
-
-
-
 
 }

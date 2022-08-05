@@ -59,7 +59,7 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public void duplicateMember(String email) throws NotFoundException {
         if(memberRepository.findByEmail(email)!=null) {
-            throw new NotFoundException("이미 사용중인 이메일입니다.");
+            throw new NotFoundException("이미 사용 중인 이메일입니다.");
         }
     }
 
