@@ -1,5 +1,6 @@
 package com.ssafy.hallhole.performance.controller;
 
+import com.ssafy.hallhole.advice.exceptions.NotFoundException;
 import com.ssafy.hallhole.performance.domain.Facility;
 import com.ssafy.hallhole.performance.dto.FacilitySearchResult;
 import com.ssafy.hallhole.performance.service.PerformanceService;
@@ -24,7 +25,7 @@ public class FacilityController {
 
     @GetMapping("/{id}")
     @ApiOperation(value = "공연장 상세정보")
-    public Facility getFacilityDetail(@PathVariable(name = "id") String id){
+    public Facility getFacilityDetail(@PathVariable(name = "id") String id) throws NotFoundException {
         return performanceService.getOneFacility(id);
     }
 

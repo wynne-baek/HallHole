@@ -1,11 +1,13 @@
 package com.ssafy.hallhole.chat.controller;
 
 
+import com.ssafy.hallhole.advice.exceptions.NotFoundException;
 import com.ssafy.hallhole.chat.domain.Chatroom;
 import com.ssafy.hallhole.chat.service.ChatroomService;
 import com.ssafy.hallhole.performance.domain.Performance;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequiredArgsConstructor
@@ -34,8 +37,8 @@ public class ChatRoomController {
     @GetMapping("/room/{roomId}")
     @ResponseBody
     @ApiOperation(value = "단일 채팅방 정보")
-    public Chatroom roomInfo(@PathVariable String roomId) {
-        return chatroomService.findById(roomId);
+    public Chatroom roomInfo(@PathVariable String roomId) throws NotFoundException {
+        return Optional.ofNullable(chatroomService.findById(roomId)).orElseThrow(() -> new NotFoundException("해당 ID의 채팅방이 없습니다."));
     }
 
     // 채팅방 리스트

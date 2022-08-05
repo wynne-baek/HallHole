@@ -1,5 +1,6 @@
 package com.ssafy.hallhole.performance.service;
 
+import com.ssafy.hallhole.advice.exceptions.NotFoundException;
 import com.ssafy.hallhole.chat.domain.Chatroom;
 import com.ssafy.hallhole.chat.service.ChatroomService;
 import com.ssafy.hallhole.performance.domain.DetailPerformance;
@@ -34,17 +35,17 @@ public class PerformanceServiceImpl implements PerformanceService {
     }
 
     @Override
-    public Performance findOnePerformance(String id) {
+    public Performance findOnePerformance(String id) throws NotFoundException {
         return performanceRepository.findOnePerformanceById(id);
     }
 
     @Override
-    public DetailPerformance getDetail(String id) {
+    public DetailPerformance getDetail(String id) throws NotFoundException {
         return performanceRepository.findOneDetailPerformance(id);
     }
 
     @Override
-    public Facility getOneFacility(String id) {
+    public Facility getOneFacility(String id) throws NotFoundException {
         return performanceRepository.findOneFacility(id);
     }
 

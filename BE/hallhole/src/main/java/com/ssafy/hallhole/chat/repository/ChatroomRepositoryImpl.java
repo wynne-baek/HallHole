@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
@@ -26,11 +27,6 @@ public class ChatroomRepositoryImpl implements ChatroomRepository{
     @Override
     public void save(Chatroom chatroom) {
         em.persist(chatroom);
-    }
-
-    @Override
-    public void update(Chatroom chatroom){
-        em.merge(chatroom);
     }
 
     @Override

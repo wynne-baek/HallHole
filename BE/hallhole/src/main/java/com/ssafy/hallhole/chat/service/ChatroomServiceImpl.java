@@ -46,11 +46,6 @@ public class ChatroomServiceImpl implements ChatroomService {
     }
 
     @Override
-    public void update(Chatroom chatroom) {
-        chatroomRepository.update(chatroom);
-    }
-
-    @Override
     public void deleteRoom(String id){
         chatroomRepository.closeChatRoom(id);
     }

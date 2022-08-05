@@ -11,7 +11,5 @@ public interface ChatroomRepository {
 
     void save(Chatroom chatroom);
 
-    void update(Chatroom chatroom);
-
     void closeChatRoom(String id);
 }
