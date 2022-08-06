@@ -37,16 +37,16 @@ public class MemberController {
         String token = memberService.login(member.getEmail(), member.getPw(), session.getId());
         return new TokenDto(token);
     }
-    @PostMapping("/request")
-    public Map<String, Object> requestSomething(@RequestHeader Map<String, Object> requestHeader) {
-        return requestHeader;
-    }
 
     @GetMapping("/my-info")
     @ApiOperation(value="내 정보 토큰으로 받아오기")
     public Member getMyInfo(@RequestHeader Map<String, Object> requestHeader) throws NotFoundException {
-        String token = (String) requestHeader.get("token");
-        return memberService.findInfo(token);
+        try{
+            String token = (String) requestHeader.get("token");
+            return memberService.findInfo(token);
+        }catch(Exception e){
+            throw new NotFoundException("토큰이 넘어오지 않았거나, 유효한 토큰이 아닙니다.");
+        }
     }
 
     @PostMapping("/pwmail")
