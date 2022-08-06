@@ -10,6 +10,7 @@ import com.ssafy.hallhole.member.dto.MemberJoinDTO;
 import com.ssafy.hallhole.member.dto.MyProfileDTO;
 import com.ssafy.hallhole.member.repository.HashMapRepository;
 import com.ssafy.hallhole.member.repository.MemberRepository;
+import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -173,6 +174,17 @@ public class MemberServiceImpl implements MemberService {
             throw new NotFoundException("유효한 회원이 아닙니다.");
         }
 
+        return member;
+    }
+
+    @Override
+    public Member findInfo(String token) throws NotFoundException {
+        Claims claim = jwtTokenService.getAllclaimsFromToken(token);
+        Long userId = Long.parseLong(claim.get("userId").toString());
+        Member member = memberRepository.findById(userId).get();
+        if(member==null || member.isOut()){
+            throw new NotFoundException("유효한 회원이 아닙니다.");
+        }
         return member;
     }
 

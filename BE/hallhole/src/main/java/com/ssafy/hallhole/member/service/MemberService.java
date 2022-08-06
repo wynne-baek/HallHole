@@ -34,4 +34,6 @@ public interface MemberService {
 
     Member findKakaoMember(String sid) throws NotFoundException;
 
+    Member findInfo(String token) throws NotFoundException;
+
 }
