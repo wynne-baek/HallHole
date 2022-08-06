@@ -75,7 +75,7 @@ public class MemberController {
         return memberService.changeInfo(myDto);
     }
 
-    @PostMapping("")
+    @PostMapping("/info")
     @ApiOperation(value = "[완료] 유저 데이터 조회")
     public Member getInfo(@RequestBody IDDTO idDto) throws NotFoundException {
         return memberService.getInfo(idDto.getId());
