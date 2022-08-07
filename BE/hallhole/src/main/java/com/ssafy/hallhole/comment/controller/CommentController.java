@@ -34,7 +34,7 @@ public class CommentController {
     @PostMapping("/update")
     @ApiOperation(value = "댓글 수정",
             notes = "'/comment/update' 형식으로 사용 \n " +
-                    "inputdata: memberId(작성자 아이디), commentId(댓글 아이디), contents(댓글 내용)")
+                    "inputdata: memberId(현재아이디), commentId(댓글 아이디), contents(댓글 내용)")
     public ResponseEntity update(@RequestBody CommentUpdateInputDTO inputDTO) throws NotFoundException {
         commentService.updateComment(inputDTO);
         return new ResponseEntity(HttpStatus.OK);
@@ -43,7 +43,7 @@ public class CommentController {
     // 댓글 삭제
     @PostMapping("/delete")
     @ApiOperation(value = "댓글 삭제",
-            notes = "'/comment/delete' 형식으로 사용 \n inputdata: memberId(작성자아이디), commentId(댓글아이디)")
+            notes = "'/comment/delete' 형식으로 사용 \n inputdata: memberId(현재아이디), commentId(댓글아이디)")
     public ResponseEntity delete(@RequestBody CommentDeleteInputDTO inputDTO) throws NotFoundException {
         commentService.deleteComment(inputDTO);
         return new ResponseEntity(HttpStatus.OK);

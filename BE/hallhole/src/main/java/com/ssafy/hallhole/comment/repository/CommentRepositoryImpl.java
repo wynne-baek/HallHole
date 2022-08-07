@@ -28,6 +28,22 @@ public class CommentRepositoryImpl implements CommentRepository {
     }
 
     @Override
+    public List<Comment> findAllCommentByReviewId(Long reviewId) {
+        return em.createQuery("select c from Comment c where c.review.id=:review_id and c.isDelete=:is_delete",Comment.class)
+                .setParameter("is_delete",false)
+                .setParameter("review_id",reviewId)
+                .getResultList();
+    }
+
+    @Override
+    public List<Comment> findAllCommentByMemberId(Long memberId) {
+        return em.createQuery("select c from Comment c where c.member.id=:member_id and c.isDelete=:is_delete",Comment.class)
+                .setParameter("is_delete",false)
+                .setParameter("member_id",memberId)
+                .getResultList();
+    }
+
+    @Override
     public Comment findOneCommentById(Long id) throws NotFoundException {
         return Optional.ofNullable(em.find(Comment.class, id)).orElseThrow(() -> new NotFoundException("존재하지 않는 댓글입니다."));
     }

@@ -12,6 +12,10 @@ public interface CommentRepository {
 
     List<Comment> findAllComment();
 
+    List<Comment> findAllCommentByReviewId(Long reviewId);
+
+    List<Comment> findAllCommentByMemberId(Long memberId);
+
     Comment findOneCommentById(Long id) throws NotFoundException;
 
     List<Comment> findAllCommentPaging(int start, int size);
