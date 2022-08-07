@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.LinkedList;
 import java.util.List;
 
 @Service
@@ -27,6 +28,7 @@ public class CommentServiceImpl implements CommentService{
     public void writeComment(CommentWriteInputDTO inputDTO) throws NotFoundException {
 
         Member member = memberRepository.findById(inputDTO.getMemberId()).get();
+
         if (member==null || member.isOut()){
             throw new NotFoundException("유효한 사용자가 작성한 후기가 아닙니다.");
         }
@@ -42,7 +44,9 @@ public class CommentServiceImpl implements CommentService{
 
     @Override
     public void deleteComment(CommentDeleteInputDTO inputDTO) throws NotFoundException{
+
         Member member = memberRepository.findById(inputDTO.getMemberId()).get();
+
         if (member==null || member.isOut()){
             throw new NotFoundException("유효한 사용자가 아닙니다.");
         }
@@ -50,6 +54,10 @@ public class CommentServiceImpl implements CommentService{
         Comment comment = commentRepository.findOneCommentById(inputDTO.getCommentId());
         if (comment==null || comment.isDelete()){
             throw new NotFoundException("존재하지 않는 댓글입니다.");
+        }
+
+        if(comment.getMember().getId()!=inputDTO.getMemberId()){
+            throw new NotFoundException("댓글의 작성자와 삭제를 요청한 아이디가 다릅니다.");
         }
 
         comment.setDelete(true);
@@ -58,7 +66,9 @@ public class CommentServiceImpl implements CommentService{
 
     @Override
     public void updateComment(CommentUpdateInputDTO inputDTO) throws NotFoundException{
+
         Member member = memberRepository.findById(inputDTO.getMemberId()).get();
+
         if (member==null || member.isOut()){
             throw new NotFoundException("유효한 사용자가 아닙니다.");
         }
@@ -68,13 +78,17 @@ public class CommentServiceImpl implements CommentService{
             throw new NotFoundException("존재하지 않는 댓글입니다.");
         }
 
+        if(comment.getMember().getId()!=inputDTO.getMemberId()){
+            throw new NotFoundException("댓글의 작성자와 수정을 요청한 아이디가 다릅니다.");
+        }
+
         comment.setContents(inputDTO.getContents());
         commentRepository.save(comment);
     }
 
 
     @Override
-    public List<Comment> CommentListfindByMemberId(CommentFindByMemberIdDTO inputDTO) throws NotFoundException{
+    public List<CommentOutputDTO> CommentListfindByMemberId(CommentFindByMemberIdDTO inputDTO) throws NotFoundException{
         Member member = memberRepository.findById(inputDTO.getMemberId()).get();
         if (member==null || member.isOut()){
             throw new NotFoundException("유효한 사용자가 아닙니다.");
@@ -87,11 +101,20 @@ public class CommentServiceImpl implements CommentService{
             throw new NotFoundException("해당 사용자가 작성한 댓글이 없습니다.");
         }
 
-        return commentList;
+        List<CommentOutputDTO> outputList = new LinkedList<>();
+        for(Comment c:commentList){
+            CommentOutputDTO output = new CommentOutputDTO(c.getId(),c.getMember().getId(),
+                    c.getMember().getNowBg(),c.getMember().getNowChar(),c.getMember().getNowAcc(),
+                    c.getReview().getId(), c.getContents(), c.getWritingTime(), c.getUpdateTime());
+            outputList.add(output);
+        }
+        System.out.println(outputList.size());
+
+        return outputList;
     }
 
     @Override
-    public List<Comment> CommentListfindByReviewId(CommentFindByReviewIdDTO inputDTO) throws NotFoundException{
+    public List<CommentOutputDTO> CommentListfindByReviewId(CommentFindByReviewIdDTO inputDTO) throws NotFoundException{
 
         Review review = reviewRepository.findById(inputDTO.getReviewId()).get();
         if (review==null || review.isDelete()){
@@ -105,7 +128,15 @@ public class CommentServiceImpl implements CommentService{
             throw new NotFoundException("해당 후기에 대한 댓글이 없습니다.");
         }
 
-        return commentList;
+        List<CommentOutputDTO> outputList = new LinkedList<>();
+        for(Comment c:commentList){
+            CommentOutputDTO output = new CommentOutputDTO(c.getId(),c.getMember().getId(),
+                    c.getMember().getNowBg(),c.getMember().getNowChar(),c.getMember().getNowAcc(),
+                    c.getReview().getId(), c.getContents(), c.getWritingTime(), c.getUpdateTime());
+            outputList.add(output);
+        }
+
+        return outputList;
     }
 
 

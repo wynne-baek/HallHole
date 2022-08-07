@@ -56,9 +56,8 @@ public class CommentController {
             notes = "'/comment/member-list' 형식으로 사용," +
                     "\n inputdata: memberId(작성자아이디), size, start는 자유" +
                     "\n start는 0부터 시작")
-    public List<Comment> findByMemberId(@RequestBody CommentFindByMemberIdDTO inputDTO) throws NotFoundException {
+    public List<CommentOutputDTO> findByMemberId(@RequestBody CommentFindByMemberIdDTO inputDTO) throws NotFoundException {
         return commentService.CommentListfindByMemberId(inputDTO);
-
     }
 
     // 후기 별 댓글 모아보기
@@ -67,7 +66,7 @@ public class CommentController {
             notes = "'/comment/review-list' 형식으로 사용" +
             "\n inputdata: reviewId(리뷰아이디), size, start는 자유" +
             "\n start는 0부터 시작")
-    public List<Comment> findByReviewId(@RequestBody CommentFindByReviewIdDTO inputDTO) throws NotFoundException {
+    public List<CommentOutputDTO> findByReviewId(@RequestBody CommentFindByReviewIdDTO inputDTO) throws NotFoundException {
         return commentService.CommentListfindByReviewId(inputDTO);
     }
 }
