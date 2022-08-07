@@ -15,8 +15,10 @@ import EditCharacter from "../components/page/EditCharacter";
 import EditProfile from "../components/page/EditProfile";
 import ChatDetail from "../components/page/ChatDetail";
 
+import storage from "../helper/storage";
+
 function checkAuth() {
-  return !!store.getState().user.token;
+  return !!storage.get("token");
 }
 
 function CheckAuth({ children }) {

@@ -1,8 +1,5 @@
 import React from "react";
 
-import { useDispatch } from "react-redux";
-import { setToken } from "../../stores/user";
-
 import { useNavigate } from "react-router-dom";
 
 import { Box } from "@mui/material";
@@ -15,7 +12,9 @@ import Input from "../atom/Input";
 import Button from "../atom/Button";
 import Modal from "../organism/Modal";
 import ToggleButton from "../molecule/ToggleButton";
-import { requestJoin, requestLogin } from "../../apis/user";
+import { requestJoin, requestLogin, requestMyInfo } from "../../apis/user";
+
+import storage from "../../helper/storage";
 
 const LoginModal = styled(Modal)``;
 
@@ -41,8 +40,12 @@ const ToggleBox = styled(Box)`
   text-align: center;
 `;
 
+const InputBox = styled(Box)`
+  margin-top: 5%;
+  text-align: center;
+`;
+
 export default function Login(props) {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const [isLogin, setIsLogin] = React.useState(true);
@@ -52,21 +55,33 @@ export default function Login(props) {
   const [confirm, setConfirm] = React.useState("");
 
   function loginSuccess(res) {
-    console.log(res);
+    console.log("로그인 성공");
     const token = res.data.token;
-    dispatch(setToken(token));
+    storage.set("token", token);
     navigate("/main");
   }
 
-  function loginFail(res) {}
+  function loginFail(res) {
+    console.log("로그인 실패");
+  }
 
-  function joinSuccess(res) {}
+  function joinSuccess(res) {
+    console.log("회원가입 성공");
+  }
 
-  function joinFail(res) {}
+  function joinFail(res) {
+    console.log("회원가입 실패");
+  }
+
+  function validate(isLogin) {
+    return true;
+  }
 
   function onClickButton() {
-    if (isLogin) requestLogin(email, password, loginSuccess, loginFail);
-    else requestJoin(email, name, password, joinSuccess, joinFail);
+    if (validate(isLogin)) {
+      if (isLogin) requestLogin(email, password, loginSuccess, loginFail);
+      else requestJoin(email, name, password, joinSuccess, joinFail);
+    }
   }
 
   return (
@@ -87,17 +102,27 @@ export default function Login(props) {
             onClickRight={() => setIsLogin(false)}
           />
         </ToggleBox>
-        <Box>
-          <Input size="sign" onKeyUp={e => setEmail(e.target.value)} />
-          {!isLogin && <Input size="sign" onKeyUp={e => setName(e.target.value)} />}
-          <Input size="sign" onKeyUp={e => setPassword(e.target.value)} />
-          {!isLogin && <Input size="sign" onKeyUp={e => setConfirm(e.target.value)} />}
+        <InputBox>
+          <Input size="large" variant="filled" label="Email" onChange={e => setEmail(e.target.value)} />
+
+          {!isLogin && <Input size="large" variant="filled" label="Name" onChange={e => setName(e.target.value)} />}
+          <Input
+            size="large"
+            variant="filled"
+            label="Password"
+            type="password"
+            onChange={e => setPassword(e.target.value)}
+          />
+          {!isLogin && (
+            <Input size="large" variant="filled" label="Confirm Password" onChange={e => setConfirm(e.target.value)} />
+          )}
+
           <Button size="large" variant="primary" onClick={onClickButton}>
             <Text size="medium" variant="white">
               {isLogin ? "로그인" : "회원가입"}
             </Text>
           </Button>
-        </Box>
+        </InputBox>
       </LoginModalContent>
     </LoginModal>
   );
