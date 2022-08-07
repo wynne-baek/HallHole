@@ -9,16 +9,10 @@ import TwitterItem from "../molecule/TwitterItem";
 import { requestTweet } from "../../apis/twitter";
 
 const TwitterItemBox = styled(Box)`
-  position: relative;
-  top: 0;
-  width: 100%;
-  height: 200px;
-
+  height: 70%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
-
+  justify-content: flex-start;
   overflow: scroll;
 `;
 
@@ -48,7 +42,6 @@ export default function TwitterBox() {
         borderRadius: 3,
         boxShadow: 3,
         backgroundColor: "white",
-        overflow: "hidden",
       }}
     >
       <Box

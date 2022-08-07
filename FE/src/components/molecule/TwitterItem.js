@@ -6,7 +6,6 @@ import { styled } from "@mui/system";
 import Text from "../atom/Text";
 
 const TwitterItemBox = styled(Box)`
-  width: 90%;
   margin: 2%;
   background-color: steelblue;
   border-radius: 3px;
