@@ -35,8 +35,13 @@ export default function App() {
   });
 
   return (
-    <Box sx={{ height: "100%" }}>
-      {location.pathname !== "/" && <NavBar />}
+    <Box>
+      {location.pathname !== "/" && (
+        <Box>
+          <Box sx={{ width: "100vw", height: "10vh" }}></Box>
+          <NavBar />
+        </Box>
+      )}
       <RouterConfiguration />
       <Outlet />
     </Box>
