@@ -50,4 +50,9 @@ public class Comment {
     @UpdateTimestamp
     private LocalDateTime updateTime;
 
+    public Comment(Member member, Review review, String contents) {
+        this.member = member;
+        this.review = review;
+        this.contents = contents;
+    }
 }

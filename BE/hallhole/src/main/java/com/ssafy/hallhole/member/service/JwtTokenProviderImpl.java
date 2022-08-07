@@ -64,12 +64,11 @@ public class JwtTokenProviderImpl implements JwtTokenProvider {
     // 토큰에서 회원 정보 추출
     @Override
     public String getUserPk(String token) {
-        System.out.println("getUserPk");
         return Jwts.parser().setSigningKey(secretKey).
                 parseClaimsJws(token).getBody().getSubject();
     }
 
-    private Claims getAllclaimsFromToken(String token){
+    public Claims getAllclaimsFromToken(String token){
         return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody();
     }
 

@@ -17,7 +17,7 @@ public interface MemberRepository extends JpaRepository<Member,Long> {
     @Query(value="select * from member where id=:id and is_out=false", nativeQuery = true)
     Member findById(@Param("id") String email);
 
-    @Query(value="select * from member where email=:email", nativeQuery = true)
+    @Query(value="select * from member where email=:email and is_out=false", nativeQuery = true)
     List<Member> findAllByEmail(@Param("email") String email);
 
     @Query(value="select * from member where kakao_sid=:kakao_sid and is_out=false", nativeQuery = true)
