@@ -13,6 +13,7 @@ import ForgotPasswordTransmit from "../components/page/Forgot-password-transmit"
 import FollowList from "../components/page/FollowList";
 import EditCharacter from "../components/page/EditCharacter";
 import EditProfile from "../components/page/EditProfile";
+import ChatDetail from "../components/page/ChatDetail";
 
 function checkAuth() {
   return !!store.getState().user.token;
@@ -90,6 +91,14 @@ export default function RouterConfiguration() {
           <CheckAuth>
             <EditCharacter />
           </CheckAuth>
+        }
+      />
+            <Route
+        path="/chatdetail"
+        element={
+          // <CheckAuth>
+            <ChatDetail />
+          // </CheckAuth>
         }
       />
     </Routes>
