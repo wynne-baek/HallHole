@@ -1,10 +1,42 @@
-import TwitterIcon from "@mui/icons-material/Twitter";
+import React, { useEffect } from "react";
+
 import Box from "@mui/material/Box";
-import * as React from "react";
-import Text from "../atom/Text";
-import TwitterApi from "../../apis/twitterapi";
+import TwitterIcon from "@mui/icons-material/Twitter";
+import { styled } from "@mui/system";
+
+import TwitterItem from "../molecule/TwitterItem";
+
+import { requestTweet } from "../../apis/twitter";
+
+const TwitterItemBox = styled(Box)`
+  position: relative;
+  top: 0;
+  width: 100%;
+  height: 200px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  overflow: scroll;
+`;
 
 export default function TwitterBox() {
+  const [tweet, setTweet] = React.useState([]);
+
+  function requestTweetSuccess(res) {
+    setTweet(res.data);
+    console.log("트윗 요청 성공", res);
+  }
+
+  function requestTweetFail(err) {
+    console.log("트윗 요청 실패", err);
+  }
+
+  useEffect(() => {
+    requestTweet(requestTweetSuccess, requestTweetFail);
+  }, []);
   return (
     <Box
       sx={{
@@ -16,6 +48,7 @@ export default function TwitterBox() {
         borderRadius: 3,
         boxShadow: 3,
         backgroundColor: "white",
+        overflow: "hidden",
       }}
     >
       <Box
@@ -43,9 +76,16 @@ export default function TwitterBox() {
       >
         <TwitterIcon style={{ color: "white" }} fontSize="large" />
       </Box>
-      <TwitterApi></TwitterApi>
+      <TwitterItemBox>{getTweetList(tweet)}</TwitterItemBox>
     </Box>
   );
 }
 
-// ("http://i7a401.p.ssafy.io:8081/twitter");
+function getTweetList(tweets) {
+  console.log(tweets);
+  return tweets
+    .map(tweet => {
+      return <TwitterItem key={tweet.id} content={tweet.contents} url={tweet.url} />;
+    })
+    .reverse();
+}
