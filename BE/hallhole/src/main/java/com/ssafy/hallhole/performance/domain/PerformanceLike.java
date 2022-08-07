@@ -23,7 +23,7 @@ public class PerformanceLike {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
@@ -35,4 +35,8 @@ public class PerformanceLike {
     @ManyToOne(fetch = FetchType.LAZY)
     private Member member;
 
+    public PerformanceLike(Performance performance, Member member) {
+        this.performance = performance;
+        this.member = member;
+    }
 }

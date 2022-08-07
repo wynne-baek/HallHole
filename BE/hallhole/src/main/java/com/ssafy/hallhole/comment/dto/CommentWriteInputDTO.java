@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class CommentWriteInputDTO {
 
-    private Long memberId;
+    private String idTag;
 
     private Long reviewId;
 

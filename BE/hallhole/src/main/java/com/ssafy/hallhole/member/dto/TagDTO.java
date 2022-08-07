@@ -1,4 +1,4 @@
-package com.ssafy.hallhole.review.dto;
+package com.ssafy.hallhole.member.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -7,10 +7,8 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class InputDTO {
+public class TagDTO {
 
-    Long memberId;
-
-    String performanceId;
+    String idTag;
 
 }

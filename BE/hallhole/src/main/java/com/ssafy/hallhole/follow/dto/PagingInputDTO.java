@@ -1,4 +1,4 @@
-package com.ssafy.hallhole.comment.dto;
+package com.ssafy.hallhole.follow.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -7,10 +7,12 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class CommentDeleteInputDTO {
+public class PagingInputDTO {
+
+    private int start;
+
+    private int size;
 
     private String idTag;
-
-    private Long commentId;
 
 }

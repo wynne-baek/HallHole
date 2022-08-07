@@ -13,7 +13,7 @@ public class CommentOutputDTO {
 
     private Long commentId;
 
-    private Long memberId;
+    private String idTag;
 
     private int memberBg;
 
@@ -29,9 +29,9 @@ public class CommentOutputDTO {
 
     private LocalDateTime updateTime;
 
-    public CommentOutputDTO(Long commentId, Long memberId, int memberBg, int memberChar, int memberAcc, Long reviewId, String contents, LocalDateTime writingTime, LocalDateTime updateTime) {
+    public CommentOutputDTO(Long commentId, String idTag, int memberBg, int memberChar, int memberAcc, Long reviewId, String contents, LocalDateTime writingTime, LocalDateTime updateTime) {
         this.commentId = commentId;
-        this.memberId = memberId;
+        this.idTag = idTag;
         this.memberBg = memberBg;
         this.memberChar = memberChar;
         this.memberAcc = memberAcc;

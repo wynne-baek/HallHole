@@ -42,7 +42,6 @@ public class Member implements UserDetails {
     @Column(length = 20)
     private String name;
 
-    @Setter
     private String email;
 
     @Setter
@@ -62,12 +61,14 @@ public class Member implements UserDetails {
     @ColumnDefault("false")
     private boolean isAdmin = false;
 
+    @Setter
     @NotNull
     @Builder.Default
     @Column(columnDefinition = "INT UNSIGNED")
     @ColumnDefault("0")
     private int point = 0;
 
+    @Setter
     @NotNull
     @CreationTimestamp
     private LocalDate joinDate;

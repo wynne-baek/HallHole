@@ -7,10 +7,12 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class CommentDeleteInputDTO {
+public class CommentFindByMemberTagDTO {
 
     private String idTag;
 
-    private Long commentId;
+    private int start;
+
+    private int size;
 
 }
