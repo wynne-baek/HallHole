@@ -41,5 +41,8 @@ public interface PerformanceRepository {
 
     Long getPerformanceCntByName(String name);
 
-    List<String> getRandomImages();
+
+    Long getImageCnt();
+
+    String getRandomImage(int count);
 }
