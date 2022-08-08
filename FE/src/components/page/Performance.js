@@ -5,10 +5,15 @@ import Text from "../atom/Text";
 import Box from "@mui/material/Box";
 // import PosterSize from "../atom/PosterSize";
 import Input from "../atom/Input";
-// import Button from "../atom/Button";
+import Button from "../atom/Button";
 import SearchIcon from "@mui/icons-material/Search";
 import CategoryDivider from "../atom/CategoryDivider";
 import Dropdown from "../atom//Dropdown";
+import PerformanceBox from "../organism/PerformanceBox";
+import Card from "@mui/material/Card";
+import CardActions from "@mui/material/CardActions";
+import CardContent from "@mui/material/CardContent";
+import Typography from "@mui/material/Typography";
 
 export default function Performance() {
   return (
@@ -39,6 +44,15 @@ export default function Performance() {
         <Box sx={{ width: "90vw", marginX: "auto" }}>
           <CategoryDivider type="primary" />
         </Box>
+      </Box>
+      <Box sx={{ boxShadow: 5, width: "90vw", height: "10vh", textAlign: "center", marginX: "auto", marginY: 3 }}>
+        test
+      </Box>
+      <Box sx={{ boxShadow: 5, width: "90vw", height: "10vh", textAlign: "center", marginX: "auto", marginY: 3 }}>
+        test
+      </Box>
+      <Box sx={{ boxShadow: 5, width: "90vw", height: "10vh", textAlign: "center", marginX: "auto", marginY: 3 }}>
+        test
       </Box>
     </Box>
   );
