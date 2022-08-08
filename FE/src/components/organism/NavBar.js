@@ -25,9 +25,15 @@ export default function NavBar() {
   const store = useStore();
   const [user, setUser] = useState();
 
-  store.subscribe(() => {
+  const unsubscribe = store.subscribe(() => {
     setUser(store.getState().user.info);
   });
+
+  useEffect(() => {
+    return () => {
+      unsubscribe();
+    };
+  }, []);
 
   return (
     <NavBox sx={{ zIndex: 1000 }}>

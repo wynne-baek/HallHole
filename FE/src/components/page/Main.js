@@ -15,10 +15,15 @@ import { useStore } from "react-redux";
 export default function Main() {
   const store = useStore();
   const [user, setUser] = useState();
-
-  store.subscribe(() => {
+  const unsubscribe = store.subscribe(() => {
     setUser(store.getState().user.info);
   });
+
+  useEffect(() => {
+    return () => {
+      unsubscribe();
+    };
+  }, []);
 
   return (
     <Box

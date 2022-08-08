@@ -23,12 +23,9 @@ export default function App() {
     if (token) {
       requestMyInfo(
         res => {
-          console.log("유저 정보 조회 성공", res.data);
           dispatch(setUserInfoToStore(res.data));
-          setUser(res.data);
         },
         err => {
-          console.log("유저 정보를 가져오지 못했습니다", err);
           storage.remove("token");
           navigate("/");
         },
