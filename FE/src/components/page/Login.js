@@ -114,7 +114,13 @@ export default function Login(props) {
             onChange={e => setPassword(e.target.value)}
           />
           {!isLogin && (
-            <Input size="large" variant="filled" label="Confirm Password" onChange={e => setConfirm(e.target.value)} />
+            <Input
+              size="large"
+              variant="filled"
+              label="Confirm Password"
+              type="password"
+              onChange={e => setConfirm(e.target.value)}
+            />
           )}
 
           <Button size="large" variant="primary" onClick={onClickButton}>
