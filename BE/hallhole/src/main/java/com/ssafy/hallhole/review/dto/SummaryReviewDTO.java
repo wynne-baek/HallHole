@@ -11,7 +11,7 @@ public class SummaryReviewDTO {
 
     private Long id;
 
-    private Long member_id;
+    private String writerTag;
 
     private String title;
 

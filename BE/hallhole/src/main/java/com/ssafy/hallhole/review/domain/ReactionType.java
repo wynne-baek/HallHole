@@ -22,4 +22,8 @@ public class ReactionType {
     @NotNull
     @Column(length = 20)
     private String name;
+
+    public ReactionType(String name) {
+        this.name = name;
+    }
 }

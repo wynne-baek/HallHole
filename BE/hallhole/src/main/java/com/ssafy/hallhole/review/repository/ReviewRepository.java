@@ -1,5 +1,7 @@
 package com.ssafy.hallhole.review.repository;
 
+import com.ssafy.hallhole.advice.exceptions.NotFoundException;
+import com.ssafy.hallhole.comment.domain.Comment;
 import com.ssafy.hallhole.review.domain.Review;
 import com.ssafy.hallhole.review.dto.SummaryReviewDTO;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -8,12 +10,16 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
-public interface ReviewRepository extends JpaRepository<Review,Long> {
+public interface ReviewRepository {
+    void save(Review review);
 
-    @Query(value="select * from review where member_id=:mId and is_delete=false", nativeQuery = true)
-    List<Review> findAllByMemberId(@Param("mId") Long mId);
+    Review findOneReviewById(Long id) throws NotFoundException;
 
-    @Query(value="select * from review where performance_id=:pId and is_delete=false", nativeQuery = true)
-    List<Review> findAllByPerformanceId(@Param("pId") String pId);
+    List<Review> findAllByMemberId(Long memberId);
 
+    List<Review> findAllByPerformanceId(String performanceId);
+
+    List<Review> findAllReviewPagingByMemberId(int start, int size, Long memberId);
+
+    List<Review> findAllReviewPagingByPerformanceId(int start, int size, String performanceId);
 }

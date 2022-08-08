@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class FollowInputDTO {
 
-    private Long followingId;
-    private Long followerId;
+    private String followingTag;
+    private String followerTag;
 
 }
