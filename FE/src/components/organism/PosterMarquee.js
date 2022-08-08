@@ -60,7 +60,6 @@ export default function PosterMarquee(props) {
             img: item,
           };
         });
-        console.log(posters);
         setItem(posters);
       },
       err => console.log(err),
