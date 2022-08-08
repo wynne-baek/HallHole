@@ -20,6 +20,8 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Service
 @RequiredArgsConstructor
@@ -45,8 +47,14 @@ public class MemberServiceImpl implements MemberService {
         Member member = new Member(m.getEmail(),m.getName(),m.getPw());
         duplicateMember(member.getEmail());
 
-        if(memberRepository.findByEmail(m.getEmail())!=null){
-            throw new NotFoundException("이미 사용 중인 이메일입니다.");
+        Pattern pattern = Pattern.compile("^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$");
+        Matcher matcher = pattern.matcher(m.getEmail());
+
+        if(matcher.find()){
+            System.out.println("이메일 형식입니다.");
+        }
+        else{
+            System.out.println("이메일 형식이 아닙니다.");
         }
 
         char[] charSet = new char[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F',
@@ -67,10 +75,6 @@ public class MemberServiceImpl implements MemberService {
             }
         }
         memberRepository.save(member);
-//        mailService.sendCongMail(member); // 테스트 데이터를 넣기 위해 지움. 나중에 풀기
-//        sessionRepository.addSession(member.getId(),sessionId);
-
-//        return jwtTokenService.createToken(member.getId(), sessionId);
     }
 
     @Override

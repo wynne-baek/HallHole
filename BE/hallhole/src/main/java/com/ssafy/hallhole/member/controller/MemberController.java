@@ -27,9 +27,7 @@ public class MemberController {
     @PostMapping("/join")
     @ApiOperation(value="홀홀 회원가입", notes = "토큰 만료 수정 예정, 가입 축하 메일 막아뒀습니다")
     public void join(@RequestBody MemberJoinDTO member, HttpSession session) throws NotFoundException {
-//        String token = memberService.join(member, session.getId());
         memberService.join(member, session.getId());
-//        return new TokenDto(token);
     }
 
     @PostMapping("/login")
@@ -84,15 +82,10 @@ public class MemberController {
     }
 
     @PutMapping("/out")
-    @ApiOperation(value = "회원 탈퇴 >> follow 관련 상의 필요")
-    public ResponseEntity delMember(@RequestHeader Map<String, Object> requestHeader, HttpSession session) throws NotFoundException {
-        try{
-            String token = (String) requestHeader.get("token");
-            memberService.delMem(token, session.getId());
-            return new ResponseEntity(HttpStatus.OK);
-        }catch(NotFoundException e){
-            return new ResponseEntity(HttpStatus.NOT_FOUND);
-        }
+    @ApiOperation(value = "회원 탈퇴 >> follow 관련 상의 필요. 탈퇴 잠시 막아뒀습니다. 다른 것들 다 수정 후 올릴게요")
+    public void delMember(@RequestHeader Map<String, Object> requestHeader, HttpSession session) throws NotFoundException {
+//        String token = (String) requestHeader.get("token");
+//        memberService.delMem(token, session.getId());
     }
 
     @PutMapping("")

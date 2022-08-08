@@ -1,12 +1,13 @@
 package com.ssafy.hallhole.member.service;
 
 import com.ssafy.hallhole.member.domain.Member;
+import com.ssafy.hallhole.member.dto.TokenDto;
 
 public interface OAuthService {
 
-    String getAccessToken (String code, String status);
+    TokenDto getAccessToken (String code, String status);
 
-    Member findUserInfo(String code, String token);
+    Member findUserInfo(String code, TokenDto token);
 
     void join(Member member);
 

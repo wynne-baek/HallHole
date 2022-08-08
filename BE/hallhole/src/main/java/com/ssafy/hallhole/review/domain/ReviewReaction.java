@@ -20,7 +20,7 @@ public class ReviewReaction {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
@@ -37,4 +37,10 @@ public class ReviewReaction {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "reaction_type_id")
     private ReactionType reactiontype;
+
+    public ReviewReaction(Review review, Member member, ReactionType reactiontype) {
+        this.review = review;
+        this.member = member;
+        this.reactiontype = reactiontype;
+    }
 }

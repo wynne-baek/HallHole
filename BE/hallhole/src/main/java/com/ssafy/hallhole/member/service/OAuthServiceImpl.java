@@ -3,6 +3,7 @@ package com.ssafy.hallhole.member.service;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.ssafy.hallhole.member.domain.Member;
+import com.ssafy.hallhole.member.dto.TokenDto;
 import com.ssafy.hallhole.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -32,7 +33,7 @@ public class OAuthServiceImpl implements OAuthService{
 
 
     @Override
-    public String getAccessToken(String code, String status){
+    public TokenDto getAccessToken(String code, String status){
         String access_Token = "";
         String refresh_Token = "";
 
@@ -80,11 +81,13 @@ public class OAuthServiceImpl implements OAuthService{
             e.printStackTrace();
         }
 
-        return access_Token;
+        TokenDto token = new TokenDto(access_Token);
+
+        return token;
     }
 
     @Override
-    public Member findUserInfo(String code, String token) {
+    public Member findUserInfo(String code, TokenDto token) {
 
         String reqURL = "https://kapi.kakao.com/v2/user/me";
         Member member=null;
@@ -116,15 +119,12 @@ public class OAuthServiceImpl implements OAuthService{
             String id = Long.toString(element.getAsJsonObject().get("id").getAsLong());
             String name = element.getAsJsonObject().get("properties").getAsJsonObject().get("nickname").getAsString();
             boolean hasEmail = element.getAsJsonObject().get("kakao_account").getAsJsonObject().get("has_email").getAsBoolean();
-            boolean has_age_range = element.getAsJsonObject().get("kakao_account").getAsJsonObject().get("has_age_range").getAsBoolean();
             boolean has_gender = element.getAsJsonObject().get("kakao_account").getAsJsonObject().get("has_gender").getAsBoolean();
             String email = "";
-            String age_range = "";
             String gender = "N";
+
             if(hasEmail){
                 email = element.getAsJsonObject().get("kakao_account").getAsJsonObject().get("email").getAsString();
-            } if(has_age_range){
-                age_range = element.getAsJsonObject().get("kakao_account").getAsJsonObject().get("age_range").getAsString();
             } if(has_gender){
                 String tmp = element.getAsJsonObject().get("kakao_account").getAsJsonObject().get("gender").getAsString();
                 if(tmp.equals("female")) gender = "F";
@@ -143,6 +143,7 @@ public class OAuthServiceImpl implements OAuthService{
 
     @Override
     public void join(Member member) {
+        System.out.println(member.getKakaoSid());
         duplicateMember(member.getKakaoSid());
         char[] charSet = new char[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F',
                 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z' };
@@ -162,6 +163,7 @@ public class OAuthServiceImpl implements OAuthService{
                 member.setIdTag(tmpTag);
             }
         }
+        System.out.println("finish");
         member.addIdTag(tag);
         memberRepository.save(member);
     }
