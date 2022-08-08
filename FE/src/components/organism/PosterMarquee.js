@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import { keyframes, styled, css } from "@mui/system";
 import { Grid } from "@mui/material";
+
+import { fetchImages } from "../../apis/performance";
 
 const MarqueeAnimation = keyframes`
   from {
@@ -20,6 +22,7 @@ const ScrollParent = styled(Grid)(
 
 const Poster = styled("img")`
   width: 100%;
+  height: 100%;
   border-radius: 10%;
 `;
 
@@ -29,7 +32,7 @@ function createChildren(items, cols) {
     items.map(item => {
       return (
         <Grid item xs={12 / cols} key={item.img + "1"}>
-          <Poster src={item.img} alt={item.title} loading="lazy" />
+          <Poster src={item.img} loading="lazy" />
         </Grid>
       );
     }),
@@ -38,7 +41,7 @@ function createChildren(items, cols) {
     items.map(item => {
       return (
         <Grid item xs={12 / cols} key={item.img + "2"}>
-          <Poster src={item.img} alt={item.title} loading="lazy" />
+          <Poster src={item.img} loading="lazy" />
         </Grid>
       );
     }),
@@ -47,9 +50,25 @@ function createChildren(items, cols) {
 }
 
 export default function PosterMarquee(props) {
+  const [item, setItem] = useState([]);
+
+  useEffect(() => {
+    fetchImages(
+      res => {
+        const posters = res.data.map(item => {
+          return {
+            img: item,
+          };
+        });
+        console.log(posters);
+        setItem(posters);
+      },
+      err => console.log(err),
+    );
+  }, []);
   return (
     <ScrollParent container rowSpacing={1} columnSpacing={1}>
-      {createChildren(props.items, props.cols)}
+      {createChildren(item, props.cols)}
     </ScrollParent>
   );
 }
