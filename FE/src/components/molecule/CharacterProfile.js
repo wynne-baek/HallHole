@@ -8,9 +8,11 @@ export default function CharacterProfile (props) {
   return (
     <Box>
       <Box sx={{ display: "flex", justifyContent: 'center', alignItems:'center' }}>
-      <ProfileImage type="large" src=""></ProfileImage>
+        <ProfileImage type="large" src=""></ProfileImage>
       </Box>
-      <ButtonStyle size={"large"} variant={"primary"}>캐릭터 꾸미기</ButtonStyle>
+      <Box sx={{ display: "flex", justifyContent: 'center', alignItems:'center' }}>
+        <ButtonStyle size="medium" variant="primary">캐릭터 꾸미기</ButtonStyle>
+      </Box>
     </Box>
   )
 }

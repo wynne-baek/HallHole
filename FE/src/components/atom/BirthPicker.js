@@ -10,7 +10,7 @@ export default function BirthPicker() {
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
       <DatePicker
-        label="생년월일"
+        label=""
         value={birth}
         onChange={(newBirth) => {
           setBirth(newBirth);
