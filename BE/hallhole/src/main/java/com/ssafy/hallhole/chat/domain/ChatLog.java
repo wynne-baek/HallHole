@@ -38,6 +38,7 @@ public class ChatLog {
     @Enumerated(EnumType.STRING)
     private ChatType type;
 
+    @Setter
     @CreatedDate
     private LocalDateTime messageTime;
 
