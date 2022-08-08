@@ -39,6 +39,7 @@ public class ChatLog {
     private ChatType type;
 
     @Setter
+    @CreatedDate
     private LocalDateTime messageTime;
 
     @NotNull
