@@ -39,23 +39,17 @@ public class MemberServiceImpl implements MemberService {
 
     private final FollowRepositoryImpl followRepository;
 
-
-
     @Override
     public void join(MemberJoinDTO m,String sessionId) throws NotFoundException {
 
         Member member = new Member(m.getEmail(),m.getName(),m.getPw());
         duplicateMember(member.getEmail());
 
-        Pattern pattern = Pattern.compile("^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$");
-        Matcher matcher = pattern.matcher(m.getEmail());
-
-        if(matcher.find()){
-            System.out.println("이메일 형식입니다.");
-        }
-        else{
-            System.out.println("이메일 형식이 아닙니다.");
-        }
+        if(!Pattern.matches(
+                "^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\\\\(\\\\)\\-_=+])(?!.*[^a-zA-z0-9$`~!@$!%*#^?&\\\\(\\\\)\\-_=+]).{8,20}$" , m.getPw()))
+            throw new NotFoundException("비밀번호를 다시 입력해주세요");
+        if(!Pattern.matches("\\w+@\\w+\\.\\w+(\\.\\w+)?", m.getEmail()))
+            throw new NotFoundException("이메일을 다시 입력해주세요.");
 
         char[] charSet = new char[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F',
                 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z' };
