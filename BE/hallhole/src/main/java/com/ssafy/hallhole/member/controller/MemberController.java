@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpSession;
 import java.util.Arrays;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 @RestController
 @RequestMapping("/member")
@@ -35,6 +36,19 @@ public class MemberController {
     public TokenDto login(@RequestBody LoginDTO member,HttpSession session) throws NotFoundException {
         String token = memberService.login(member.getEmail(), member.getPw(), session.getId());
         return new TokenDto(token);
+    }
+
+    @PostMapping("/chk-email")
+    @ApiOperation(value="이메일 체크", notes = "이메일 형식이 맞는지 boolean 형식으로 return")
+    public boolean emailCheck(@RequestBody String email){
+        return Pattern.matches("\\w+@\\w+\\.\\w+(\\.\\w+)?", email);
+    }
+
+    @PostMapping("/chk-pw")
+    @ApiOperation(value="비밀번호 체크",
+            notes =  "비밀번호 형식: 8-20자, 숫자/특수문자($`~!@$!%*#^?&()_=+)/영문자 필수 >> boolean 형식으로 return")
+    public boolean pwCheck(@RequestBody String pw){
+        return Pattern.matches("^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\\\\(\\\\)\\-_=+])(?!.*[^a-zA-z0-9$`~!@$!%*#^?&\\\\(\\\\)\\-_=+]).{8,20}$" , pw);
     }
 
     @GetMapping("/logout")
