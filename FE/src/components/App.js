@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 
 import RouterConfiguration from "../configs/router";
 import { Outlet } from "react-router-dom";
@@ -6,7 +6,7 @@ import { Outlet } from "react-router-dom";
 import storage from "../helper/storage";
 import { requestMyInfo } from "../apis/user";
 import { useNavigate, useLocation } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setUserInfoToStore } from "../stores/user";
 
 import { Box } from "@mui/material";
@@ -18,6 +18,7 @@ export default function App() {
   const dispatch = useDispatch();
   const location = useLocation();
   const token = storage.get("token");
+  const tokenSelector = useSelector(state => state.user.token);
 
   useEffect(() => {
     if (token) {
@@ -26,13 +27,12 @@ export default function App() {
           dispatch(setUserInfoToStore(res.data));
         },
         err => {
-          console.log("유저 정보를 가져오지 못했습니다", err);
           storage.remove("token");
           navigate("/");
         },
       );
     }
-  });
+  }, [tokenSelector]);
 
   return (
     <Box>

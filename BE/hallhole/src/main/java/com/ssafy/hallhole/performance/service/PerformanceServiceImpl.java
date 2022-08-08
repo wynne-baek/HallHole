@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -91,6 +92,16 @@ public class PerformanceServiceImpl implements PerformanceService {
     @Override
     public Long findFacilitiesCntByPerformanceName(String name) {
         return performanceRepository.findFacilitiesCntByPerformanceName(name);
+    }
+
+    @Override
+    public List<String> getRandomImages() {
+        Long cnt = performanceRepository.getImageCnt();
+        List<String> imgs = new ArrayList<>();
+        for (int i = 0; i < 15; i++) {
+            imgs.add(performanceRepository.getRandomImage(Math.toIntExact(cnt)));
+        }
+        return imgs;
     }
 
 }

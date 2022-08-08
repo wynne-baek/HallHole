@@ -12,6 +12,14 @@ import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.util.TimeZone;
+
+import static java.time.ZoneId.*;
+
 @RestController
 @RequiredArgsConstructor
 public class MessageController {
@@ -33,6 +41,7 @@ public class MessageController {
         } else if (ChatType.TALK.equals(message.getType())) {
             //db 저장
             //멤버의 프로필 이미지 가져와서 메세지에 저장
+            message.setMessageTime(LocalDateTime.from(ZonedDateTime.now(ZoneId.of("Asia/Seoul"))));
             chatLogService.saveChat(message);
 
         } else if (ChatType.OUT.equals(message.getType())) {

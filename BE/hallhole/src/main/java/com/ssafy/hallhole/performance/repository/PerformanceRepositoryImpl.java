@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import javax.persistence.EntityManager;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 
 @Repository
 @RequiredArgsConstructor
@@ -113,6 +114,25 @@ public class PerformanceRepositoryImpl implements PerformanceRepository {
     public Long getPerformanceCntByName(String name) {
         return em.createQuery("select count(p) from Performance p where p.name like :name ",Long.class)
                 .setParameter("name","%"+name+"%")
+                .getSingleResult();
+    }
+
+    @Override
+    public Long getImageCnt(){
+        return em.createQuery("select count(p) from Performance p",Long.class).getSingleResult();
+    }
+
+    @Override
+    public String getRandomImage(int count) {
+        Random random = new Random();
+        int number = random.nextInt(Math.toIntExact(count));
+
+        if (number +15 >=count){
+            number-=15;
+        }
+        return em.createQuery("select p.poster from Performance p",String.class)
+                .setFirstResult(number)
+                .setMaxResults(1)
                 .getSingleResult();
     }
 }

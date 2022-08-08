@@ -1,17 +1,20 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import { keyframes, styled, css } from "@mui/system";
 import { Grid } from "@mui/material";
+
+import { fetchImages } from "../../apis/performance";
 
 const MarqueeAnimation = keyframes`
   from {
     transform: translate(0%, 0%);
   }
   to {
-    transform: translate(0%, -500%);
+    transform: translate(0%, -50%);
   }
 `;
-const ScrollChild = styled(Grid)(
+
+const ScrollParent = styled(Grid)(
   ({}) => css`
     animation: ${MarqueeAnimation} 60s linear infinite;
   `,
@@ -19,6 +22,7 @@ const ScrollChild = styled(Grid)(
 
 const Poster = styled("img")`
   width: 100%;
+  height: 100%;
   border-radius: 10%;
 `;
 
@@ -27,18 +31,18 @@ function createChildren(items, cols) {
   children.push(
     items.map(item => {
       return (
-        <ScrollChild item xs={12 / cols} key={item.img + "1"}>
-          <Poster src={item.img} alt={item.title} loading="lazy" />
-        </ScrollChild>
+        <Grid item xs={12 / cols} key={item.img + "1"}>
+          <Poster src={item.img} loading="lazy" />
+        </Grid>
       );
     }),
   );
   children.push(
     items.map(item => {
       return (
-        <ScrollChild item xs={12 / cols} key={item.img + "2"}>
-          <Poster src={item.img} alt={item.title} loading="lazy" />
-        </ScrollChild>
+        <Grid item xs={12 / cols} key={item.img + "2"}>
+          <Poster src={item.img} loading="lazy" />
+        </Grid>
       );
     }),
   );
@@ -46,9 +50,24 @@ function createChildren(items, cols) {
 }
 
 export default function PosterMarquee(props) {
+  const [item, setItem] = useState([]);
+
+  useEffect(() => {
+    fetchImages(
+      res => {
+        const posters = res.data.map(item => {
+          return {
+            img: item,
+          };
+        });
+        setItem(posters);
+      },
+      err => console.log(err),
+    );
+  }, []);
   return (
-    <Grid container rowSpacing={1} columnSpacing={1}>
-      {createChildren(props.items, props.cols)}
-    </Grid>
+    <ScrollParent container rowSpacing={1} columnSpacing={1}>
+      {createChildren(item, props.cols)}
+    </ScrollParent>
   );
 }

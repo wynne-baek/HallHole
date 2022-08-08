@@ -12,4 +12,8 @@ function searchPerformance(name, success, fail) {
   api.get(`performance/search/${name}`).then(success).catch(fail);
 }
 
-export { fetchPerformanceList, fetchPerformance, searchPerformance };
+function fetchImages(success, fail) {
+  api.get(`performance/images`).then(success).catch(fail);
+}
+
+export { fetchPerformanceList, fetchPerformance, searchPerformance, fetchImages };
