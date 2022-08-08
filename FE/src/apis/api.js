@@ -4,7 +4,7 @@ import storage from "../helper/storage";
 
 // configuration
 const api = axios.create({
-  baseURL: "https://i7a401.p.ssafy.io:8081/",
+  baseURL: "https://i7a401.p.ssafy.io/",
   headers: {
     "Content-Type": "application/json",
   },
