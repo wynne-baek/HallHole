@@ -21,15 +21,12 @@ export default function App() {
   const tokenSelector = useSelector(state => state.user.token);
 
   useEffect(() => {
-    console.log(1);
     if (token) {
       requestMyInfo(
         res => {
-          console.log(2);
           dispatch(setUserInfoToStore(res.data));
         },
         err => {
-          console.log(3);
           storage.remove("token");
           navigate("/");
         },
