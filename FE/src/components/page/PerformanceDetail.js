@@ -1,11 +1,13 @@
 import { Box } from "@mui/system";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import PerformanceInformation from "../organism/PerformanceInformation";
 import ReviewList from "../organism/ReviewList";
 
 import CategoryDivider from "../atom/CategoryDivider";
 import ButtonStyle from "../atom/Button";
+
+import { fetchPerformance } from "../../apis/performance";
 
 
 const contentStyle = {
@@ -26,15 +28,16 @@ const reviewButtonStyle = {
   bottom: 0,
   zIndex: 1000,
   marginBottom: 1,
-  textAlign : "center",
+  textAlign: "center",
 };
 
-export default function PerformanceDetail() {
+function RightPerformance({ performanceInfo }) {
   return (
     <Box sx={contentStyle}>
-      <PerformanceInformation></PerformanceInformation>
+      <PerformanceInformation performanceInfo={performanceInfo}>
+      </PerformanceInformation>
+      <CategoryDivider type="negative" />
       <Box sx={reviewListStyle}>
-        <CategoryDivider type="negative" />
         <ReviewList></ReviewList>
       </Box>
       <Box sx={reviewButtonStyle}>
@@ -43,5 +46,39 @@ export default function PerformanceDetail() {
         </ButtonStyle>
       </Box>
     </Box>
-  );
+  )
+}
+
+function LoadingPerformance() {
+  return <h1>로딩 중</h1>;
+}
+
+export default function PerformanceDetail({ id }) {
+  const [performanceInfo, setPerformanceInfo] = useState([])
+  const [performanceMoreInfo, setPerformanceMoreInfo] = useState([])
+
+  function requestPerformanceInfoSuccess(res) {
+    setPerformanceInfo(res.data.performance)
+    setPerformanceMoreInfo(res.data)
+    console.log(res.data)
+  }
+
+  function requestPerformanceInfoFail(err) {
+    console.log("공연 요청 실패", err)
+  }
+
+  useEffect(() => {
+    fetchPerformance(id, requestPerformanceInfoSuccess, requestPerformanceInfoFail);
+  }, [])
+
+  // 조건부 렌더링
+  if (validatePerformanceInfo(performanceInfo)) {
+    return <LoadingPerformance />;
+  } else {
+    return <RightPerformance performanceInfo={performanceInfo}/>;
+  }
+}
+
+function validatePerformanceInfo(info) {
+  return info === [];
 }

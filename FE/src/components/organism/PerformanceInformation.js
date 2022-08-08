@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import { Box } from "@mui/system";
 
@@ -32,21 +32,24 @@ const performanceDetailStyle = {
   height: "40vh",
 };
 
-export default function PerformanceInformation() {
+export default function PerformanceInformation({performanceInfo}) {
   const [performanceLike, setPerformanceLike] = useState(false);
-
+  
+  //const imageUrl = props.performanceInfo.performance.poster
+  
   function changePerformanceLike(e) {
     e.preventDefault();
     setPerformanceLike(!performanceLike);
   }
-
+  // performance actor와 time에 대한 것 추가 작성하기
+  
   return (
     <Box>
       <Box sx={posterBackgroundStyle}>
-        <PosterImage type="blur" size="full" src="poster_1.gif"></PosterImage>
+        <PosterImage type="blur" size="full" src={performanceInfo.poster}></PosterImage>
       </Box>
       <Box sx={smallPosterStyle}>
-        <PosterImage size="small" src="poster_1.gif"></PosterImage>
+        <PosterImage size="small" src={performanceInfo.poster}></PosterImage>
         <ButtonStyle size="small" variant={performanceLike ? "grey" : "primary"} onClick={changePerformanceLike}>
           {performanceLike ? "좋아요취소" : "좋아요"}
         </ButtonStyle>
@@ -55,23 +58,23 @@ export default function PerformanceInformation() {
         <Box height={80}></Box>
         <Box marginLeft={2}>
           <TextStyle size="large" variant="black">
-            {"뮤지컬 <아이다>"}
+            {performanceInfo.name}
           </TextStyle>
           <br></br>
           <TextStyle size="small" variant="black">
-            뮤지컬 · 120분(인터미션 20분)
+            {performanceInfo.genre}
           </TextStyle>
           <br></br>
           <TextStyle size="small" variant="black">
-            📍 공연장공연장
+            📍 {performanceInfo.facility_name}
           </TextStyle>
           <br></br>
           <TextStyle size="small" variant="black">
-            🗓 2022. 06. 15 - 10. 12
+            🗓 {performanceInfo.startDate} - {performanceInfo.endDate}
           </TextStyle>
           <br></br>
           <TextStyle size="small" variant="black">
-            👫 출연진 :{" "}
+            👫 출연진 :{""}
           </TextStyle>
         </Box>
       </Box>
