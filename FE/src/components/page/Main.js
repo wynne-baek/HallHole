@@ -14,10 +14,10 @@ import { useStore } from "react-redux";
 
 export default function Main() {
   const store = useStore();
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState();
+
   store.subscribe(() => {
     setUser(store.getState().user.info);
-    console.log(store.getState().user.info);
   });
 
   return (

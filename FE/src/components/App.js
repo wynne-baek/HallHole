@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 
 import RouterConfiguration from "../configs/router";
 import { Outlet } from "react-router-dom";
@@ -23,7 +23,9 @@ export default function App() {
     if (token) {
       requestMyInfo(
         res => {
+          console.log("유저 정보 조회 성공", res.data);
           dispatch(setUserInfoToStore(res.data));
+          setUser(res.data);
         },
         err => {
           console.log("유저 정보를 가져오지 못했습니다", err);
@@ -32,7 +34,7 @@ export default function App() {
         },
       );
     }
-  });
+  }, []);
 
   return (
     <Box>
