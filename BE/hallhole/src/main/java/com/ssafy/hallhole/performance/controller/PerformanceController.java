@@ -39,6 +39,12 @@ public class PerformanceController {
         return performanceSearchResult;
     }
 
+    @GetMapping("/images")
+    @ApiOperation(value = "랜덤 공연 이미지 가져오기",notes = "'/performance/images' 형식으로 사용")
+    public List<String> getRandomImgs(){
+        return performanceService.getRandomImages();
+    }
+
 
     @GetMapping("/test")
     @ApiOperation(value = "공연 시간 체크 후 채팅방 생성 삭제 테스트용 메서드 -> 삭제 예정")
