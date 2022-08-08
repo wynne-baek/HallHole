@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Card from "@mui/material/Card";
 import { CardActionArea } from "@mui/material";
 import Text from "../atom/Text";
@@ -10,20 +10,10 @@ import LikePerformance from "../organism/LikePerformance";
 import Button from "../atom/Button";
 // import ProfileImage from "../atom/ProfileImage";
 
-import { useStore } from "react-redux";
+import { useSelector } from "react-redux";
 
 export default function Main() {
-  const store = useStore();
-  const [user, setUser] = useState();
-  const unsubscribe = store.subscribe(() => {
-    setUser(store.getState().user.info);
-  });
-
-  useEffect(() => {
-    return () => {
-      unsubscribe();
-    };
-  }, []);
+  const user = useSelector(state => state.user.info);
 
   return (
     <Box

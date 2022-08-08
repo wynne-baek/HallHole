@@ -6,7 +6,7 @@ import { Outlet } from "react-router-dom";
 import storage from "../helper/storage";
 import { requestMyInfo } from "../apis/user";
 import { useNavigate, useLocation } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setUserInfoToStore } from "../stores/user";
 
 import { Box } from "@mui/material";
@@ -18,20 +18,24 @@ export default function App() {
   const dispatch = useDispatch();
   const location = useLocation();
   const token = storage.get("token");
+  const tokenSelector = useSelector(state => state.user.token);
 
   useEffect(() => {
+    console.log(1);
     if (token) {
       requestMyInfo(
         res => {
+          console.log(2);
           dispatch(setUserInfoToStore(res.data));
         },
         err => {
+          console.log(3);
           storage.remove("token");
           navigate("/");
         },
       );
     }
-  }, []);
+  }, [tokenSelector]);
 
   return (
     <Box>

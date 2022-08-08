@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Box from "@mui/material/Box";
 import styled from "@emotion/styled";
 
@@ -6,7 +6,7 @@ import Logo from "../atom/Logo";
 import ProfileImage from "../atom/ProfileImage";
 
 import { Link } from "react-router-dom";
-import { useStore } from "react-redux";
+import { useSelector } from "react-redux";
 
 // width 수정 필요. 상위 요소 정해
 const NavBox = styled(Box)`
@@ -22,18 +22,7 @@ const NavBox = styled(Box)`
 `;
 
 export default function NavBar() {
-  const store = useStore();
-  const [user, setUser] = useState();
-
-  const unsubscribe = store.subscribe(() => {
-    setUser(store.getState().user.info);
-  });
-
-  useEffect(() => {
-    return () => {
-      unsubscribe();
-    };
-  }, []);
+  const user = useSelector(state => state.user.info);
 
   return (
     <NavBox sx={{ zIndex: 1000 }}>
