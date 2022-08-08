@@ -93,4 +93,9 @@ public class PerformanceServiceImpl implements PerformanceService {
         return performanceRepository.findFacilitiesCntByPerformanceName(name);
     }
 
+    @Override
+    public List<String> getRandomImages() {
+        return performanceRepository.getRandomImages();
+    }
+
 }

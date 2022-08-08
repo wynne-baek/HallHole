@@ -5,11 +5,14 @@ import com.ssafy.hallhole.performance.domain.DetailPerformance;
 import com.ssafy.hallhole.performance.domain.Facility;
 import com.ssafy.hallhole.performance.domain.Performance;
 import lombok.RequiredArgsConstructor;
+import org.aspectj.weaver.patterns.TypePatternQuestions;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 
 @Repository
 @RequiredArgsConstructor
@@ -114,5 +117,20 @@ public class PerformanceRepositoryImpl implements PerformanceRepository {
         return em.createQuery("select count(p) from Performance p where p.name like :name ",Long.class)
                 .setParameter("name","%"+name+"%")
                 .getSingleResult();
+    }
+
+    @Override
+    public List<String> getRandomImages() {
+        Long count =  em.createQuery("select count(p) from Performance p",Long.class).getSingleResult();
+        Random random = new Random();
+        int number = random.nextInt(Math.toIntExact(count));
+
+        if (number +15 >=count){
+            number-=15;
+        }
+        return em.createQuery("select p.poster from Performance p",String.class)
+                .setFirstResult(number)
+                .setMaxResults(15)
+                .getResultList();
     }
 }

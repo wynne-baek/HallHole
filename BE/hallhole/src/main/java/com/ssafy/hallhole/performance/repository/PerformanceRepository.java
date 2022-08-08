@@ -40,4 +40,6 @@ public interface PerformanceRepository {
     List<Performance> findRunningPerformances();
 
     Long getPerformanceCntByName(String name);
+
+    List<String> getRandomImages();
 }

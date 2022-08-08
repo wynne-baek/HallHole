@@ -27,4 +27,6 @@ public interface PerformanceService {
     Long getPerformancesCntByName(String name);
 
     Long findFacilitiesCntByPerformanceName(String name);
+
+    List<String> getRandomImages();
 }
