@@ -1,24 +1,25 @@
 package com.ssafy.hallhole.follow.repository;
 
 import com.ssafy.hallhole.follow.domain.Follow;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
-public interface FollowRepository extends JpaRepository<Follow,Long> {
+public interface FollowRepository{
 
-    @Query(value="select * from follow where following_member_id=:ing_id and followed_member_id=:ed_id", nativeQuery = true)
-    Follow findRelation(@Param("ing_id") Long ing_id,@Param("ed_id") Long ed_id);
+    void save(Follow follow);
 
-    @Query(value="select * from follow where following_member_id=:ing_id", nativeQuery = true)
-    List<Follow> findByFollowingMemberId(@Param("ing_id") Long ing_id);
+    void delete(Follow follow);
 
-    @Query(value="select * from follow where followed_member_id=:ed_id", nativeQuery = true)
-    List<Follow> findByFollowedMemberId(@Param("ed_id") Long ed_id);
+    Follow findRelation(Long ing_id, Long ed_id);
 
-    @Query(value="select * from follow where followed_member_id=:ed_id and following_member_id=:ing_id", nativeQuery = true)
-    Follow findByRelation(@Param("ing_id") Long ing_id, @Param("ed_id") Long ed_id);
+    List<Follow> findRelationInMember(Long ing_id, Long ed_id);
+
+    List<Follow> findByFollowingMemberId(int start, int size, Long ing_id);
+
+    List<Follow> findByFollowedMemberId(int start, int size, Long ed_id);
+
+    List<Follow> findAllRelationByMemberId(Long id);
 
 }

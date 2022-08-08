@@ -9,18 +9,22 @@ import java.time.LocalDateTime;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ReviewInputDTO {
+public class ReviewOutputDTO {
+
+    private Long reviewId;
 
     private String writerTag;
 
     private String performanceId;
 
-    private LocalDateTime performance_time;
-
     private String title;
 
-    private Double star;
+    private LocalDateTime performanceDatetime;
 
     private String contents;
-    
+
+    private LocalDateTime updateTime;
+
+    private double starEval;
+
 }

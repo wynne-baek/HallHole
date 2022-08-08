@@ -1,4 +1,4 @@
-package com.ssafy.hallhole.comment.dto;
+package com.ssafy.hallhole.review.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -7,10 +7,8 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class CommentDeleteInputDTO {
+public class ReviewDeleteDTO {
 
-    private String idTag;
-
-    private Long commentId;
+    String writerTag;
 
 }

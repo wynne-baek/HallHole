@@ -24,7 +24,7 @@ public class CommentController {
     @PostMapping("/write")
     @ApiOperation(value = "댓글 작성",
             notes = "'/comment/write' 형식으로 사용 \n " +
-                    "inputdata: memberId(작성자 아이디), reviewId(후기 아이디), contents(댓글 내용)")
+                    "inputdata: memberTag(작성자 태그), reviewId(후기 아이디), contents(댓글 내용)")
     public ResponseEntity write(@RequestBody CommentWriteInputDTO inputDTO) throws NotFoundException {
         commentService.writeComment(inputDTO);
         return new ResponseEntity(HttpStatus.OK);
@@ -34,7 +34,7 @@ public class CommentController {
     @PostMapping("/update")
     @ApiOperation(value = "댓글 수정",
             notes = "'/comment/update' 형식으로 사용 \n " +
-                    "inputdata: memberId(현재아이디), commentId(댓글 아이디), contents(댓글 내용)")
+                    "inputdata: memberTag(현재아이디), commentId(댓글 아이디), contents(댓글 내용)")
     public ResponseEntity update(@RequestBody CommentUpdateInputDTO inputDTO) throws NotFoundException {
         commentService.updateComment(inputDTO);
         return new ResponseEntity(HttpStatus.OK);
@@ -56,7 +56,7 @@ public class CommentController {
             notes = "'/comment/member-list' 형식으로 사용," +
                     "\n inputdata: memberId(작성자아이디), size, start는 자유" +
                     "\n start는 0부터 시작")
-    public List<CommentOutputDTO> findByMemberId(@RequestBody CommentFindByMemberIdDTO inputDTO) throws NotFoundException {
+    public List<CommentOutputDTO> findByMemberId(@RequestBody CommentFindByMemberTagDTO inputDTO) throws NotFoundException {
         return commentService.CommentListfindByMemberId(inputDTO);
     }
 

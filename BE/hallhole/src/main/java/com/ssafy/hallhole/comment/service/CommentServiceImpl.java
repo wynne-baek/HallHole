@@ -27,13 +27,13 @@ public class CommentServiceImpl implements CommentService{
     @Override
     public void writeComment(CommentWriteInputDTO inputDTO) throws NotFoundException {
 
-        Member member = memberRepository.findById(inputDTO.getMemberId()).get();
+        Member member = memberRepository.findByIdTag(inputDTO.getIdTag());
 
         if (member==null || member.isOut()){
             throw new NotFoundException("유효한 사용자가 작성한 후기가 아닙니다.");
         }
 
-        Review review = reviewRepository.findById(inputDTO.getReviewId()).get();
+        Review review = reviewRepository.findOneReviewById(inputDTO.getReviewId());
         if (review==null || review.isDelete()){
             throw new NotFoundException("후기가 존재하지 않습니다.");
         }
@@ -45,7 +45,7 @@ public class CommentServiceImpl implements CommentService{
     @Override
     public void deleteComment(CommentDeleteInputDTO inputDTO) throws NotFoundException{
 
-        Member member = memberRepository.findById(inputDTO.getMemberId()).get();
+        Member member = memberRepository.findByIdTag(inputDTO.getIdTag());
 
         if (member==null || member.isOut()){
             throw new NotFoundException("유효한 사용자가 아닙니다.");
@@ -56,8 +56,8 @@ public class CommentServiceImpl implements CommentService{
             throw new NotFoundException("존재하지 않는 댓글입니다.");
         }
 
-        if(comment.getMember().getId()!=inputDTO.getMemberId()){
-            throw new NotFoundException("댓글의 작성자와 삭제를 요청한 아이디가 다릅니다.");
+        if(!comment.getMember().getIdTag().equals(inputDTO.getIdTag())){
+            throw new NotFoundException("댓글의 작성자와 수정을 요청한 아이디가 다릅니다.");
         }
 
         comment.setDelete(true);
@@ -67,7 +67,7 @@ public class CommentServiceImpl implements CommentService{
     @Override
     public void updateComment(CommentUpdateInputDTO inputDTO) throws NotFoundException{
 
-        Member member = memberRepository.findById(inputDTO.getMemberId()).get();
+        Member member = memberRepository.findByIdTag(inputDTO.getIdTag());
 
         if (member==null || member.isOut()){
             throw new NotFoundException("유효한 사용자가 아닙니다.");
@@ -78,7 +78,7 @@ public class CommentServiceImpl implements CommentService{
             throw new NotFoundException("존재하지 않는 댓글입니다.");
         }
 
-        if(comment.getMember().getId()!=inputDTO.getMemberId()){
+        if(!comment.getMember().getIdTag().equals(inputDTO.getIdTag())){
             throw new NotFoundException("댓글의 작성자와 수정을 요청한 아이디가 다릅니다.");
         }
 
@@ -88,14 +88,14 @@ public class CommentServiceImpl implements CommentService{
 
 
     @Override
-    public List<CommentOutputDTO> CommentListfindByMemberId(CommentFindByMemberIdDTO inputDTO) throws NotFoundException{
-        Member member = memberRepository.findById(inputDTO.getMemberId()).get();
+    public List<CommentOutputDTO> CommentListfindByMemberId(CommentFindByMemberTagDTO inputDTO) throws NotFoundException{
+        Member member = memberRepository.findByIdTag(inputDTO.getIdTag());
         if (member==null || member.isOut()){
             throw new NotFoundException("유효한 사용자가 아닙니다.");
         }
 
         List<Comment> commentList = commentRepository.findAllCommentPagingByMemberId(
-                inputDTO.getStart(), inputDTO.getSize(), inputDTO.getMemberId());
+                inputDTO.getStart(), inputDTO.getSize(), member.getId());
 
         if (commentList.size()==0){
             throw new NotFoundException("해당 사용자가 작성한 댓글이 없습니다.");
@@ -103,12 +103,11 @@ public class CommentServiceImpl implements CommentService{
 
         List<CommentOutputDTO> outputList = new LinkedList<>();
         for(Comment c:commentList){
-            CommentOutputDTO output = new CommentOutputDTO(c.getId(),c.getMember().getId(),
+            CommentOutputDTO output = new CommentOutputDTO(c.getId(),c.getMember().getIdTag(),
                     c.getMember().getNowBg(),c.getMember().getNowChar(),c.getMember().getNowAcc(),
                     c.getReview().getId(), c.getContents(), c.getWritingTime(), c.getUpdateTime());
             outputList.add(output);
         }
-        System.out.println(outputList.size());
 
         return outputList;
     }
@@ -116,7 +115,7 @@ public class CommentServiceImpl implements CommentService{
     @Override
     public List<CommentOutputDTO> CommentListfindByReviewId(CommentFindByReviewIdDTO inputDTO) throws NotFoundException{
 
-        Review review = reviewRepository.findById(inputDTO.getReviewId()).get();
+        Review review = reviewRepository.findOneReviewById(inputDTO.getReviewId());
         if (review==null || review.isDelete()){
             throw new NotFoundException("후기가 존재하지 않습니다.");
         }
@@ -130,7 +129,7 @@ public class CommentServiceImpl implements CommentService{
 
         List<CommentOutputDTO> outputList = new LinkedList<>();
         for(Comment c:commentList){
-            CommentOutputDTO output = new CommentOutputDTO(c.getId(),c.getMember().getId(),
+            CommentOutputDTO output = new CommentOutputDTO(c.getId(),c.getMember().getIdTag(),
                     c.getMember().getNowBg(),c.getMember().getNowChar(),c.getMember().getNowAcc(),
                     c.getReview().getId(), c.getContents(), c.getWritingTime(), c.getUpdateTime());
             outputList.add(output);

@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class CharacterDTO {
 
-    private Long id;
+    private String idTag;
 
     private int bg;
 

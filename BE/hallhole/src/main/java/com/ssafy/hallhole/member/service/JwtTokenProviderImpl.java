@@ -41,7 +41,7 @@ public class JwtTokenProviderImpl implements JwtTokenProvider {
     public String createToken(Long userId, String sessionId) {
         Member member = memberRepository.findById(userId).get();
         Claims claims = Jwts.claims().setSubject("userInfo"); // JWT payload 에 저장되는 정보단위
-        claims.put("userId", Long.toString(userId));
+        claims.put("memberId", Long.toString(userId));
         claims.put("sessionId",sessionId);
         Date now = new Date();
         return Jwts.builder()
@@ -55,7 +55,7 @@ public class JwtTokenProviderImpl implements JwtTokenProvider {
     @Override
     public Authentication getAuthentication(String token) {
         Claims test = this.getAllclaimsFromToken(token);
-        String userId = test.get("userId").toString();
+        String userId = test.get("memberId").toString();
         String sessionId = test.get("sessionId").toString();
         UserDetails userDetails = userDetailsService.loadUserByUsername(userId);
         return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
