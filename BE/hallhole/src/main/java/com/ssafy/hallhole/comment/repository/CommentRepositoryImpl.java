@@ -22,23 +22,20 @@ public class CommentRepositoryImpl implements CommentRepository {
 
     @Override
     public List<Comment> findAllComment() {
-        return em.createQuery("select c from Comment c where c.isDelete=:is_delete",Comment.class)
-                .setParameter("is_delete",false)
+        return em.createQuery("select c from Comment c where c.isDelete=false",Comment.class)
                 .getResultList();
     }
 
     @Override
     public List<Comment> findAllCommentByReviewId(Long reviewId) {
-        return em.createQuery("select c from Comment c where c.review.id=:review_id and c.isDelete=:is_delete",Comment.class)
-                .setParameter("is_delete",false)
+        return em.createQuery("select c from Comment c where c.review.id=:review_id and c.isDelete=false",Comment.class)
                 .setParameter("review_id",reviewId)
                 .getResultList();
     }
 
     @Override
     public List<Comment> findAllCommentByMemberId(Long memberId) {
-        return em.createQuery("select c from Comment c where c.member.id=:member_id and c.isDelete=:is_delete",Comment.class)
-                .setParameter("is_delete",false)
+        return em.createQuery("select c from Comment c where c.member.id=:member_id and c.isDelete=false",Comment.class)
                 .setParameter("member_id",memberId)
                 .getResultList();
     }
@@ -50,20 +47,18 @@ public class CommentRepositoryImpl implements CommentRepository {
 
     @Override
     public List<Comment> findAllCommentPaging(int start, int size) {
-        return em.createQuery("select c from Comment c where c.isDelete=:is_delete order by c.writingTime desc ",Comment.class)
+        return em.createQuery("select c from Comment c where c.isDelete=false order by c.writingTime desc ",Comment.class)
                 .setFirstResult(start)
                 .setMaxResults(size)
-                .setParameter("is_delete",false)
                 .getResultList();
 
     }
 
     @Override
     public List<Comment> findAllCommentPagingByMemberId(int start, int size, Long memberId) {
-        return em.createQuery("select c from Comment c where c.member.id=:member_id and c.isDelete=:is_delete order by c.writingTime desc ",Comment.class)
+        return em.createQuery("select c from Comment c where c.member.id=:member_id and c.isDelete=false order by c.writingTime desc ",Comment.class)
                 .setFirstResult(start)
                 .setMaxResults(size)
-                .setParameter("is_delete",false)
                 .setParameter("member_id",memberId)
                 .getResultList();
 
@@ -71,10 +66,9 @@ public class CommentRepositoryImpl implements CommentRepository {
 
     @Override
     public List<Comment> findAllCommentPagingByReviewId(int start, int size, Long reviewId) {
-        return em.createQuery("select c from Comment c where c.review.id=:review_id and c.isDelete=:is_delete order by c.writingTime desc ",Comment.class)
+        return em.createQuery("select c from Comment c where c.review.id=:review_id and c.isDelete=false order by c.writingTime desc ",Comment.class)
                 .setFirstResult(start)
                 .setMaxResults(size)
-                .setParameter("is_delete",false)
                 .setParameter("review_id",reviewId)
                 .getResultList();
     }
