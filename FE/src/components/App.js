@@ -47,3 +47,6 @@ export default function App() {
     </Box>
   );
 }
+
+const ws = new WebSocket("/ws/chat");
+console.log(ws);
