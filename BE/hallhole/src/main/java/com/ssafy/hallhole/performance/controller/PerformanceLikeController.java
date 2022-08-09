@@ -18,21 +18,21 @@ public class PerformanceLikeController {
 
     private final PerformanceLikeServiceImpl pLikeService;
 
-    @PostMapping
-    @ApiOperation(value = "좋아요 생성",notes = "")
+    @PostMapping("/add")
+    @ApiOperation(value = "좋아요 생성", notes = "'/plike/add'")
     public void makeLike(@RequestBody PerformanceLikeInputDTO inputDto) throws NotFoundException {
         pLikeService.makeLike(inputDto.getPerformanceId(), inputDto.getMemberTag());
     }
 
-    @DeleteMapping
-    @ApiOperation(value = "좋아요 취소",notes = "")
+    @PostMapping("/sub")
+    @ApiOperation(value = "좋아요 취소", notes = "'/plike/sub'")
     public void cancelLike(@RequestBody PerformanceLikeInputDTO inputDto) throws NotFoundException {
         pLikeService.cancelLike(inputDto.getPerformanceId(), inputDto.getMemberTag());
     }
 
     @GetMapping("/{pid}")
-    @ApiOperation(value = "공연별 좋아요 수",notes = "공연 별로 좋아요 한 사람 목록 필요한지 물어보고 생성하기")
-    public Long findPerformanceLikeCnt(@RequestParam("pid") String pid) throws NotFoundException {
+    @ApiOperation(value = "공연별 좋아요 수", notes = "'/plike/PF194668' 형식으로 사용, pid = 공연ID")
+    public Long findPerformanceLikeCnt(@PathVariable("pid") String pid) throws NotFoundException {
         return pLikeService.findByPerformanceCnt(pid);
     }
 
@@ -43,10 +43,16 @@ public class PerformanceLikeController {
     }
 
     @GetMapping("/popular/{size}")
-    @ApiOperation(value = "좋아요가 높은 공연",
-            notes = "더 많이 찾아야할 필요가 있는지 물어보고 수정")
+    @ApiOperation(value = "좋아요가 높은 공연", notes = "'/plike/popular/3' 형식으로 사용, size = 뽑을 공연의 수")
     public List<Performance> findPopularPerformance(@PathVariable("size") int size) throws NotFoundException {
         return pLikeService.findPopularPerformance(size);
+    }
+
+    @GetMapping("/{pid}/{tag}")
+    @ApiOperation(value = "해당 멤버가 해당 공연 좋아요를 하고있는지 확인",
+            notes = "'/plike/PF194668/JVWUZ9HZ9W' 형식으로 사용. pid = 공연ID, tag = 멤버태그")
+    public boolean isLike(@PathVariable("pid") String pid, @PathVariable("tag") String tag) throws NotFoundException {
+        return pLikeService.isLike(pid, tag);
     }
 
 }
