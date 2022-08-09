@@ -18,14 +18,14 @@ public class PerformanceLikeController {
 
     private final PerformanceLikeServiceImpl pLikeService;
 
-    @PostMapping
-    @ApiOperation(value = "좋아요 생성",notes = "")
+    @PostMapping("/add")
+    @ApiOperation(value = "좋아요 생성", notes = "'/plike/add'")
     public void makeLike(@RequestBody PerformanceLikeInputDTO inputDto) throws NotFoundException {
         pLikeService.makeLike(inputDto.getPerformanceId(), inputDto.getMemberTag());
     }
 
-    @DeleteMapping
-    @ApiOperation(value = "좋아요 취소",notes = "")
+    @PostMapping("/sub")
+    @ApiOperation(value = "좋아요 취소", notes = "'/plike/sub'")
     public void cancelLike(@RequestBody PerformanceLikeInputDTO inputDto) throws NotFoundException {
         pLikeService.cancelLike(inputDto.getPerformanceId(), inputDto.getMemberTag());
     }
