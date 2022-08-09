@@ -15,6 +15,10 @@ function howManyLikePerformance(id, success, fail) {
   api.get(`plike/${id}`).then(success).catch(fail);
 }
 
+function checkLikeStatus(id, userTag, success, fail) {
+  api.get(`plike/${id}/${userTag}`).then(success).catch(fail);
+}
+
 // 유저별 좋아요 페이징
 function pickedPerformance(params, success, fail) {
   api.get(`plike/list`, { params: params }).then(success).catch(fail);
@@ -25,4 +29,4 @@ function mostLikedPerformance(size, success, fail) {
   api.get(`plike/popular/${size}`).then(success).catch(fail);
 }
 
-export { likePerformance, unlikePerformance, howManyLikePerformance, pickedPerformance, mostLikedPerformance };
+export { likePerformance, unlikePerformance, howManyLikePerformance, checkLikeStatus, pickedPerformance, mostLikedPerformance };

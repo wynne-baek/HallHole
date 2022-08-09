@@ -7,6 +7,7 @@ import TextStyle from "../atom/Text";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import CurtainsIcon from "@mui/icons-material/Curtains";
+import { checkLikeStatus, likePerformance, unlikePerformance } from "../../apis/performanceLike";
 
 const posterBackgroundStyle = {
   position: "absolute",
@@ -34,21 +35,52 @@ const performanceDetailStyle = {
   height: "40vh",
 };
 
-export default function PerformanceInformation({ performanceInfo, performanceMoreInfo }) {
+export default function PerformanceInformation({ performanceInfo, performanceMoreInfo, userTag }) {
   const [performanceLike, setPerformanceLike] = useState(false);
 
-  //스트링.slice(0, 10) => 2022-09-28
+  function requestLikeStatusSuccess(res) {
+    setPerformanceLike(res);
+  }
+
+  function requestLikeStatusFail(err) {
+    console.log("좋아요 여부 요청 실패", err);
+  }
+
+  useEffect(() => {
+    checkLikeStatus(id, userTag, requestLikeStatusSuccess, requestLikeStatusFail);
+  }, []);
+
+  function unlikeSuccess() {
+    setPerformanceLike(!performanceLike);
+  }
+
+  function unlikeFail(err) {
+    console.log("좋아요 해제 실패", err);
+  }
+
+  function likeSuccess() {
+    setPerformanceLike(!performanceLike);
+  }
+
+  function likeFail(err) {
+    console.log("좋아요 실패", err);
+  }
+
+  function changePerformanceLike(e) {
+    e.preventDefault();
+    const params = { memberTag: this.userTag, performanceId: this.id };
+    if (performanceLike === true) {
+      unlikePerformance(params, unlikeSuccess, unlikeFail);
+    } else {
+      likePerformance(params, likeSuccess, likeFail);
+    }
+  }
 
   function enterPerformanceChat(e) {
     e.preventDefault();
     // chat 연결 코드 추가 예정
     // Link to 해야함
     console.log("들어가는중");
-  }
-
-  function changePerformanceLike(e) {
-    e.preventDefault();
-    setPerformanceLike(!performanceLike);
   }
 
   function changeStrToDate(str) {

@@ -31,10 +31,10 @@ const reviewButtonStyle = {
   textAlign: "center",
 };
 
-function RightPerformance({ performanceInfo, performanceMoreInfo }) {
+function RightPerformance({ performanceInfo, performanceMoreInfo, userTag }) {
   return (
     <Box sx={contentStyle}>
-      <PerformanceInformation performanceInfo={performanceInfo} performanceMoreInfo={performanceMoreInfo}>
+      <PerformanceInformation performanceInfo={performanceInfo} performanceMoreInfo={performanceMoreInfo} userTag={userTag}>
       </PerformanceInformation>
       <CategoryDivider type="negative" />
       {/* <Box sx={reviewListStyle}>
