@@ -31,20 +31,20 @@ const reviewButtonStyle = {
   textAlign: "center",
 };
 
-function RightPerformance({ performanceInfo }) {
+function RightPerformance({ performanceInfo, performanceMoreInfo }) {
   return (
     <Box sx={contentStyle}>
-      <PerformanceInformation performanceInfo={performanceInfo}>
+      <PerformanceInformation performanceInfo={performanceInfo} performanceMoreInfo={performanceMoreInfo}>
       </PerformanceInformation>
       <CategoryDivider type="negative" />
-      <Box sx={reviewListStyle}>
+      {/* <Box sx={reviewListStyle}>
         <ReviewList></ReviewList>
       </Box>
       <Box sx={reviewButtonStyle}>
         <ButtonStyle size="large" variant="primary">
           후기 작성
         </ButtonStyle>
-      </Box>
+      </Box> */}
     </Box>
   )
 }
@@ -60,7 +60,6 @@ export default function PerformanceDetail({ id }) {
   function requestPerformanceInfoSuccess(res) {
     setPerformanceInfo(res.data.performance)
     setPerformanceMoreInfo(res.data)
-    console.log(res.data)
   }
 
   function requestPerformanceInfoFail(err) {
@@ -75,7 +74,7 @@ export default function PerformanceDetail({ id }) {
   if (validatePerformanceInfo(performanceInfo)) {
     return <LoadingPerformance />;
   } else {
-    return <RightPerformance performanceInfo={performanceInfo}/>;
+    return <RightPerformance performanceInfo={performanceInfo} performanceMoreInfo={performanceMoreInfo}/>;
   }
 }
 

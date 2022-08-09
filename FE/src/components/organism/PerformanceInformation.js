@@ -1,10 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 
 import { Box } from "@mui/system";
 
 import PosterImage from "../atom/PosterSize";
 import TextStyle from "../atom/Text";
-import ButtonStyle from "../atom/Button";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import CurtainsIcon from "@mui/icons-material/Curtains";
 
 const posterBackgroundStyle = {
   position: "absolute",
@@ -22,7 +24,7 @@ const smallPosterStyle = {
   marginX: 2,
   display: "flex",
   justifyContent: "space-between",
-  alignItems: "end",
+  alignItems: "center",
 };
 
 const performanceDetailStyle = {
@@ -32,17 +34,29 @@ const performanceDetailStyle = {
   height: "40vh",
 };
 
-export default function PerformanceInformation({performanceInfo}) {
+export default function PerformanceInformation({ performanceInfo, performanceMoreInfo }) {
   const [performanceLike, setPerformanceLike] = useState(false);
-  
-  //const imageUrl = props.performanceInfo.performance.poster
-  
+
+  //스트링.slice(0, 10) => 2022-09-28
+
+  function enterPerformanceChat(e) {
+    e.preventDefault();
+    // chat 연결 코드 추가 예정
+    // Link to 해야함
+    console.log("들어가는중");
+  }
+
   function changePerformanceLike(e) {
     e.preventDefault();
     setPerformanceLike(!performanceLike);
   }
-  // performance actor와 time에 대한 것 추가 작성하기
-  
+
+  function changeStrToDate(str) {
+    if (str) {
+      return str.slice(0, 10);
+    }
+  }
+
   return (
     <Box>
       <Box sx={posterBackgroundStyle}>
@@ -50,19 +64,24 @@ export default function PerformanceInformation({performanceInfo}) {
       </Box>
       <Box sx={smallPosterStyle}>
         <PosterImage size="small" src={performanceInfo.poster}></PosterImage>
-        <ButtonStyle size="small" variant={performanceLike ? "grey" : "primary"} onClick={changePerformanceLike}>
-          {performanceLike ? "좋아요취소" : "좋아요"}
-        </ButtonStyle>
+        <Box sx={{ mt: 6 }}>
+          <CurtainsIcon sx={{ mr: 1.5 }} color="action" fontSize="large" onClick={enterPerformanceChat} />
+          {performanceLike ? (
+            <FavoriteBorderIcon onClick={changePerformanceLike} fontSize="large" color="primary" />
+          ) : (
+            <FavoriteIcon onClick={changePerformanceLike} fontSize="large" color="primary" />
+          )}
+        </Box>
       </Box>
       <Box bgcolor="white" sx={performanceDetailStyle}>
         <Box height={80}></Box>
-        <Box marginLeft={2}>
+        <Box sx={{ mx: 2, mb: 1 }}>
           <TextStyle size="large" variant="black">
             {performanceInfo.name}
           </TextStyle>
           <br></br>
           <TextStyle size="small" variant="black">
-            {performanceInfo.genre}
+            {performanceInfo.genre} · {performanceMoreInfo.runtime}
           </TextStyle>
           <br></br>
           <TextStyle size="small" variant="black">
@@ -70,11 +89,11 @@ export default function PerformanceInformation({performanceInfo}) {
           </TextStyle>
           <br></br>
           <TextStyle size="small" variant="black">
-            🗓 {performanceInfo.startDate} - {performanceInfo.endDate}
+            🗓 {changeStrToDate(performanceInfo.startDate)} - {changeStrToDate(performanceInfo.endDate)}
           </TextStyle>
           <br></br>
           <TextStyle size="small" variant="black">
-            👫 출연진 :{""}
+            👫 출연진 :{performanceMoreInfo.actor}
           </TextStyle>
         </Box>
       </Box>
