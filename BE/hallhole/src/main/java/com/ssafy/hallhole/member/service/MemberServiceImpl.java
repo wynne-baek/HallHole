@@ -191,8 +191,8 @@ public class MemberServiceImpl implements MemberService {
 
         Gender g = Gender.N;
         Gender gender = myDto.getGender();
-        if(gender.equals("F")) g = Gender.F;
-        else if(gender.equals("M")) g = Gender.M;
+        if(gender==Gender.F) g = Gender.F;
+        else if(gender==Gender.M) g = Gender.M;
         m.setGender(g);
 
         m.setNowBg(myDto.getNowBg());

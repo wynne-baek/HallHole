@@ -1,8 +1,9 @@
-package com.ssafy.hallhole.report;
+package com.ssafy.hallhole.report.domain;
 
 import com.ssafy.hallhole.member.domain.Member;
 import com.sun.istack.NotNull;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
@@ -36,7 +37,9 @@ public class Report {
     private String contents;
 
     @NotNull
-    private String type;
+    @Builder.Default
+    @Enumerated(EnumType.STRING)
+    private ReportType type = ReportType.ETC;
 
     @Setter
     @NotNull
@@ -48,4 +51,11 @@ public class Report {
     @CreationTimestamp
     private LocalDateTime dateTime;
 
+    public Report(Member member, Member respondentMember, String contents, ReportType type) {
+        this.member = member;
+        this.respondentMember = respondentMember;
+        this.contents = contents;
+        this.type = type;
+        this.status = ReportStatus.REPORTED;
+    }
 }

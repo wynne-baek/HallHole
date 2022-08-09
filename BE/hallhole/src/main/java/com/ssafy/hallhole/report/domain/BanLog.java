@@ -1,4 +1,4 @@
-package com.ssafy.hallhole.report;
+package com.ssafy.hallhole.report.domain;
 
 import com.ssafy.hallhole.member.domain.Member;
 import com.sun.istack.NotNull;
