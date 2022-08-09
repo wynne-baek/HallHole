@@ -45,7 +45,7 @@ public class ReviewReactionController {
     // 후기별 리액션 검색
     @GetMapping("/review/{reactionId}")
     @ApiOperation(value="후기별 멤버 리액션 리스트")
-    public List<ReactionOutputByReviewDTO> getReactionListByReview(@RequestParam("reactionId") Long reactionId) throws NotFoundException {
+    public List<ReactionOutputByReviewDTO> getReactionListByReview(@PathVariable("reactionId") Long reactionId) throws NotFoundException {
         return reactionService.getReactionListByReview(reactionId);
     }
 
