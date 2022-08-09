@@ -7,12 +7,10 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ReviewReactionSubInputDTO {
+public class ReactionOuputByMemberDTO {
 
     private Long reviewId;
 
-    private String memberTag;
-
-    private int reactionId;
+    private int typeId;
 
 }

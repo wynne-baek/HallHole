@@ -18,6 +18,8 @@ public interface ReviewReactionRepository {
 
     List<ReviewReaction> findAllByMemberId(int start, int size, Long memberId);
 
+    List<ReviewReaction> findAllByReveiwId(Long reviewId);
+
     ReactionType getReactionInfo(int reactionId);
 
     void save(ReactionType reactionType);

@@ -39,7 +39,7 @@ public class ReviewReactionRepositoryImpl implements ReviewReactionRepository {
 
     @Override
     public Long findSameReviewReaction(Long rId, Long mId) {
-        return em.createQuery("select count(r.member.id) from ReviewReaction r where r.id=:rId and r.member.id=:mId",Long.class)
+        return em.createQuery("select count(r.member.id) from ReviewReaction r where r.review.id=:rId and r.member.id=:mId",Long.class)
                 .setParameter("rId",rId)
                 .setParameter("mId",mId)
                 .getSingleResult();
@@ -48,7 +48,7 @@ public class ReviewReactionRepositoryImpl implements ReviewReactionRepository {
 
     @Override
     public List<ReviewReaction> findReactionByAllData(Long rId, Long mId) {
-        return em.createQuery("select r from ReviewReaction r where r.id=:rId and r.id=:mId",ReviewReaction.class)
+        return em.createQuery("select r from ReviewReaction r where r.review.id=:rId and r.member.id=:mId",ReviewReaction.class)
                 .setParameter("rId",rId)
                 .setParameter("mId",mId)
                 .getResultList();
@@ -64,9 +64,17 @@ public class ReviewReactionRepositoryImpl implements ReviewReactionRepository {
     }
 
     @Override
+    public List<ReviewReaction> findAllByReveiwId(Long reviewId) {
+        return em.createQuery("select r from ReviewReaction r where r.review.id=:reviewId",ReviewReaction.class)
+                .setParameter("reviewId",reviewId)
+                .getResultList();
+    }
+
+    @Override
     public ReactionType getReactionInfo(int reactionId) {
-        return em.createQuery("select r from ReactionType r where r.id=:reactionId",ReactionType.class)
-                .setParameter("reactionId",reactionId)
+        return em.createQuery("select r from ReactionType r where r.id=:reactionId", ReactionType.class)
+                .setParameter("reactionId", reactionId)
                 .getSingleResult();
     }
+
 }
