@@ -22,6 +22,10 @@ import java.io.Serializable;
 public class ReactionCnt implements Serializable {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "review_id")
     private Review review;
@@ -35,6 +39,12 @@ public class ReactionCnt implements Serializable {
     @Builder.Default
     @ColumnDefault("1")
     private int reactionCnt = 1;
+
+    public ReactionCnt(Review review, ReactionType reactiontype) {
+        this.review = review;
+        this.reactiontype = reactiontype;
+        this.reactionCnt=1;
+    }
 
     public void addReaction() {
         this.reactionCnt++;

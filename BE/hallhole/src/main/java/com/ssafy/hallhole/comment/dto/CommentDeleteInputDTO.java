@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class CommentDeleteInputDTO {
 
-    private Long memberId;
+    private String idTag;
 
     private Long commentId;
 

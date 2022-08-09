@@ -13,7 +13,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class MyProfileDTO {
 
-    private Long id;
+    private String idTag;
 
     private String name;
 

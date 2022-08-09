@@ -11,9 +11,9 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class ReviewInputDTO {
 
-    private Long writer_id;
+    private String writerTag;
 
-    private String performance_id;
+    private String performanceId;
 
     private LocalDateTime performance_time;
 

@@ -14,7 +14,7 @@ public interface CommentService {
 
     void updateComment(CommentUpdateInputDTO inputDTO) throws NotFoundException;
 
-    List<CommentOutputDTO> CommentListfindByMemberId(CommentFindByMemberIdDTO inputDTO) throws NotFoundException;
+    List<CommentOutputDTO> CommentListfindByMemberId(CommentFindByMemberTagDTO inputDTO) throws NotFoundException;
 
     List<CommentOutputDTO> CommentListfindByReviewId(CommentFindByReviewIdDTO inputDTO) throws NotFoundException;
 }

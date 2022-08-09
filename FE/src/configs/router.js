@@ -13,7 +13,7 @@ import ForgotPasswordTransmit from "../components/page/Forgot-password-transmit"
 import FollowList from "../components/page/FollowList";
 import EditCharacter from "../components/page/EditCharacter";
 import EditProfile from "../components/page/EditProfile";
-import Search from "../components/page/Search";
+import Performance from "../components/page/Performance";
 
 import storage from "../helper/storage";
 
@@ -88,10 +88,10 @@ export default function RouterConfiguration() {
         }
       />
       <Route
-        path="/search"
+        path="/performance"
         element={
           <CheckAuth>
-            <Search />
+            <Performance />
           </CheckAuth>
         }
       />
