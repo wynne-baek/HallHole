@@ -59,4 +59,12 @@ public class PerformanceLikeRepositoryImpl implements PerformanceLikeRepository 
                 .setMaxResults(size)
                 .getResultList();
     }
+
+    @Override
+    public Long isLike(String pid, Long uid) {
+        return em.createQuery("select count(p.performance.id) from PerformanceLike p where p.performance.id=:pid and p.member.id=:uid", Long.class)
+                .setParameter("pid",pid)
+                .setParameter("uid",uid)
+                .getSingleResult();
+    }
 }
