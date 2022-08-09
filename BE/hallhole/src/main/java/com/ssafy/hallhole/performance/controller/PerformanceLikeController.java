@@ -49,4 +49,11 @@ public class PerformanceLikeController {
         return pLikeService.findPopularPerformance(size);
     }
 
+    @GetMapping("/{pid}/{tag}")
+    @ApiOperation(value = "해당 멤버가 해당 공연 좋아요를 하고있는지 확인",
+            notes = "/plike/{공연아이디}/{멤버태그}")
+    public boolean isLike(@PathVariable("pid") String pid, @PathVariable("tag") String tag) throws NotFoundException {
+        return pLikeService.isLike(pid, tag);
+    }
+
 }

@@ -105,4 +105,26 @@ public class PerformanceLikeServiceImpl implements PerformanceLikeService{
 
         return pList;
     }
+
+    @Override
+    public boolean isLike(String pid, String tag) throws NotFoundException {
+
+        Member m = memberRepository.findByIdTag(tag);
+        if(m==null || m.isOut()){
+            throw new NotFoundException("유효한 사용자가 아닙니다.");
+        }
+
+        Performance p = performanceRepository.findOnePerformanceById(pid);
+        if(p==null){
+            throw new NotFoundException("해당하는 공연이 존재하지 않습니다.");
+        }
+
+        System.out.println("문제 없음");
+        Long cnt = pLikeRepository.isLike(pid,m.getId());
+        System.out.println("cnt = " + cnt);
+        if(pLikeRepository.isLike(pid,m.getId())==0){
+            return false;
+        }
+        return true;
+    }
 }
