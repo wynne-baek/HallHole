@@ -10,7 +10,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import CategoryDivider from "../atom/CategoryDivider";
 import Dropdown from "../atom//Dropdown";
 
-import ChatBox from "../organism/ChatBox";
+import ChatListBox from "../organism/ChatListBox";
 
 export default function Performance() {
   return (
@@ -42,7 +42,7 @@ export default function Performance() {
           <CategoryDivider type="primary" />
         </Box>
       </Box>
-      <ChatBox></ChatBox>
+      <ChatListBox></ChatListBox>
     </Box>
   );
 }
