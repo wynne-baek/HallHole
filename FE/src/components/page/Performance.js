@@ -9,11 +9,8 @@ import Button from "../atom/Button";
 import SearchIcon from "@mui/icons-material/Search";
 import CategoryDivider from "../atom/CategoryDivider";
 import Dropdown from "../atom//Dropdown";
-import PerformanceBox from "../organism/PerformanceBox";
-import Card from "@mui/material/Card";
-import CardActions from "@mui/material/CardActions";
-import CardContent from "@mui/material/CardContent";
-import Typography from "@mui/material/Typography";
+
+import ChatBox from "../organism/ChatBox";
 
 export default function Performance() {
   return (
@@ -45,15 +42,7 @@ export default function Performance() {
           <CategoryDivider type="primary" />
         </Box>
       </Box>
-      <Box sx={{ boxShadow: 5, width: "90vw", height: "10vh", textAlign: "center", marginX: "auto", marginY: 3 }}>
-        test
-      </Box>
-      <Box sx={{ boxShadow: 5, width: "90vw", height: "10vh", textAlign: "center", marginX: "auto", marginY: 3 }}>
-        test
-      </Box>
-      <Box sx={{ boxShadow: 5, width: "90vw", height: "10vh", textAlign: "center", marginX: "auto", marginY: 3 }}>
-        test
-      </Box>
+      <ChatBox></ChatBox>
     </Box>
   );
 }
