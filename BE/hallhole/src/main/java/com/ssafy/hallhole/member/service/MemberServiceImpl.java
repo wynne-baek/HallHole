@@ -79,13 +79,9 @@ public class MemberServiceImpl implements MemberService {
             throw new NotFoundException("유효한 회원이 아닙니다.");
         }
 
-        System.out.println("유효한 회원");
-
         if(!member.getPassword().equals(password)){
             throw new NotFoundException("비밀번호를 다시 입력해주세요.");
         }
-
-        System.out.println("비밀번호도 맞음");
 
         return jwtTokenService.createToken(member.getId(), sessionId);
     }
