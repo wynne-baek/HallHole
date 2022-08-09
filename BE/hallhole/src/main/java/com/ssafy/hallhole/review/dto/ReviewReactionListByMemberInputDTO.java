@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ReviewReactionListInputDTO {
+public class ReviewReactionListByMemberInputDTO {
 
     private int start;
 
