@@ -26,7 +26,7 @@ public class JwtTokenProviderImpl implements JwtTokenProvider {
     private String secretKey = "";
 
     // 토큰 유효시간 60분
-    private long tokenValidTime = 60 * 60 * 1000L;
+    private long tokenValidTime = 60 * 60 * 24 * 1000L;
     private final CustomUserDetailService userDetailsService;
     private final MemberRepository memberRepository;
 

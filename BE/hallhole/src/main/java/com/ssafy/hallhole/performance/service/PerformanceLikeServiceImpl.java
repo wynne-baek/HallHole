@@ -119,9 +119,7 @@ public class PerformanceLikeServiceImpl implements PerformanceLikeService{
             throw new NotFoundException("해당하는 공연이 존재하지 않습니다.");
         }
 
-        System.out.println("문제 없음");
         Long cnt = pLikeRepository.isLike(pid,m.getId());
-        System.out.println("cnt = " + cnt);
         if(pLikeRepository.isLike(pid,m.getId())==0){
             return false;
         }
