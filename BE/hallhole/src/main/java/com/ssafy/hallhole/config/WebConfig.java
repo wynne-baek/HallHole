@@ -13,7 +13,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         registry
                 .addMapping("/**")
                 .allowedOrigins("*")
-                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+//                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                 .maxAge(60000)
                 .allowedOrigins("http://localhost:8080");
     }
