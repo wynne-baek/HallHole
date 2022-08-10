@@ -51,7 +51,6 @@ public class PerformanceServiceImpl implements PerformanceService {
     }
 
 
-    //todo 스케쥴링 설정하기
     @Override
     @Scheduled(cron = "0 0 1 * * *")
     @Transactional
