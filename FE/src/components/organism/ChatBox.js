@@ -2,6 +2,7 @@ import React, { useRef, useEffect, useState } from "react";
 
 import { Box } from "@mui/material";
 import { styled } from "@mui/system";
+import SendIcon from "@mui/icons-material/Send";
 
 import ChatItem from "../molecule/ChatItem";
 import Input from "../atom/Input";
@@ -70,11 +71,11 @@ export default function ChatBox({ messages, sendMessage }) {
       <ChatHistoryArea ref={contentRef}>{getChatList(messages)}</ChatHistoryArea>
       <ChatInputArea>
         <Input size="large" value={message} onChange={onInputChange}></Input>
-        <Button size="smaller" onClick={onClickSend}>
-          전송
+        <Button size="smallest" onClick={onClickSend} radius="50">
+          <SendIcon />
         </Button>
       </ChatInputArea>
-      <Text size="smaller" variant="grey" weight="normal">
+      <Text size="smallest" variant="grey" weight="normal">
         함께 대화하는 모두를 위해 에티켓을 지켜주세요.
       </Text>
     </Content>

@@ -19,7 +19,7 @@ function getSize(size) {
       return "22px";
     case "small":
       return "16px";
-    case "smaller":
+    case "smallest":
       return "12px";
   }
 }

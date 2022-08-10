@@ -38,21 +38,21 @@ const NameBox = styled(Box)``;
 const TimeBox = styled(Box)``;
 
 export default function ChatItem({ name, message, time, currentTime }) {
-  function getFormattedTime(createdAt) {
-    const seconds = (currentTime - createdAt) / 1000;
-    if (seconds < 60) return `방금 전`;
+  function getFormattedTime(time) {
+    const seconds = (currentTime - time) / 1000;
+    if (seconds < 60) return `방금`;
     const minutes = seconds / 60;
-    if (minutes < 60) return `${Math.floor(minutes)}분 전`;
+    if (minutes < 60) return `${Math.floor(minutes)}분`;
     const hours = minutes / 60;
-    if (hours < 24) return `${Math.floor(hours)}시간 전`;
+    if (hours < 24) return `${Math.floor(hours)}시간`;
     const days = hours / 24;
-    if (days < 7) return `${Math.floor(days)}일 전`;
+    if (days < 7) return `${Math.floor(days)}일`;
     const weeks = days / 7;
-    if (weeks < 5) return `${Math.floor(weeks)}주 전`;
+    if (weeks < 5) return `${Math.floor(weeks)}주`;
     const months = days / 30;
-    if (months < 12) return `${Math.floor(months)}개월 전`;
+    if (months < 12) return `${Math.floor(months)}개월`;
     const years = days / 365;
-    return `${Math.floor(years)}년 전`;
+    return `${Math.floor(years)}년`;
   }
 
   return (
@@ -64,8 +64,8 @@ export default function ChatItem({ name, message, time, currentTime }) {
             <Text>{name}</Text>
           </NameBox>
           <TimeBox>
-            <Text size="smaller" variant="grey" weight="lighter">
-              {getFormattedTime(new Date(time))}
+            <Text size="smallest" variant="grey" weight="lighter">
+              {getFormattedTime(new Date(time))} 전
             </Text>
           </TimeBox>
         </SenderInfoBox>

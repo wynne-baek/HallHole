@@ -6,7 +6,8 @@ import { setChatToggle } from "../../stores/chat";
 
 import { Box } from "@mui/material";
 import { styled } from "@mui/system";
-import CloseIcon from "@mui/icons-material/Close";
+import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
+import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 
 import { getWebsocket } from "../../helper/websocket";
 import { CHAT_TYPE } from "../../helper/constants";
@@ -15,16 +16,20 @@ import { fetchChatLog, fetchChatRoom } from "../../apis/chat";
 import Modal from "../organism/Modal";
 import PerformanceMiniPoster from "../molecule/PerformanceMiniPoster";
 import ChatBox from "../organism/ChatBox";
+import Button from "../atom/Button";
 
 const ChatModal = styled(Modal)``;
 
-const ChatModalHeader = styled(Box)``;
+const ChatModalHeader = styled(Box)`
+  display: flex;
+  justify-content: space-between;
+`;
 
 const ChatModalBody = styled(Box)`
   margin-top: 2vh;
 `;
 
-const closeIconStyle = {
+const arrowIconStyle = {
   fontSize: "3rem",
 };
 
@@ -50,6 +55,7 @@ export default function ChatRoom(props) {
   function fetchChatRoomSuccess(response) {
     console.log("채팅 방 정보 가져오기 성공", response);
     setChatRoom(response.data);
+    console.log(response.data);
   }
 
   function fetchChatRoomFail(response) {
@@ -94,7 +100,6 @@ export default function ChatRoom(props) {
 
   function disconnect() {
     if (ws.active) {
-      sendMessage(CHAT_TYPE.OUT);
       ws.disconnect();
     }
   }
@@ -105,6 +110,15 @@ export default function ChatRoom(props) {
 
   function chatOff() {
     disconnect();
+  }
+
+  function onClickBack() {
+    dispatch(setChatToggle("off"));
+  }
+
+  function onClickLeft() {
+    sendMessage(CHAT_TYPE.OUT);
+    dispatch(setChatToggle("off"));
   }
 
   useEffect(() => {
@@ -124,14 +138,14 @@ export default function ChatRoom(props) {
       borderRadius="15px"
     >
       <ChatModalHeader>
-        <CloseIcon
-          sx={closeIconStyle}
-          onClick={() => {
-            dispatch(setChatToggle("off"));
-          }}
-        />
-        <PerformanceMiniPoster img={chatRoom?.performance?.poster} title={chatRoom?.name} date={chatRoom?.closeTime} />
+        <Button size="smallest" onClick={onClickBack}>
+          <KeyboardBackspaceIcon />
+        </Button>
+        <Button size="smallest" onClick={onClickLeft}>
+          <ExitToAppIcon />
+        </Button>
       </ChatModalHeader>
+      <PerformanceMiniPoster img={chatRoom?.performance?.poster} title={chatRoom?.name} date={chatRoom?.closeTime} />
       <ChatModalBody>
         <ChatBox messages={messages} sendMessage={sendMessage} />
       </ChatModalBody>

@@ -60,17 +60,17 @@ export default function RoomItem({ id, name, openTime, closeTime, memberCnt, pos
             {name}
           </Text>
           <Box sx={{ marginTop: 6 }}>
-            <Text variant="primary" size="smaller">
+            <Text variant="primary" size="smallest">
               Open period
             </Text>
             <br />
-            <Text variant="black" size="smaller">
+            <Text variant="black" size="smallest">
               {openTime.slice(0, -9)}
             </Text>
-            <Text variant="black" size="smaller">
+            <Text variant="black" size="smallest">
               ~
             </Text>
-            <Text variant="black" size="smaller">
+            <Text variant="black" size="smallest">
               {closeTime.slice(5, -9)}
             </Text>
           </Box>
@@ -88,7 +88,7 @@ export default function RoomItem({ id, name, openTime, closeTime, memberCnt, pos
         ></Box>
         <Box sx={{ float: "right", width: "20vw" }}>
           <Box sx={{ marginTop: 1 }}>
-            <Button size="smaller" onClick={onClickEnter}>
+            <Button size="smallest" onClick={onClickEnter}>
               ENTER
             </Button>
           </Box>
@@ -96,7 +96,7 @@ export default function RoomItem({ id, name, openTime, closeTime, memberCnt, pos
             <Text variant="black">
               {memberCnt} 명
               <br />
-              <Text size="smaller" variant="primary">
+              <Text size="smallest" variant="primary">
                 참여 중
               </Text>
             </Text>
