@@ -12,6 +12,7 @@ import io.github.redouane59.twitter.dto.user.UserV2;
 import io.github.redouane59.twitter.signature.TwitterCredentials;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.env.Environment;
+import org.springframework.data.domain.Pageable;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,9 +34,42 @@ public class TwitterServiceImpl implements TwitterService {
     @Override
     @Transactional
     @Scheduled(cron = "0 0/1 * * * ?")
-    public void TestTwitterLoading() {
+    public void ScheduledTwitterLoading() {
+        getBeforeTweet(1);
+    }
+
+    @Override
+    @Transactional
+    public void saveTwitter(Twitter twitter) {
+        if (findOne(twitter.getId()).isEmpty()) {
+            twitterRepository.save(twitter);
+        }
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Optional<Twitter> findOne(String id) {
+        return Optional.ofNullable(twitterRepository.findTwitterById(id));
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Twitter> findAllTweet() {
+        return twitterRepository.findAllByOrderByTimeDesc();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Twitter> findAllTweetPaging(Pageable pageable) {
+        return twitterRepository.findAllByOrderByTimeDesc(pageable);
+    }
+
+
+    @Override
+    @Transactional
+    public void getBeforeTweet(int days){
         LocalDateTime endLocalDateTime = LocalDateTime.now();
-        LocalDateTime startLocalDateTime = endLocalDateTime.minusDays(1);
+        LocalDateTime startLocalDateTime = endLocalDateTime.minusDays(days);
         AdditionalParameters additionalParameters = AdditionalParameters.builder().startTime(startLocalDateTime).endTime(endLocalDateTime).build();
 
         TwitterClient twitterClient = new TwitterClient(TwitterCredentials.builder()
@@ -86,25 +120,5 @@ public class TwitterServiceImpl implements TwitterService {
             Twitter res = Twitter.builder().id(tweet.getId()).contents(contents).url(url).time(tweetData.getTime()).build();
             saveTwitter(res);
         }
-    }
-
-    @Override
-    @Transactional
-    public void saveTwitter(Twitter twitter) {
-        if (findOne(twitter.getId()).isEmpty()) {
-            twitterRepository.save(twitter);
-        }
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public Optional<Twitter> findOne(String id) {
-        return Optional.ofNullable(twitterRepository.findTwitterById(id));
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public List<Twitter> findAllTweet() {
-        return twitterRepository.findAll();
     }
 }
