@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 
 import { useSelector, useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
 
 import { setChatToggle } from "../../stores/chat";
 
@@ -9,15 +8,20 @@ import { Box } from "@mui/material";
 import { styled } from "@mui/system";
 import CloseIcon from "@mui/icons-material/Close";
 
-import Modal from "../organism/Modal";
 import { getWebsocket } from "../../helper/websocket";
-import { fetchChatLog } from "../../apis/chat";
+import { fetchChatLog, fetchChatRoom } from "../../apis/chat";
+
+import Modal from "../organism/Modal";
+import PerformanceMiniPoster from "../molecule/PerformanceMiniPoster";
+import ChatBox from "../organism/ChatBox";
 
 const ChatModal = styled(Modal)``;
 
 const ChatModalHeader = styled(Box)``;
 
-const ChatModalBody = styled(Box)``;
+const ChatModalBody = styled(Box)`
+  margin-top: 2vh;
+`;
 
 const closeIconStyle = {
   fontSize: "3rem",
@@ -31,23 +35,31 @@ const CHAT_TYPE = {
 
 export default function ChatRoom(props) {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const user = useSelector(state => state.user.info);
   const chatId = useSelector(state => state.chat.id);
   const toggle = useSelector(state => state.chat.toggle);
 
-  // const { chatId } = useParams();
   const ws = getWebsocket();
 
+  const [chatRoom, setChatRoom] = useState({});
   const [messages, setMessages] = useState([]);
   const [message, setMessage] = useState("");
 
   function fetchChatLogSuccess(response) {
     console.log("채팅 로그 가져오기 성공", response);
+    setMessages(response.data);
   }
 
   function fetchChatLogFail(response) {
     console.log("채팅 로그 가져오기 실패", response);
+  }
+  function fetchChatRoomSuccess(response) {
+    console.log("채팅 방 정보 가져오기 성공", response);
+    setChatRoom(response.data);
+  }
+
+  function fetchChatRoomFail(response) {
+    console.log("채팅 방 정보 가져오기 실패", response);
   }
 
   function receiveMessage(response) {
@@ -60,6 +72,8 @@ export default function ChatRoom(props) {
     console.log("connected: " + frame);
     ws.subscribe(`/topic/chat/room/${chatId}`, receiveMessage);
     sendMessage(CHAT_TYPE.ENTER, "");
+    fetchChatRoom(chatId, fetchChatRoomSuccess, fetchChatRoomFail);
+    fetchChatLog(chatId, fetchChatLogSuccess, fetchChatLogFail);
   }
 
   function connectFail(error) {
@@ -78,20 +92,23 @@ export default function ChatRoom(props) {
   }
 
   function connect() {
-    ws.connect({}, connectSuccess, connectFail);
-    fetchChatLog(chatId, fetchChatLogSuccess, fetchChatLogFail);
+    if (!ws.active) {
+      ws.connect({}, connectSuccess, connectFail);
+    }
   }
 
   function disconnect() {
-    sendMessage(CHAT_TYPE.OUT);
-    ws.disconnect();
+    if (ws.active) {
+      sendMessage(CHAT_TYPE.OUT);
+      ws.disconnect();
+    }
   }
 
-  function on() {
+  function chatOn() {
     connect();
   }
 
-  function off() {
+  function chatOff() {
     disconnect();
   }
 
@@ -106,10 +123,10 @@ export default function ChatRoom(props) {
       toggle={toggle}
       openHeight="11vh"
       closeHeight="100vh"
-      on={on}
-      off={off}
+      modalOn={chatOn}
+      modalOff={chatOff}
       backgroundcolor="white"
-      borderRadius="15"
+      borderRadius="15px"
     >
       <ChatModalHeader>
         <CloseIcon
@@ -118,10 +135,10 @@ export default function ChatRoom(props) {
             dispatch(setChatToggle("off"));
           }}
         />
+        <PerformanceMiniPoster img={chatRoom?.performance?.poster} title={chatRoom?.name} date={chatRoom?.closeTime} />
       </ChatModalHeader>
       <ChatModalBody>
-        This is Chat Room with {chatId}
-        <button onClick={() => sendMessage(CHAT_TYPE.TALK, "안녕하세요")}>안녕하세요</button>
+        <ChatBox messages={messages} />
       </ChatModalBody>
     </ChatModal>
   );
