@@ -55,14 +55,18 @@ public class ItemServiceImpl implements ItemService{
             throw new NotFoundException("유효한 사용자가 아닙니다.");
         }
 
-        Item item = itemRepository.findById(inputDTO.getItem_id()).get();
-        if(item==null){
-            throw new NotFoundException("해당 ITEM이 존재하지 않습니다.");
+        Item acc = itemRepository.findById(inputDTO.getAcc_id()).get();
+        Item character = itemRepository.findById(inputDTO.getChar_id()).get();
+
+        if(acc==null){
+            throw new NotFoundException("해당 악세사리는 존재하지 않습니다.");
+        }
+        if(character==null){
+            throw new NotFoundException("해당 색상이 존재하지 않습니다.");
         }
 
-        if(item.getItemType()==ItemType.BG) m.setNowBg(item.getId().intValue());
-        else if(item.getItemType()==ItemType.CHAR) m.setNowChar(item.getId().intValue());
-        else m.setNowAcc(item.getId().intValue());
+        m.setNowChar(character.getId().intValue());
+        m.setNowAcc(acc.getId().intValue());
 
         memberRepository.save(m);
     }

@@ -108,28 +108,29 @@ public class MemberController {
         return memberService.changeInfo(myDto);
     }
 
-    @PostMapping("/info")
-    @ApiOperation(value = "유저 데이터 조회")
-    public MemberOutputDTO getInfo(@RequestBody TagDTO tagDTO) throws NotFoundException {
-        return memberService.getInfo(tagDTO.getIdTag());
+    @GetMapping("/info/{tag}")
+    @ApiOperation(value = "유저 데이터 조회", notes = "'/member/info/JVWUZ9HZ9W' 형식으로 사용. tag = 멤버태그")
+    public MemberOutputDTO getInfo(@PathVariable("tag") String tag) throws NotFoundException {
+        return memberService.getInfo(tag);
     }
 
-    @PostMapping("/deco")
-    @ApiOperation(value = "캐릭터 꾸미기 현재")
-    public CharacterDTO getCharacter(@RequestBody TagDTO tagDTO) throws NotFoundException{
-        return memberService.getCharacter(tagDTO.getIdTag());
+    @GetMapping("/deco/{tag}")
+    @ApiOperation(value = "현재 멤버 캐릭터 배경, 캐릭터, 악세사리 값 가져오기",
+            notes = "'/member/deco/JVWUZ9HZ9W' 형식으로 사용. tag = 멤버태그")
+    public CharacterDTO getCharacter(@PathVariable("tag") String tag) throws NotFoundException{
+        return memberService.getCharacter(tag);
     }
 
-    @PostMapping("/ban")
-    @ApiOperation(value = "유저 밴 시키기")
-    public void makeBan(@RequestBody TagDTO tagDTO) throws NotFoundException{
-        memberService.makeBan(tagDTO.getIdTag());
+    @PostMapping("/ban/{tag}")
+    @ApiOperation(value = "유저 밴 시키기", notes = "'/member/ban/JVWUZ9HZ9W' 형식으로 사용. tag = 멤버태그")
+    public void makeBan(@PathVariable("tag") String tag) throws NotFoundException{
+        memberService.makeBan(tag);
     }
 
-    @PostMapping("/cancel-ban")
-    @ApiOperation(value = "유저 밴 풀기")
-    public void cancelBan(@RequestBody TagDTO tagDTO) throws NotFoundException{
-        memberService.cancelBan(tagDTO.getIdTag());
+    @PostMapping("/cancel-ban/{tag}")
+    @ApiOperation(value = "유저 밴 풀기", notes = "'/member/cancel-ban/JVWUZ9HZ9W' 형식으로 사용. tag = 멤버태그")
+    public void cancelBan(@PathVariable("tag") String tag) throws NotFoundException{
+        memberService.cancelBan(tag);
     }
 
 

@@ -11,6 +11,8 @@ public class ItemChangeInputDTO {
 
     private String idTag;
 
-    private Long item_id;
+    private Long char_id;
+
+    private Long acc_id;
 
 }
