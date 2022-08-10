@@ -24,7 +24,7 @@ public class PerformanceLikeController {
         pLikeService.makeLike(inputDto.getPerformanceId(), inputDto.getMemberTag());
     }
 
-    @PostMapping("/sub")
+    @DeleteMapping("/sub")
     @ApiOperation(value = "좋아요 취소", notes = "'/plike/sub'")
     public void cancelLike(@RequestBody PerformanceLikeInputDTO inputDto) throws NotFoundException {
         pLikeService.cancelLike(inputDto.getPerformanceId(), inputDto.getMemberTag());
