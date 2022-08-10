@@ -8,6 +8,7 @@ import CategoryDivider from "../atom/CategoryDivider";
 import ButtonStyle from "../atom/Button";
 
 import { fetchPerformance } from "../../apis/performance";
+import { useParams } from "react-router-dom";
 
 const contentStyle = {
   width: "100vw",
@@ -54,14 +55,15 @@ function RightPerformance({ performanceInfo, performanceMoreInfo, id }) {
 function LoadingPerformance() {
   return <h1>로딩 중</h1>;
 }
-export default function PerformanceDetail({ id }) {
+export default function PerformanceDetail() {
+  const { id } = useParams();
   const [performanceInfo, setPerformanceInfo] = useState([]);
   const [performanceMoreInfo, setPerformanceMoreInfo] = useState([]);
 
   //공연 정보 설정
   useEffect(() => {
     fetchPerformance(id, requestPerformanceInfoSuccess, requestPerformanceInfoFail);
-  }, [])
+  }, [id])
   
   function requestPerformanceInfoSuccess(res) {
     setPerformanceInfo(res.data.performance);
