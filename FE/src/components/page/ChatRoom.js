@@ -19,6 +19,10 @@ const ChatModalHeader = styled(Box)``;
 
 const ChatModalBody = styled(Box)``;
 
+const closeIconStyle = {
+  fontSize: "3rem",
+};
+
 const CHAT_TYPE = {
   ENTER: "ENTER",
   TALK: "TALK",
@@ -68,9 +72,8 @@ export default function ChatRoom(props) {
       performanceId: chatId,
       memberNickName: user?.name,
       message: message,
-      idTag: user.idTag,
+      idTag: user?.idTag,
     };
-    console.log(msg);
     ws.send("/app/chat/message", {}, JSON.stringify(msg));
   }
 
@@ -99,15 +102,14 @@ export default function ChatRoom(props) {
   }, []);
 
   return (
-    <ChatModal toggle={toggle} openHeight="15vh" closeHeight="100vh" on={on} off={off}>
+    <ChatModal toggle={toggle} openHeight="15vh" closeHeight="100vh" on={on} off={off} backgroundcolor="white">
       <ChatModalHeader>
-        <button
+        <CloseIcon
+          sx={closeIconStyle}
           onClick={() => {
             dispatch(setChatToggle("off"));
           }}
-        >
-          닫기
-        </button>
+        />
       </ChatModalHeader>
       <ChatModalBody>
         This is Chat Room with {chatId}

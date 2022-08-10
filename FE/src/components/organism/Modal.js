@@ -1,5 +1,7 @@
 import React, { useEffect } from "react";
+
 import { styled } from "@mui/system";
+import { useTheme } from "@mui/material";
 
 const ModalDiv = styled("div")`
   position: fixed;
@@ -10,7 +12,7 @@ const ModalDiv = styled("div")`
   margin: 0;
   padding: 0;
 
-  background-color: ${props => props.theme.palette.base.blackDim};
+  background-color: ${props => props.backgroundcolor};
   transition: all 600ms cubic-bezier(0.86, 0, 0.07, 1);
 `;
 
@@ -19,13 +21,25 @@ const ModalDiv = styled("div")`
  *  - toggle : "on" or "off"
  *  - on : function to call when toggle is on
  *  - off : function to call when toggle is off
+ *  - backgroundcolor : background color of the modal
  *  - openHeight : height of the modal when opened( 0 ~ 100vh, default: "0")
  *  - closeHeight : height of the modal when opened( 0 ~ 100vh, default: "0")
  */
-export default function Modal({ toggle, on, off, openHeight = "0", closeHeight = "100vh", children }) {
+export default function Modal({ toggle, on, off, backgroundcolor, openHeight = "0", closeHeight = "100vh", children }) {
+  const theme = useTheme();
+
   function onToggleChange(on, off) {
     if (toggle) on && on();
     else off && off();
+  }
+
+  function getBackgroundColor() {
+    switch (backgroundcolor) {
+      case "white":
+        return theme.palette.base.white;
+      default:
+        return theme.palette.base.blackDim;
+    }
   }
 
   useEffect(() => {
@@ -33,7 +47,7 @@ export default function Modal({ toggle, on, off, openHeight = "0", closeHeight =
   }, [toggle]);
 
   return (
-    <ModalDiv toggle={toggle} openheight={openHeight} closeheight={closeHeight}>
+    <ModalDiv toggle={toggle} openheight={openHeight} closeheight={closeHeight} backgroundcolor={getBackgroundColor()}>
       {children}
     </ModalDiv>
   );
