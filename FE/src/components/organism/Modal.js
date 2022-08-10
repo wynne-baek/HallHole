@@ -12,9 +12,11 @@ const ModalDiv = styled("div")`
   margin: 0;
   padding: 0;
   z-index: 500;
+  border-radius: ${props => props.borderradius};
+  box-shadow: -1px -1px 1px 1px rgba(0, 0, 0, 0.1);
 
   background-color: ${props => props.backgroundcolor};
-  transition: all 600ms cubic-bezier(0.86, 0, 0.07, 1);
+  transition: all 300ms cubic-bezier(0.86, 0, 0.07, 1);
 `;
 
 /**
@@ -23,10 +25,20 @@ const ModalDiv = styled("div")`
  *  - on : function to call when toggle is on
  *  - off : function to call when toggle is off
  *  - backgroundcolor : background color of the modal
+ *  - borderRadius : border radius of the modal
  *  - openHeight : height of the modal when opened( 0 ~ 100vh, default: "0")
  *  - closeHeight : height of the modal when opened( 0 ~ 100vh, default: "0")
  */
-export default function Modal({ toggle, on, off, backgroundcolor, openHeight = "0", closeHeight = "100vh", children }) {
+export default function Modal({
+  toggle,
+  on,
+  off,
+  backgroundcolor,
+  borderRadius = "0",
+  openHeight = "0",
+  closeHeight = "100vh",
+  children,
+}) {
   const theme = useTheme();
 
   function onToggleChange(on, off) {
@@ -48,7 +60,13 @@ export default function Modal({ toggle, on, off, backgroundcolor, openHeight = "
   }, [toggle]);
 
   return (
-    <ModalDiv toggle={toggle} openheight={openHeight} closeheight={closeHeight} backgroundcolor={getBackgroundColor()}>
+    <ModalDiv
+      toggle={toggle}
+      openheight={openHeight}
+      closeheight={closeHeight}
+      backgroundcolor={getBackgroundColor()}
+      borderradius={borderRadius}
+    >
       {children}
     </ModalDiv>
   );

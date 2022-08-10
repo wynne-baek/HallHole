@@ -102,7 +102,15 @@ export default function ChatRoom(props) {
   }, []);
 
   return (
-    <ChatModal toggle={toggle} openHeight="15vh" closeHeight="100vh" on={on} off={off} backgroundcolor="white">
+    <ChatModal
+      toggle={toggle}
+      openHeight="11vh"
+      closeHeight="100vh"
+      on={on}
+      off={off}
+      backgroundcolor="white"
+      borderRadius="15"
+    >
       <ChatModalHeader>
         <CloseIcon
           sx={closeIconStyle}
