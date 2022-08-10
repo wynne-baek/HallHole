@@ -1,15 +1,23 @@
 import React, { useEffect, useState } from "react";
 
-import { Link, useParams } from "react-router-dom";
-import { Outlet } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+
+import { setChatToggle } from "../../stores/chat";
 
 import { Box } from "@mui/material";
+import { styled } from "@mui/system";
+import CloseIcon from "@mui/icons-material/Close";
 
+import Modal from "../organism/Modal";
 import { getWebsocket } from "../../helper/websocket";
 import { fetchChatLog } from "../../apis/chat";
 
-import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+const ChatModal = styled(Modal)``;
+
+const ChatModalHeader = styled(Box)``;
+
+const ChatModalBody = styled(Box)``;
 
 const CHAT_TYPE = {
   ENTER: "ENTER",
@@ -17,10 +25,14 @@ const CHAT_TYPE = {
   OUT: "OUT",
 };
 
-export default function ChatRoom() {
+export default function ChatRoom(props) {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const user = useSelector(state => state.user.info);
-  const { chatId } = useParams();
+  const chatId = useSelector(state => state.chat.id);
+  const toggle = useSelector(state => state.chat.toggle);
+
+  // const { chatId } = useParams();
   const ws = getWebsocket();
 
   const [messages, setMessages] = useState([]);
@@ -54,7 +66,7 @@ export default function ChatRoom() {
     const msg = {
       type: type,
       performanceId: chatId,
-      memberNickName: user.name,
+      memberNickName: user?.name,
       message: message,
       idTag: user.idTag,
     };
@@ -63,34 +75,44 @@ export default function ChatRoom() {
   }
 
   function connect() {
-    console.log("connect");
     ws.connect({}, connectSuccess, connectFail);
     fetchChatLog(chatId, fetchChatLogSuccess, fetchChatLogFail);
   }
 
   function disconnect() {
-    console.log("disconnect");
     sendMessage(CHAT_TYPE.OUT);
     ws.disconnect();
   }
 
-  useEffect(() => {
+  function on() {
     connect();
-    return disconnect;
+  }
+
+  function off() {
+    disconnect();
+  }
+
+  useEffect(() => {
+    return () => {
+      dispatch(setChatToggle("off"));
+    };
   }, []);
 
   return (
-    <Box>
-      <button
-        onClick={() => {
-          navigate(-1);
-        }}
-      >
-        뒤로 가기
-      </button>
-      This is Chat Room with {chatId}
-      <button onClick={() => sendMessage(CHAT_TYPE.TALK, "안녕하세요")}>안녕하세요</button>
-      <Outlet />
-    </Box>
+    <ChatModal toggle={toggle} openHeight="15vh" closeHeight="100vh" on={on} off={off}>
+      <ChatModalHeader>
+        <button
+          onClick={() => {
+            dispatch(setChatToggle("off"));
+          }}
+        >
+          닫기
+        </button>
+      </ChatModalHeader>
+      <ChatModalBody>
+        This is Chat Room with {chatId}
+        <button onClick={() => sendMessage(CHAT_TYPE.TALK, "안녕하세요")}>안녕하세요</button>
+      </ChatModalBody>
+    </ChatModal>
   );
 }

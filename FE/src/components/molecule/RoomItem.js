@@ -1,5 +1,9 @@
 import React from "react";
 
+import { useDispatch } from "react-redux";
+
+import { setChatId, setChatToggle } from "../../stores/chat";
+
 import { Box } from "@mui/material";
 import { styled } from "@mui/system";
 
@@ -10,16 +14,14 @@ import { Link } from "react-router-dom";
 import storage from "../../helper/storage";
 import { useSelector } from "react-redux";
 
-import { useNavigate } from "react-router-dom";
-
 const RoomItemBox = styled(Box)`
   margin: 2px;
   background-color: white;
   border-radius: 3px;
 `;
 
-export default function RoomItem({ id, name, openTime, closeTime, memberCnt, poster, len, lastTxt }) {
-  const navigate = useNavigate();
+export default function RoomItem({ id, name, openTime, closeTime, memberCnt, poster, len, lastTxt, onOpen, onClose }) {
+  const dispatch = useDispatch();
 
   if (len == "" || len == null) {
     len = 10;
@@ -30,8 +32,10 @@ export default function RoomItem({ id, name, openTime, closeTime, memberCnt, pos
   if (name.length > len) {
     name = name.substr(0, len) + lastTxt;
   }
+
   function onClickEnter() {
-    navigate(`/chat/${id}`);
+    dispatch(setChatId(id));
+    dispatch(setChatToggle("on"));
   }
 
   const user = useSelector(state => state.user.info);
