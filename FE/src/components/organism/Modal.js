@@ -1,3 +1,4 @@
+import React, { useEffect } from "react";
 import { styled } from "@mui/system";
 
 const ModalDiv = styled("div")`
@@ -16,5 +17,18 @@ const ModalDiv = styled("div")`
 /**
  * props
  *  - toggle : "on" or "off"
+ *  - on : function to call when toggle is on
+ *  - off : function to call when toggle is off
  */
-export default ModalDiv;
+export default function Modal(props) {
+  function onToggleChange(on, off) {
+    if (props.toggle) on && on();
+    else off && off();
+  }
+
+  useEffect(() => {
+    onToggleChange(props.on, props.off);
+  }, [props.toggle]);
+
+  return <ModalDiv toggle={props.toggle}>{props.children}</ModalDiv>;
+}
