@@ -1,5 +1,10 @@
-function createWebSocket() {
-  return new WebSocket("ws://i7a401.p.ssafy.io/ws/chat");
+import SockJS from "sockjs-client";
+import { Stomp } from "@stomp/stompjs";
+
+const ws = Stomp.over(() => new SockJS("https://i7a401.p.ssafy.io/ws/chat"));
+
+function getWebsocket() {
+  return ws;
 }
 
-export { createWebSocket };
+export { getWebsocket };
