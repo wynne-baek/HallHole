@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector, useDispatch, shallowEqual } from "react-redux";
 
 import { setChatToggle } from "../../stores/chat";
 
@@ -9,6 +9,7 @@ import { styled } from "@mui/system";
 import CloseIcon from "@mui/icons-material/Close";
 
 import { getWebsocket } from "../../helper/websocket";
+import { CHAT_TYPE } from "../../helper/constants";
 import { fetchChatLog, fetchChatRoom } from "../../apis/chat";
 
 import Modal from "../organism/Modal";
@@ -27,12 +28,6 @@ const closeIconStyle = {
   fontSize: "3rem",
 };
 
-const CHAT_TYPE = {
-  ENTER: "ENTER",
-  TALK: "TALK",
-  OUT: "OUT",
-};
-
 export default function ChatRoom(props) {
   const dispatch = useDispatch();
   const user = useSelector(state => state.user.info);
@@ -43,7 +38,6 @@ export default function ChatRoom(props) {
 
   const [chatRoom, setChatRoom] = useState({});
   const [messages, setMessages] = useState([]);
-  const [message, setMessage] = useState("");
 
   function fetchChatLogSuccess(response) {
     console.log("채팅 로그 가져오기 성공", response);
@@ -65,7 +59,7 @@ export default function ChatRoom(props) {
   function receiveMessage(response) {
     console.log("새로운 채팅 메시지 수신", response);
     const recv = JSON.parse(response.body);
-    setMessages([...messages, recv]);
+    setMessages(messages => [recv, ...messages]);
   }
 
   function connectSuccess(frame) {
@@ -81,6 +75,7 @@ export default function ChatRoom(props) {
   }
 
   function sendMessage(type, message = "") {
+    console.log("새로운 채팅 발신", message);
     const msg = {
       type: type,
       performanceId: chatId,
@@ -138,7 +133,7 @@ export default function ChatRoom(props) {
         <PerformanceMiniPoster img={chatRoom?.performance?.poster} title={chatRoom?.name} date={chatRoom?.closeTime} />
       </ChatModalHeader>
       <ChatModalBody>
-        <ChatBox messages={messages} />
+        <ChatBox messages={messages} sendMessage={sendMessage} />
       </ChatModalBody>
     </ChatModal>
   );

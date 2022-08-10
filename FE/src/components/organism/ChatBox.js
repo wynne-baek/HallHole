@@ -1,24 +1,41 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
 
 import { Box } from "@mui/material";
 import { styled } from "@mui/system";
 
 import ChatItem from "../molecule/ChatItem";
+import Input from "../atom/Input";
+import Button from "../atom/Button";
+import Text from "../atom/Text";
+
+import { CHAT_TYPE } from "../../helper/constants";
 
 const Content = styled(Box)`
   width: 90vw;
-  height: 50vh;
   margin: auto;
-  background-color: green;
+`;
+
+const ChatHistoryArea = styled(Box)`
+  height: 40vh;
+  border: 1px solid #ccc;
+  border-radius: 5px;
   overflow: scroll;
 `;
 
-export default function ChatBox({ messages = [] }) {
+const ChatInputArea = styled(Box)`
+  margin-top: 5%;
+  display: flex;
+  justify-content: space-between;
+`;
+
+export default function ChatBox({ messages, sendMessage }) {
+  const [message, setMessage] = useState("");
   const contentRef = useRef(null);
 
   useEffect(() => {
     contentRef.current.scrollTop = contentRef.current.scrollHeight;
-  });
+    // contentRef.current.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
 
   function getChatList(chats) {
     let id = 0;
@@ -29,5 +46,27 @@ export default function ChatBox({ messages = [] }) {
       .reverse();
   }
 
-  return <Content ref={contentRef}>{getChatList(messages)}</Content>;
+  function onInputChange(e) {
+    setMessage(e.target.value);
+  }
+
+  function onClickSend() {
+    sendMessage(CHAT_TYPE.TALK, message);
+    setMessage("");
+  }
+
+  return (
+    <Content>
+      <ChatHistoryArea ref={contentRef}>{getChatList(messages)}</ChatHistoryArea>
+      <ChatInputArea>
+        <Input size="large" value={message} onChange={onInputChange}></Input>
+        <Button size="smaller" onClick={onClickSend}>
+          전송
+        </Button>
+      </ChatInputArea>
+      <Text size="smaller" variant="grey" weight="normal">
+        함께 대화하는 모두를 위해 에티켓을 지켜주세요.
+      </Text>
+    </Content>
+  );
 }
