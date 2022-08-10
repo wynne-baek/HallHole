@@ -30,15 +30,13 @@ const reviewButtonStyle = {
   textAlign: "center",
 };
 
-function RightPerformance({ performanceInfo, performanceMoreInfo, id, onClick, performanceLike }) {
+function RightPerformance({ performanceInfo, performanceMoreInfo, id }) {
   return (
     <Box sx={contentStyle}>
       <PerformanceInformation
         performanceInfo={performanceInfo}
         performanceMoreInfo={performanceMoreInfo}
         id={id}
-        onClick={onClick}
-        performanceLike={performanceLike}
       ></PerformanceInformation>
       <CategoryDivider type="negative" />
       {/* <Box sx={reviewListStyle}>
@@ -63,7 +61,7 @@ export default function PerformanceDetail({ id }) {
   //공연 정보 설정
   useEffect(() => {
     fetchPerformance(id, requestPerformanceInfoSuccess, requestPerformanceInfoFail);
-  })
+  }, [])
   
   function requestPerformanceInfoSuccess(res) {
     setPerformanceInfo(res.data.performance);
