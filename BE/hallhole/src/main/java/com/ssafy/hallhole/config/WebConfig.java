@@ -14,7 +14,8 @@ public class WebConfig extends WebMvcConfigurerAdapter {
                 .addMapping("/**")
                 .allowedOrigins("*")
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
-                .maxAge(60000);
+                .maxAge(60000)
+                .allowedOrigins("http://localhost:8080");
     }
 
     @Override
