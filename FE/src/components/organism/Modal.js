@@ -3,7 +3,7 @@ import { styled } from "@mui/system";
 
 const ModalDiv = styled("div")`
   position: fixed;
-  top: ${props => (props.toggle == "on" ? "0" : "100%")};
+  top: ${props => (props.toggle == "on" ? props.openheight : props.closeheight)};
   left: 0;
   width: 100%;
   height: 100%;
@@ -19,16 +19,22 @@ const ModalDiv = styled("div")`
  *  - toggle : "on" or "off"
  *  - on : function to call when toggle is on
  *  - off : function to call when toggle is off
+ *  - openHeight : height of the modal when opened( 0 ~ 100vh, default: "0")
+ *  - closeHeight : height of the modal when opened( 0 ~ 100vh, default: "0")
  */
-export default function Modal(props) {
+export default function Modal({ toggle, on, off, openHeight = "0", closeHeight = "100vh", children }) {
   function onToggleChange(on, off) {
-    if (props.toggle) on && on();
+    if (toggle) on && on();
     else off && off();
   }
 
   useEffect(() => {
-    onToggleChange(props.on, props.off);
-  }, [props.toggle]);
+    onToggleChange(on, off);
+  }, [toggle]);
 
-  return <ModalDiv toggle={props.toggle}>{props.children}</ModalDiv>;
+  return (
+    <ModalDiv toggle={toggle} openheight={openHeight} closeheight={closeHeight}>
+      {children}
+    </ModalDiv>
+  );
 }
