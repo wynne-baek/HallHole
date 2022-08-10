@@ -16,14 +16,14 @@ const ModalDiv = styled("div")`
   box-shadow: -1px -1px 1px 1px rgba(0, 0, 0, 0.1);
 
   background-color: ${props => props.backgroundcolor};
-  transition: all 300ms cubic-bezier(0.86, 0, 0.07, 1);
+  transition: all 600ms cubic-bezier(0.86, 0, 0.07, 1);
 `;
 
 /**
  * props
  *  - toggle : "on" or "off"
- *  - on : function to call when toggle is on
- *  - off : function to call when toggle is off
+ *  - modalOn : function to call when toggle is on
+ *  - modalOff : function to call when toggle is off
  *  - backgroundcolor : background color of the modal
  *  - borderRadius : border radius of the modal
  *  - openHeight : height of the modal when opened( 0 ~ 100vh, default: "0")
@@ -31,19 +31,24 @@ const ModalDiv = styled("div")`
  */
 export default function Modal({
   toggle,
-  on,
-  off,
+  modalOn,
+  modalOff,
   backgroundcolor,
   borderRadius = "0",
   openHeight = "0",
-  closeHeight = "100vh",
+  closeHeight = "105vh",
   children,
 }) {
   const theme = useTheme();
 
   function onToggleChange(on, off) {
-    if (toggle) on && on();
-    else off && off();
+    if (toggle === "on") {
+      on && on();
+      document.body.style.overflow = "hidden";
+    } else {
+      off && off();
+      document.body.style.overflow = "unset";
+    }
   }
 
   function getBackgroundColor() {
@@ -56,7 +61,7 @@ export default function Modal({
   }
 
   useEffect(() => {
-    onToggleChange(on, off);
+    onToggleChange(modalOn, modalOff);
   }, [toggle]);
 
   return (
