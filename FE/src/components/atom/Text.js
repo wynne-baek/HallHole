@@ -36,7 +36,7 @@ function getColor(variant) {
     case "white":
       return "white";
     default:
-      return "#e37373";
+      return "black";
   }
 }
 
