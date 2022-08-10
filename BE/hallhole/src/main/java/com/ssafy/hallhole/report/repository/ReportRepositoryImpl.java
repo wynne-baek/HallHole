@@ -25,20 +25,12 @@ public class ReportRepositoryImpl implements ReportRepository{
         return em.createQuery("select r from Report r",Report.class)
                 .getResultList();
     }
-
     @Override
-    public Long findSameReport(String erTag, String edTag) {
-        return em.createQuery("select count(r.id) from Report r where r.member.idTag=:erTag and r.respondentMember.idTag=:edTag",Long.class)
+    public Long findSameReport(String erTag, String edTag, LocalDateTime now) {
+        return em.createQuery("select count(r.id) from Report r where r.member.idTag=:erTag and r.respondentMember.idTag=:edTag and r.dateTime>:now",Long.class)
                 .setParameter("erTag",erTag)
                 .setParameter("edTag", edTag)
+                .setParameter("now", now.minusMinutes(5))
                 .getSingleResult();
     }
-//    @Override
-//    public int findSameReport(String erTag, String edTag, LocalDateTime now) {
-//        return em.createQuery("select count(r.id) from Report r where r.member.idTag=:erTag and r.respondentMember.idTag=:edTag and r.dateTime>date_add(:now,INTERVAL -5 MINUTE)",Integer.class)
-//                .setParameter("erTag",erTag)
-//                .setParameter("edTag", edTag)
-//                .setParameter("now", now)
-//                .getSingleResult();
-//    }
 }

@@ -21,7 +21,7 @@ public class ReportController {
     private final ReportServiceImpl reportService;
 
     @PostMapping
-    @ApiOperation(value = "신고 등록", notes = "'/report' 같은 report, reported 인 신고는 안 받음 >> 이후 시간 설정 추가 예정")
+    @ApiOperation(value = "신고 등록", notes = "'/report' 5분 안에 같은 report, reported 인 신고가 있다면 받지 않음")
     public ResponseEntity reportMember(@RequestBody ReportInputDTO inputDto) throws NotFoundException {
         reportService.addReport(inputDto);
         return new ResponseEntity(HttpStatus.OK);

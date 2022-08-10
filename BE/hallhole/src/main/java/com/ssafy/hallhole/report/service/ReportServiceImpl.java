@@ -35,7 +35,7 @@ public class ReportServiceImpl implements ReportService {
 
         Report report = new Report(reporter, reported, inputDto.getContents(), inputDto.getType());
 
-        if(reportRepository.findSameReport(reporter.getIdTag(), reported.getIdTag())!=0){
+        if(reportRepository.findSameReport(reporter.getIdTag(), reported.getIdTag(), LocalDateTime.now())!=0){
             throw new NotFoundException("동일한 사용자로부터 같은 아이디에게 한 신고가 이미 있습니다.");
             // 5분 이내에 함수가 안먹힘..
         }

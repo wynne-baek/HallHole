@@ -15,6 +15,6 @@ public interface ReportRepository {
     List<Report> findAllList();
 
     // 같은 reporter, 같은 reported 5분 이내 찾기
-    Long findSameReport(String erTag, String edTag);
+    Long findSameReport(String erTag, String edTag, LocalDateTime now);
 
 }
