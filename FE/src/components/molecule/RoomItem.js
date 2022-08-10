@@ -10,6 +10,8 @@ import { Link } from "react-router-dom";
 import storage from "../../helper/storage";
 import { useSelector } from "react-redux";
 
+import { useNavigate } from "react-router-dom";
+
 const RoomItemBox = styled(Box)`
   margin: 2px;
   background-color: white;
@@ -17,6 +19,8 @@ const RoomItemBox = styled(Box)`
 `;
 
 export default function RoomItem({ id, name, openTime, closeTime, memberCnt, poster, len, lastTxt }) {
+  const navigate = useNavigate();
+
   if (len == "" || len == null) {
     len = 10;
   }
@@ -25,6 +29,9 @@ export default function RoomItem({ id, name, openTime, closeTime, memberCnt, pos
   }
   if (name.length > len) {
     name = name.substr(0, len) + lastTxt;
+  }
+  function onClickEnter() {
+    navigate(`/chat/${id}`);
   }
 
   const user = useSelector(state => state.user.info);
@@ -77,12 +84,9 @@ export default function RoomItem({ id, name, openTime, closeTime, memberCnt, pos
         ></Box>
         <Box sx={{ float: "right", width: "20vw" }}>
           <Box sx={{ marginTop: 1 }}>
-            {/* 공연 채팅방으로 이동하기 */}
-            <Link to={`/chat/room/${user.id}`} style={{ textDecoration: "none" }}>
-              <Button size="smaller" onClick={handleClose}>
-                enter
-              </Button>
-            </Link>
+            <Button size="smaller" onClick={onClickEnter}>
+              ENTER
+            </Button>
           </Box>
           <Box sx={{ marginTop: 2 }}>
             <Text variant="black">
