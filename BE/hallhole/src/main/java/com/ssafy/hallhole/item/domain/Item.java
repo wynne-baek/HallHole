@@ -32,4 +32,9 @@ public class Item {
     @Builder.Default
     @ColumnDefault("0")
     private int price = 0;
+
+    public Item(ItemType itemType, int price) {
+        this.itemType = itemType;
+        this.price = price;
+    }
 }
