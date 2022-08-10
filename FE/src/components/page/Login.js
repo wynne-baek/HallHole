@@ -29,7 +29,7 @@ const LoginModalHeader = styled(Box)`
   padding: 5%;
 `;
 
-const LoginModalContent = styled(Box)`
+const LoginModalBody = styled(Box)`
   text-align: center;
 `;
 
@@ -93,7 +93,7 @@ export default function Login(props) {
         <CloseIcon sx={closeIconStyle} onClick={props.onClose} />
       </LoginModalHeader>
 
-      <LoginModalContent>
+      <LoginModalBody>
         <LogoBox>
           <Logo size="large" src="logo.png" />
         </LogoBox>
@@ -136,7 +136,7 @@ export default function Login(props) {
             </Text>
           </Button>
         </InputBox>
-      </LoginModalContent>
+      </LoginModalBody>
     </LoginModal>
   );
 }
