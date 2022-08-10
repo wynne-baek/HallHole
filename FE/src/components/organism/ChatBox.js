@@ -30,9 +30,11 @@ const ChatInputArea = styled(Box)`
 
 export default function ChatBox({ messages, sendMessage }) {
   const [message, setMessage] = useState("");
+  const [currentTime, setCurrentTime] = useState(new Date());
   const contentRef = useRef(null);
 
   useEffect(() => {
+    setCurrentTime(new Date());
     contentRef.current.scrollTop = contentRef.current.scrollHeight;
     // contentRef.current.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
@@ -41,7 +43,15 @@ export default function ChatBox({ messages, sendMessage }) {
     let id = 0;
     return chats
       .map(chat => {
-        return <ChatItem key={id++} name={chat.memberNickName} message={chat.message} time={chat.messageTime} />;
+        return (
+          <ChatItem
+            key={id++}
+            name={chat.memberNickName}
+            message={chat.message}
+            time={chat.messageTime}
+            currentTime={currentTime}
+          />
+        );
       })
       .reverse();
   }

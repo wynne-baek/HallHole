@@ -46,6 +46,8 @@ function getWeight(weight) {
       return "bold";
     case "normal":
       return "normal";
+    case "lighter":
+      return "lighter";
     default:
       return "bold";
   }
