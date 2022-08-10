@@ -11,6 +11,7 @@ const ModalDiv = styled("div")`
   height: 100%;
   margin: 0;
   padding: 0;
+  z-index: 500;
 
   background-color: ${props => props.backgroundcolor};
   transition: all 600ms cubic-bezier(0.86, 0, 0.07, 1);
