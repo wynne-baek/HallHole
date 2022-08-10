@@ -59,12 +59,12 @@ function getVariant(variant) {
 function getWidth(size) {
   switch (size) {
     case "large":
-      return "75%";
+      return "75vw";
     case "medium":
-      return "50%";
+      return "50vw";
     case "small":
-      return "25%";
+      return "25vw";
     default:
-      return "50%";
+      return "50vw";
   }
 }
