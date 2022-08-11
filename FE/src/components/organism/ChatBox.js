@@ -11,7 +11,7 @@ import Input from "../atom/Input";
 import Button from "../atom/Button";
 import Text from "../atom/Text";
 
-import { CHAT_TYPE } from "../../helper/constants";
+import { CHAT_TYPE, ERROR } from "../../helper/constants";
 
 const Content = styled(Box)`
   width: 90vw;
@@ -34,8 +34,11 @@ const ChatInputArea = styled(Box)`
 export default function ChatBox({ messages, sendMessage }) {
   const [message, setMessage] = useState("");
   const [currentTime, setCurrentTime] = useState(new Date());
+  const [errorMessage, setErrorMessage] = useState("");
   const user = useSelector(state => state.user.info);
-  const contentRef = useRef(null);
+
+  const contentRef = useRef();
+  const inputRef = useRef();
 
   useEffect(() => {
     setCurrentTime(new Date());
@@ -66,15 +69,20 @@ export default function ChatBox({ messages, sendMessage }) {
   }
 
   function onClickSend() {
-    sendMessage(CHAT_TYPE.TALK, message);
-    setMessage("");
+    if (message.length > 0) {
+      sendMessage(CHAT_TYPE.TALK, message);
+      setMessage("");
+      setErrorMessage("");
+    } else {
+      setErrorMessage(ERROR.NO_MESSAGE);
+    }
   }
 
   return (
     <Content>
       <ChatHistoryArea ref={contentRef}>{getChatList(messages)}</ChatHistoryArea>
-      <ChatInputArea>
-        <Input size="large" value={message} onChange={onInputChange}></Input>
+      <ChatInputArea ref={inputRef}>
+        <Input size="large" value={message} onChange={onInputChange} errorMessage={errorMessage}></Input>
         <Button size="smallest" onClick={onClickSend} radius="50">
           <SendIcon />
         </Button>

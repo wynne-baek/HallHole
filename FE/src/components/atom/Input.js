@@ -19,27 +19,39 @@ const StyledTextField = styled(TextField)(
 `,
 );
 
-export default function Input(props) {
+export default function Input({
+  value,
+  size = "medium",
+  type = "text",
+  variant = "outlined",
+  color = "primary",
+  label = "",
+  onChange = () => {},
+  errorMessage = "",
+}) {
   /**
    * props
    *  - value : input에 바인딩 되는 값
    *  - size : { "large", "medium", "small" }
    *  - type : { "password", "email", "text", "number", ... }
    *  - color : { "primary", "secondary", "error", "disabled", "inherit", ... }
-   *  - variant : { "standard(default)", "outlined" }
+   *  - variant : { "outlined(default)", "standard", "filled" }
    *  - onChange : 입력 시 실행되는 함수
    *  - label : 추가 input 컴포넌트 안에 "label"을 이용하여 텍스트를 넣을 수 있다.
+   *  - errorMessage : 에러 메세지를 넣을 수 있다.
    */
   return (
     <Box>
       <StyledTextField
-        value={props.value}
-        size={props.size}
-        type={props.type}
-        color={props.color}
-        label={props.label}
-        variant={props.variant}
-        onChange={props.onChange}
+        value={value}
+        size={size}
+        type={type}
+        color={color}
+        label={label}
+        variant={variant}
+        onChange={onChange}
+        error={errorMessage.length > 0 ? true : false}
+        helperText={errorMessage}
       />
     </Box>
   );
@@ -52,7 +64,7 @@ function getVariant(variant) {
     case "filled":
       return "filled";
     default:
-      return "standard";
+      return "filled";
   }
 }
 
@@ -66,5 +78,18 @@ function getWidth(size) {
       return "25vw";
     default:
       return "50vw";
+  }
+}
+
+function getHeight(size) {
+  switch (size) {
+    case "large":
+      return "5vh";
+    case "medium":
+      return "5vh";
+    case "small":
+      return "5vh";
+    default:
+      return "5vh";
   }
 }
