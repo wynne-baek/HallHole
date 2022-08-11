@@ -117,7 +117,7 @@ export default function ChatRoom(props) {
   return (
     <ChatModal
       toggle={toggle}
-      openHeight="11vh"
+      openHeight="10vh"
       closeHeight="100vh"
       modalOn={chatOn}
       modalOff={chatOff}
