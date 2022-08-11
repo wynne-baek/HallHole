@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect, useState, useLayoutEffect } from "react";
 
 import { useSelector } from "react-redux";
 
@@ -36,13 +36,25 @@ export default function ChatBox({ messages, sendMessage }) {
   const [currentTime, setCurrentTime] = useState(new Date());
   const [errorMessage, setErrorMessage] = useState("");
   const user = useSelector(state => state.user.info);
-  const contentRef = useRef(null);
+
+  const contentRef = useRef();
+  const inputRef = useRef();
 
   useEffect(() => {
     setCurrentTime(new Date());
     contentRef.current.scrollTop = contentRef.current.scrollHeight;
     // contentRef.current.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
+
+  useLayoutEffect(() => {
+    const detectMobileKeyboard = () => {
+      inputRef.current.scrollTop = inputRef.current.scrollHeight;
+    };
+
+    window.addEventListener("resize", detectMobileKeyboard);
+
+    return () => window.removeEventListener("resize", detectMobileKeyboard);
+  }, []);
 
   function getChatList(chats) {
     let id = 0;
@@ -79,7 +91,7 @@ export default function ChatBox({ messages, sendMessage }) {
   return (
     <Content>
       <ChatHistoryArea ref={contentRef}>{getChatList(messages)}</ChatHistoryArea>
-      <ChatInputArea>
+      <ChatInputArea ref={inputRef}>
         <Input size="large" value={message} onChange={onInputChange} errorMessage={errorMessage}></Input>
         <Button size="smallest" onClick={onClickSend} radius="50">
           <SendIcon />
