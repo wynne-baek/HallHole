@@ -29,10 +29,6 @@ const ChatModalBody = styled(Box)`
   margin-top: 2vh;
 `;
 
-const arrowIconStyle = {
-  fontSize: "3rem",
-};
-
 export default function ChatRoom(props) {
   const dispatch = useDispatch();
   const user = useSelector(state => state.user.info);

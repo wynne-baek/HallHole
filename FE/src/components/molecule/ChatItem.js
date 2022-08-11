@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Box } from "@mui/material";
+import { Box, useTheme } from "@mui/material";
 import { styled } from "@mui/system";
 
 import ProfileImage from "../atom/ProfileImage";
@@ -8,13 +8,20 @@ import Text from "../atom/Text";
 
 const Content = styled(Box)`
   margin-top: 10px;
-  max-width: 70vw;
+  padding: 2vw;
   display: flex;
-  justify-content: flex-start;
+  justify-content: ${({ whoseMessage }) => (whoseMessage === "other" ? "flex-start" : "flex-end")};
+`;
+
+const ProfileImageBox = styled(Box)`
+  margin-right: 2vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 `;
 
 const ChatBody = styled(Box)`
-  width: 70vw;
+  max-width: 60vw;
   dispaly: flex;
   flex-direction: column;
 `;
@@ -27,17 +34,21 @@ const SenderInfoBox = styled(Box)`
 
 const MessageBox = styled(Box)`
   word-break: break-all;
-  border: 1px solid #ccc;
+  border: ${props => `1px solid ${props.bordercolor}`};
   border-radius: 5px;
-  padding: 5px;
-  box-shadow: 1px 1px 1px #ccc;
+  padding: 6px;
+  box-shadow: ${props => `1px 1px 1px ${props.bordercolor}`};
+  background-color: ${props => props.backgroundcolor};
+  color: ${props => props.color};
 `;
 
 const NameBox = styled(Box)``;
 
 const TimeBox = styled(Box)``;
 
-export default function ChatItem({ name, message, time, currentTime }) {
+export default function ChatItem({ whoseMessage = "other", name, message, time, currentTime }) {
+  const theme = useTheme();
+
   function getFormattedTime(time) {
     const seconds = (currentTime - time) / 1000;
     if (seconds < 60) return `방금`;
@@ -55,21 +66,45 @@ export default function ChatItem({ name, message, time, currentTime }) {
     return `${Math.floor(years)}년`;
   }
 
+  function getBackgroundColor() {
+    if (whoseMessage === "me") return theme.palette.primary.main;
+    else return theme.palette.base.white;
+  }
+
+  function getFontColor() {
+    if (whoseMessage === "me") return theme.palette.base.white;
+    else return theme.palette.base.black;
+  }
+
+  function getBorderColor() {
+    if (whoseMessage === "me") return theme.palette.primary.week;
+    else return "#ccc";
+  }
+
   return (
-    <Content>
-      <ProfileImage size="small" />
+    <Content whoseMessage={whoseMessage}>
+      <ProfileImageBox>{whoseMessage == "other" && <ProfileImage size="small" />}</ProfileImageBox>
       <ChatBody>
-        <SenderInfoBox>
-          <NameBox>
-            <Text>{name}</Text>
-          </NameBox>
-          <TimeBox>
-            <Text size="smallest" variant="grey" weight="lighter">
-              {getFormattedTime(new Date(time))} 전
-            </Text>
-          </TimeBox>
-        </SenderInfoBox>
-        <MessageBox>{message}</MessageBox>
+        {whoseMessage == "other" && (
+          <SenderInfoBox>
+            <NameBox>
+              <Text>{name}</Text>
+            </NameBox>
+          </SenderInfoBox>
+        )}
+        <MessageBox
+          whoseMessage={whoseMessage}
+          backgroundcolor={getBackgroundColor()}
+          color={getFontColor()}
+          bordercolor={getBorderColor()}
+        >
+          {message}
+        </MessageBox>
+        <TimeBox>
+          <Text size="smallest" variant="grey" weight="lighter">
+            {getFormattedTime(new Date(time))} 전
+          </Text>
+        </TimeBox>
       </ChatBody>
     </Content>
   );

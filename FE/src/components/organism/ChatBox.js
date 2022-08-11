@@ -1,5 +1,7 @@
 import React, { useRef, useEffect, useState } from "react";
 
+import { useSelector } from "react-redux";
+
 import { Box } from "@mui/material";
 import { styled } from "@mui/system";
 import SendIcon from "@mui/icons-material/Send";
@@ -32,6 +34,7 @@ const ChatInputArea = styled(Box)`
 export default function ChatBox({ messages, sendMessage }) {
   const [message, setMessage] = useState("");
   const [currentTime, setCurrentTime] = useState(new Date());
+  const user = useSelector(state => state.user.info);
   const contentRef = useRef(null);
 
   useEffect(() => {
@@ -46,7 +49,8 @@ export default function ChatBox({ messages, sendMessage }) {
       .map(chat => {
         return (
           <ChatItem
-            key={id++}
+            key={id++ + chat.messageTime}
+            whoseMessage={chat.idTag == user.idTag ? "me" : "other"}
             name={chat.memberNickName}
             message={chat.message}
             time={chat.messageTime}
