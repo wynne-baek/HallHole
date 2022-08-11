@@ -20,4 +20,6 @@ public interface PerformanceLikeService {
     List<Performance> findPopularPerformance(int size) throws NotFoundException;
 
     boolean isLike(String pid, String tag) throws NotFoundException;
+
+    Long likeCnt(String tag) throws NotFoundException;
 }

@@ -125,4 +125,15 @@ public class PerformanceLikeServiceImpl implements PerformanceLikeService{
         }
         return true;
     }
+
+    @Override
+    public Long likeCnt(String tag) throws NotFoundException {
+
+        Member m = memberRepository.findByIdTag(tag);
+        if(m==null || m.isOut()){
+            throw new NotFoundException("유효한 사용자가 아닙니다.");
+        }
+
+        return pLikeRepository.likeCnt(m.getId());
+    }
 }
