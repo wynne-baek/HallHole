@@ -43,9 +43,6 @@ export default function Input({
   return (
     <Box>
       <StyledTextField
-        inputProps={{
-          style: { fontSize: "1vh" },
-        }}
         value={value}
         size={size}
         type={type}
