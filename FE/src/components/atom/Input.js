@@ -43,6 +43,9 @@ export default function Input({
   return (
     <Box>
       <StyledTextField
+        inputProps={{
+          style: { fontSize: "1vh" },
+        }}
         value={value}
         size={size}
         type={type}
@@ -64,7 +67,7 @@ function getVariant(variant) {
     case "filled":
       return "filled";
     default:
-      return "standard";
+      return "filled";
   }
 }
 
@@ -78,5 +81,18 @@ function getWidth(size) {
       return "25vw";
     default:
       return "50vw";
+  }
+}
+
+function getHeight(size) {
+  switch (size) {
+    case "large":
+      return "5vh";
+    case "medium":
+      return "5vh";
+    case "small":
+      return "5vh";
+    default:
+      return "5vh";
   }
 }
