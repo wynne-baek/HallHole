@@ -26,4 +26,6 @@ public interface MemberRepository extends JpaRepository<Member,Long> {
     @Query(value="select * from member where is_out=false", nativeQuery = true)
     List<Member> findAllAliveMember();
 
+    boolean existsByEmail(String email);
+
 }

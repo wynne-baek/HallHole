@@ -5,6 +5,7 @@ import com.ssafy.hallhole.advice.exceptions.NotFoundException;
 import com.ssafy.hallhole.member.domain.Member;
 import com.ssafy.hallhole.member.dto.*;
 import com.ssafy.hallhole.member.service.MemberServiceImpl;
+import com.ssafy.hallhole.member.service.UserService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
@@ -33,22 +34,9 @@ public class MemberController {
 
     @PostMapping("/login")
     @ApiOperation(value="홀홀 로그인", notes = "세션 정보와 아이디, 비밀번호 필요")
-    public TokenDto login(@RequestBody LoginDTO member,HttpSession session) throws NotFoundException {
+    public void login(@RequestBody LoginDTO member,HttpSession session) throws NotFoundException {
         String token = memberService.login(member.getEmail(), member.getPw(), session.getId());
-        return new TokenDto(token);
-    }
-
-    @PostMapping("/chk-email")
-    @ApiOperation(value="이메일 체크", notes = "이메일 형식이 맞는지 boolean 형식으로 return")
-    public boolean emailCheck(@RequestBody String email){
-        return Pattern.matches("\\w+@\\w+\\.\\w+(\\.\\w+)?", email);
-    }
-
-    @PostMapping("/chk-pw")
-    @ApiOperation(value="비밀번호 체크",
-            notes =  "비밀번호 형식: 8-20자, 숫자/특수문자($`~!@$!%*#^?&()_=+)/영문자 필수 >> boolean 형식으로 return")
-    public boolean pwCheck(@RequestBody String pw){
-        return Pattern.matches("^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\\\\(\\\\)\\-_=+])(?!.*[^a-zA-z0-9$`~!@$!%*#^?&\\\\(\\\\)\\-_=+]).{8,20}$" , pw);
+//        return new TokenDto();
     }
 
     @GetMapping("/logout")
@@ -60,6 +48,66 @@ public class MemberController {
         }catch(Exception e){
             throw new NotFoundException("로그아웃 실패");
         }
+    }
+
+    @PutMapping("/out")
+    @ApiOperation(value = "회원 탈퇴 >> follow 관련 상의 필요. 탈퇴 잠시 막아뒀습니다. 다른 것들 다 수정 후 올릴게요")
+    public void delMember(@RequestHeader Map<String, Object> requestHeader, HttpSession session) throws NotFoundException {
+//        String token = (String) requestHeader.get("token");
+//        memberService.delMem(token, session.getId());
+    }
+
+
+
+    private final UserService userService;
+
+    @GetMapping("/me")
+    public ResponseEntity<MemberResponseDto> getMyMemberInfo() throws NotFoundException {
+        System.out.println("getMyMemberInfo()");
+        return ResponseEntity.ok(userService.getMyInfo());
+    }
+
+    @GetMapping("/{email}")
+    public ResponseEntity<MemberResponseDto> getMemberInfo(@PathVariable String email) throws NotFoundException {
+        System.out.println("getMemberInfo()");
+        return ResponseEntity.ok(userService.getMemberInfo(email));
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+    @PostMapping("/chk-email")
+    @ApiOperation(value="이메일 형식 체크", notes = "이메일 형식이 맞는지 boolean 형식으로 return")
+    public boolean emailCheck(@RequestBody String email){
+        return Pattern.matches("\\w+@\\w+\\.\\w+(\\.\\w+)?", email);
+    }
+
+//    @PostMapping("/chk-duplicate")
+//    @ApiOperation(value="이메일 중복 체크", notes = "이메일 중복인지 boolean 형식으로 return >> null이거나, 중복이면 return false")
+//    public boolean emailDuplicateCheck(@RequestBody String email) throws NotFoundException {
+//        if(email==null) return false;
+//        try{
+//            memberService.duplicateMember(email);
+//            return true;
+//        }catch(NotFoundException e){
+//            return false;
+//        }
+//    }
+
+    @PostMapping("/chk-pw")
+    @ApiOperation(value="비밀번호 체크",
+            notes =  "비밀번호 형식: 8-20자, 숫자/특수문자($`~!@$!%*#^?&()_=+)/영문자 필수 >> boolean 형식으로 return")
+    public boolean pwCheck(@RequestBody String pw){
+        return Pattern.matches("^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\\\\(\\\\)\\-_=+])(?!.*[^a-zA-z0-9$`~!@$!%*#^?&\\\\(\\\\)\\-_=+]).{8,20}$" , pw);
     }
 
     @GetMapping("/my-info")
@@ -75,9 +123,9 @@ public class MemberController {
 
     @PostMapping("/pwmail")
     @ApiOperation(value="비밀번호 변경 링크 메일 전송 >> 전송 막아뒀습니다")
-    public ResponseEntity findPW(@RequestBody EmailDTO emailDto) throws NotFoundException {
+    public ResponseEntity findPW(@RequestBody String email) throws NotFoundException {
         try{
-            memberService.findPW(emailDto.getEmail());
+            memberService.findPW(email);
             return new ResponseEntity(HttpStatus.OK);
         }catch(NotFoundException e){
             return new ResponseEntity(HttpStatus.NOT_FOUND);
@@ -93,13 +141,6 @@ public class MemberController {
         }catch(NotFoundException e){
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
-    }
-
-    @PutMapping("/out")
-    @ApiOperation(value = "회원 탈퇴 >> follow 관련 상의 필요. 탈퇴 잠시 막아뒀습니다. 다른 것들 다 수정 후 올릴게요")
-    public void delMember(@RequestHeader Map<String, Object> requestHeader, HttpSession session) throws NotFoundException {
-//        String token = (String) requestHeader.get("token");
-//        memberService.delMem(token, session.getId());
     }
 
     @PutMapping("")

@@ -6,8 +6,6 @@ import com.ssafy.hallhole.item.domain.OwnItem;
 import com.ssafy.hallhole.item.dto.ItemChangeInputDTO;
 import com.ssafy.hallhole.item.dto.ItemInputDTO;
 import com.ssafy.hallhole.item.service.ItemServiceImpl;
-import com.ssafy.hallhole.report.dto.ReportInputDTO;
-import com.ssafy.hallhole.report.dto.ReportOutputDTO;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

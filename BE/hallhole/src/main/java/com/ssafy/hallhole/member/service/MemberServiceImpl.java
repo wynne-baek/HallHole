@@ -6,6 +6,7 @@ import com.ssafy.hallhole.comment.repository.CommentRepository;
 import com.ssafy.hallhole.follow.domain.Follow;
 import com.ssafy.hallhole.follow.repository.FollowRepositoryImpl;
 import com.ssafy.hallhole.mail.MailService;
+import com.ssafy.hallhole.member.domain.Authority;
 import com.ssafy.hallhole.member.domain.Gender;
 import com.ssafy.hallhole.member.domain.Member;
 import com.ssafy.hallhole.member.dto.*;
@@ -15,6 +16,7 @@ import com.ssafy.hallhole.review.domain.Review;
 import com.ssafy.hallhole.review.repository.ReviewRepository;
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -37,12 +39,13 @@ public class MemberServiceImpl implements MemberService {
 
     private final HashMapRepository sessionRepository;
 
+    private final PasswordEncoder passwordEncoder;
     private final FollowRepositoryImpl followRepository;
 
     @Override
     public void join(MemberJoinDTO m,String sessionId) throws NotFoundException {
 
-        Member member = new Member(m.getEmail(),m.getName(),m.getPw());
+        Member member = new Member(m.getEmail(),m.getName(),passwordEncoder.encode(m.getPw()));
         duplicateMember(member.getEmail());
 
 //        if(!Pattern.matches(
@@ -68,6 +71,7 @@ public class MemberServiceImpl implements MemberService {
                 member.setIdTag(tmpTag);
             }
         }
+        member.setAuthority(Authority.ROLE_USER);
         memberRepository.save(member);
     }
 

@@ -24,7 +24,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @RequiredArgsConstructor
-public class Member implements UserDetails {
+public class Member {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -38,6 +38,9 @@ public class Member implements UserDetails {
     private String kakaoSid;
 
     @Setter
+    private String refreshToken;
+
+    @Setter
     @NotNull
     @Column(length = 20)
     private String name;
@@ -45,7 +48,6 @@ public class Member implements UserDetails {
     private String email;
 
     @Setter
-    @Column(length = 25)
     private String password;
 
     @Setter
@@ -128,10 +130,15 @@ public class Member implements UserDetails {
     @Column(columnDefinition = "INT UNSIGNED")
     private int nowAcc = 0;
 
+    @Setter
+    @Enumerated(EnumType.STRING)
+    private Authority authority;
+
     public Member(String email, String name, String password) {
         this.email = email;
         this.name = name;
         this.password = password;
+        this.provider = "HH";
     }
 
     public Member(String provider, String kakaoSid, String name, String email) {
@@ -174,45 +181,4 @@ public class Member implements UserDetails {
         this.point = remainPoint;
     }
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
-    }
-
-    @Override
-    public String getUsername() {
-        System.out.println("");
-        if (!this.provider.equals("HH")) return this.kakaoSid;
-        else return this.email;
-    }
-
-    @Override
-    public String getPassword() {
-        return this.password;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        // 계정의 잠김 여부 리턴
-        if(this.isBan) return false;
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        // 비밀번호 만료 여부 리턴
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        // 계정의 활성화 여부 리턴
-        if(this.isOut) return false;
-        return true;
-    }
 }
