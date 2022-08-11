@@ -11,22 +11,67 @@ import CircleIcon from '@mui/icons-material/Circle';
 import Accessory from "../atom/Accessory";
 import PosterImage from "../atom/PosterSize";
 
+import { changeCharacter, customedCharacter } from "../../apis/item";
+
 const ToggleBox = styled(Box)`
   margin-top: 5%;
   text-align: center;
 `;
 
-export default function EditCharacter(props) {
-  const [choose, setChoose] = React.useState(true);
+// const colorNum = {
+//   // 숫자 = key , color = string
+//   0: white,
+//   1: black,
+//   2: '#aece2d',
+//   yellow: 3,
+//   orange: 4,
+//   red: 5,
+//   signature: 6,
+// }
 
-  function characterColorChange(e) {
-    e.preventDefault();
-    console.log('색깔 변경')
+
+
+export default function EditCharacter({ userId }) {
+  const [choose, setChoose] = React.useState(true);
+  const [color, setColor] = React.useState(0);
+  const [acc, setAcc] = React.useState(0);
+
+  // 기존 캐릭터 정보 가져오기
+  // useEffect(() => {
+  //   customedCharacter(userId, characterLoadSuccess, characterLoadFail);
+  // })
+  
+  // 캐릭터 정보 불러오기 성공 시 - 색상 가져오기, 악세사리 정보 가져오기
+  function characterLoadSuccess(res) {
+    setColor(res.data.character);
+    setAcc(res.data.acc);
+  }
+
+  function characterLoadFail(err) {
+    console.log("캐릭터 정보 불러오기 실패", err);
+    // 불러오기 실패 후 가장 기본 캐릭터 모습으로 보여주기
+    // 기본 캐릭터 정보 캐릭터 색상 하양, 아무것도 액세서리 착용하지 않음 
+    characterLoadFail.defaultProps = {
+      character: 1,
+      acc: 1,
+    }
   }
   
-  function accessoryChange(e) {
-    e.preventDefault();
-    console.log('소품 변경')
+  function createOnClickEvent({ color }) {
+    return () => {
+      setColor(color);
+      console.log(color)
+    }
+  }
+
+  const colorChange = (e) => {
+    setColor(e.target.value);
+    console.log(e.target.value)
+  }
+  
+  const accChange = (e) => {
+    setAcc(e.target.value);
+    console.log(e.target.value)
   }
 
   return (
@@ -74,36 +119,36 @@ export default function EditCharacter(props) {
         {choose && (
           <Box sx={{ width: 250, height: 250, backgroundColor: "skyblue", p: 2, borderRadius: 5 }}>
             <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-              <CircleIcon sx={{ fontSize: 80, color: "white" }} onClick={characterColorChange}/>
-              <CircleIcon sx={{ fontSize: 80, color: "black" }} onClick={characterColorChange}/>
-              <CircleIcon sx={{ fontSize: 80, color: "#aece2d" }} onClick={characterColorChange} />
+              <CircleIcon sx={{ fontSize: 80, color: "white" }} onClick={createOnClickEvent({ color:'white' })} />
+              <CircleIcon sx={{ fontSize: 80, color: "black" }} value="black" />
+              <CircleIcon sx={{ fontSize: 80, color: "#aece2d" }} value="green" />
             </Box>
             <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-              <CircleIcon sx={{ fontSize: 80, color: "#f8ea67" }} />
-              <CircleIcon sx={{ fontSize: 80, color: "#e0712c" }} />
-              <CircleIcon sx={{ fontSize: 80, color: "#a63d36" }} />
+              <CircleIcon sx={{ fontSize: 80, color: "#f8ea67" }} value="yellow" />
+              <CircleIcon sx={{ fontSize: 80, color: "#e0712c" }} value="orange" />
+              <CircleIcon sx={{ fontSize: 80, color: "#a63d36" }} value="red" />
             </Box>
             <Box sx={{ ml: 0.5 }}>
-              <CircleIcon sx={{ fontSize: 80, color: "#e37373" }} />
+              <CircleIcon sx={{ fontSize: 80, color: "#e37373" }} value="signature" />
             </Box>
           </Box>
         )}
         {!choose && (
           <Box sx={{ width: 250, height: 250, backgroundColor: "skyblue", p: 2, borderRadius: 5 }}>
             <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-              <Box sx={{ width:60, height:60, border: '1px dashed grey', borderRadius: 2, mr: 1 }}/>
-              <Accessory src="acc/death_note.png"/>
-              <Accessory src="acc/death_wing.png"/>
+              <Box sx={{ width:60, height:60, border: '1px dashed grey', borderRadius: 2, mr: 1 }} />
+              <Accessory src="acc/death_note.png" />
+              <Accessory src="acc/death_wing.png" />
             </Box>
             <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-              <Accessory src="acc/kinky_boots.png"/>
-              <Accessory src="acc/mozart_hair.png"/>
-              <Accessory src="acc/mozart_paper.png"/>
+              <Accessory src="acc/kinky_boots.png" />
+              <Accessory src="acc/mozart_hair.png" />
+              <Accessory src="acc/mozart_paper.png" />
             </Box>
             <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-              <Accessory src="acc/opera_mask.png"/>
-              <Accessory src="acc/smileman.png"/>
-              <Accessory src="acc/death_apple.png"/>
+              <Accessory src="acc/opera_mask.png" />
+              <Accessory src="acc/smileman.png" />
+              <Accessory src="acc/death_apple.png" />
             </Box>
           </Box>
         )}
@@ -114,3 +159,4 @@ export default function EditCharacter(props) {
     </Box>
   );
 }
+
