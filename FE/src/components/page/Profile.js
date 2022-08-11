@@ -6,9 +6,7 @@ import UserActivity from "../organism/UserActivity";
 import { Box } from "@mui/system";
 import MyActivity from "../organism/MyActivity";
 
-import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { requestUserInfo } from "../../apis/user";
 
 const likePerformanceList = [
   {
