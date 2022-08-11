@@ -4,4 +4,8 @@ const CHAT_TYPE = {
   OUT: "OUT",
 };
 
-export { CHAT_TYPE };
+const ERROR = {
+  NO_MESSAGE: "메시지를 입력해주세요.",
+};
+
+export { CHAT_TYPE, ERROR };
