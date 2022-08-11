@@ -31,7 +31,6 @@ public class CustomUserDetailService implements UserDetailsService {
         }
 
         GrantedAuthority grantedAuthority = new SimpleGrantedAuthority(member.getAuthority().toString());
-        System.out.println("loadUserByUsername");
         return new User(
                 String.valueOf(member.getIdTag()),              //내가 변경한 부분
                 member.getPassword(),

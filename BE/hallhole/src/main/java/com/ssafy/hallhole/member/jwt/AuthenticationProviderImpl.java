@@ -1,5 +1,6 @@
 package com.ssafy.hallhole.member.jwt;
 
+import com.ssafy.hallhole.member.service.CustomUserDetailService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -15,7 +16,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class AuthenticationProviderImpl implements AuthenticationProvider {
 
-    private final UserDetailsService userDetailsService;
+    private final CustomUserDetailService userDetailsService;
     private final PasswordEncoder passwordEncoder;
 
     /**
@@ -36,6 +37,7 @@ public class AuthenticationProviderImpl implements AuthenticationProvider {
 
         // 해당 회원 Database 조회
         UserDetails userDetail = userDetailsService.loadUserByUsername(username);
+        System.out.println("userDetail.getUsername() = " + userDetail.getUsername());
 
         // 비밀번호 확인
         if (!passwordEncoder.matches(password, userDetail.getPassword()))
