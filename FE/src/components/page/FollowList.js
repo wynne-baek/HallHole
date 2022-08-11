@@ -60,12 +60,12 @@ export default function FollowList({ id }) {
   return (
     <Box sx={{mt : 2}}>
       {validateProfileUser ? (
-        <Box sx={{ width: "95%", mx: 2 }}>
+        <Box sx={{ width: "95%", margin: "auto"}}>
           <TextStyle size="large" variant="black">
             {profileUser.name}
           </TextStyle>
 
-          <Box sx={{ display: "flex", marginY: 2 }}>
+          <Box sx={{ display: "flex", margin:"auto", width: "97%" }}>
             {target.map((item, i) => (
               <CategorySelectButton
                 key={i}
@@ -76,7 +76,7 @@ export default function FollowList({ id }) {
             ))}
           </Box>
 
-          <Box sx={{ marginTop: 1 }}>
+          <Box sx={{ marginTop: 1, margin:"auto"}}>
             {selectedTarget === target[0]
               ? followerList.map((profile, i) => (
                   <ProfileItem key={i} user={user?.idTag} name={profile.name} profileId={profile.idTag}></ProfileItem>

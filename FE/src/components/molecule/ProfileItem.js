@@ -49,7 +49,7 @@ export default function ProfileItem({ user, profileId, name }) {
   }
 
   return (
-    <Box sx={{ width: 0.95, display: "flex", justifyContent: "space-between", alignItems: "center", my: 1}}>
+    <Box sx={{ width: 0.95, display: "flex", justifyContent: "space-between", alignItems: "center", marginY: 1, marginX: "auto"}}>
       <CardHeader
         sx={{ padding: 0.5 }}
         avatar={<ProfileImage type="small" src="" />}
@@ -60,11 +60,11 @@ export default function ProfileItem({ user, profileId, name }) {
         }
       ></CardHeader>
       {followStatus ? (
-        <ButtonStyle size="smallest" variant="grey" onClick={unfollow}>
-          언팔로우
+        <ButtonStyle size="none" variant="grey" onClick={unfollow}>
+          <span style={{ width: "unset"}}>언팔로우</span>
         </ButtonStyle>
       ) : (
-        <ButtonStyle size="smallest" variant="primary" onClick={follow}>
+        <ButtonStyle size="none" variant="primary" onClick={follow}>
           팔로우
         </ButtonStyle>
       )}
