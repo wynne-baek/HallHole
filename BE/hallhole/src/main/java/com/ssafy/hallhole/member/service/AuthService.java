@@ -49,17 +49,24 @@ public class AuthService {
         // 2. 실제로 검증 (사용자 비밀번호 체크) 이 이루어지는 부분
         //    authenticate 메서드가 실행이 될 때 CustomUserDetailsService 에서 만들었던 loadUserByUsername 메서드가 실행됨
         Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
+        System.out.println("authentication.getName() = " + authentication.getName());
+        System.out.println("authentication.getAuthorities() = " + authentication.getAuthorities());
+        System.out.println("authentication.getCredentials() = " + authentication.getCredentials());
         System.out.println("loadUserByUsername 끝");
 
         // 3. 인증 정보를 기반으로 JWT 토큰 생성
         TokenDto tokenDto = tokenProvider.generateTokenDto(authentication);
+        Member m = memberRepository.findByEmail(memberRequestDto.getEmail());
 
-        // 4. RefreshToken 저장
+        // 4. RefreshToken 저장   >> 내가 변경한 부분
+        m.setRefreshToken(tokenDto.getRefreshToken());
+        memberRepository.save(m);
+
+        // 4. RefreshToken 저장  >> 멀티 로그인 할까봐
         RefreshToken refreshToken = RefreshToken.builder()
                 .key(authentication.getName())
                 .value(tokenDto.getRefreshToken())
                 .build();
-
         refreshTokenRepository.save(refreshToken);
 
         // 5. 토큰 발급
