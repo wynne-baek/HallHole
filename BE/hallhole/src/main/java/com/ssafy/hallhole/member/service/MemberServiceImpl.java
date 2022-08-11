@@ -9,12 +9,9 @@ import com.ssafy.hallhole.mail.MailService;
 import com.ssafy.hallhole.member.domain.Authority;
 import com.ssafy.hallhole.member.domain.Gender;
 import com.ssafy.hallhole.member.domain.Member;
-import com.ssafy.hallhole.member.domain.RefreshToken;
 import com.ssafy.hallhole.member.dto.*;
 import com.ssafy.hallhole.member.jwt.TokenProvider;
-import com.ssafy.hallhole.member.repository.HashMapRepository;
 import com.ssafy.hallhole.member.repository.MemberRepository;
-import com.ssafy.hallhole.member.repository.RefreshTokenRepository;
 import com.ssafy.hallhole.review.domain.Review;
 import com.ssafy.hallhole.review.repository.ReviewRepository;
 import io.jsonwebtoken.Claims;
@@ -26,10 +23,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 @Service
 @RequiredArgsConstructor
@@ -48,7 +42,6 @@ public class MemberServiceImpl implements MemberService {
 
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final TokenProvider tokenProvider;
-    private final RefreshTokenRepository refreshTokenRepository;
 
     @Override
     public void join(MemberJoinDTO m,String sessionId) throws NotFoundException {
@@ -83,20 +76,6 @@ public class MemberServiceImpl implements MemberService {
         memberRepository.save(member);
     }
 
-//    @Override
-//    public String login(String email, String password, String sessionId) throws NotFoundException {
-//        Member member = memberRepository.findByEmail(email);
-//
-//        if(member==null || member.isOut() || !member.getProvider().equals("HH")){
-//            throw new NotFoundException("유효한 회원이 아닙니다.");
-//        }
-//
-//        if(!member.getPassword().equals(password)){
-//            throw new NotFoundException("비밀번호를 다시 입력해주세요.");
-//        }
-//
-//        return jwtTokenService.createToken(member.getId(), sessionId);
-//    }
 
     public TokenDto login(LoginDTO memberRequestDto) {
         // 1. Login ID/PW 를 기반으로 AuthenticationToken 생성
@@ -122,13 +101,6 @@ public class MemberServiceImpl implements MemberService {
         // 4. RefreshToken 저장   >> 내가 변경한 부분
         m.setRefreshToken(tokenDto.getRefreshToken());
         memberRepository.save(m);
-
-        // 4. RefreshToken 저장  >> 멀티 로그인 할까봐
-        RefreshToken refreshToken = RefreshToken.builder()
-                .key(authentication.getName())
-                .value(tokenDto.getRefreshToken())
-                .build();
-        refreshTokenRepository.save(refreshToken);
 
         // 5. 토큰 발급
         return tokenDto;

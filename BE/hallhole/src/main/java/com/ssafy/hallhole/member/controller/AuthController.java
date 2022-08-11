@@ -1,5 +1,6 @@
 package com.ssafy.hallhole.member.controller;
 
+import com.ssafy.hallhole.advice.exceptions.NotFoundException;
 import com.ssafy.hallhole.member.dto.LoginDTO;
 import com.ssafy.hallhole.member.dto.MemberResponseDto;
 import com.ssafy.hallhole.member.dto.TokenDto;
@@ -19,7 +20,7 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping("/reissue")
-    public ResponseEntity<TokenDto> reissue(@RequestBody TokenRequestDto tokenRequestDto) {
+    public ResponseEntity<TokenDto> reissue(@RequestBody TokenRequestDto tokenRequestDto) throws NotFoundException {
         return ResponseEntity.ok(authService.reissue(tokenRequestDto));
     }
 }
