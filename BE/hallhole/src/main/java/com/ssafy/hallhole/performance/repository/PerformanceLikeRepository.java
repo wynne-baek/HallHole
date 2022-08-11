@@ -23,7 +23,8 @@ public interface PerformanceLikeRepository {
     // 제일 인기있는 공연 정보
     List<String> findPopularPerformance(int size) throws NotFoundException;
 
-
     // 해당 멤버가 해당 공연을 좋아요 했는지
     Long isLike(String pid, Long uid);
+
+    Long likeCnt(Long uid);
 }
