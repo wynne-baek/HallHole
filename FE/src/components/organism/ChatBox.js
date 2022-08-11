@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState, useLayoutEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
 
 import { useSelector } from "react-redux";
 
@@ -45,16 +45,6 @@ export default function ChatBox({ messages, sendMessage }) {
     contentRef.current.scrollTop = contentRef.current.scrollHeight;
     // contentRef.current.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
-
-  useLayoutEffect(() => {
-    const detectMobileKeyboard = () => {
-      inputRef.current.scrollTop = inputRef.current.scrollHeight;
-    };
-
-    window.addEventListener("resize", detectMobileKeyboard);
-
-    return () => window.removeEventListener("resize", detectMobileKeyboard);
-  }, []);
 
   function getChatList(chats) {
     let id = 0;
