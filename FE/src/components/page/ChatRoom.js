@@ -41,43 +41,31 @@ export default function ChatRoom(props) {
   const [messages, setMessages] = useState([]);
 
   function fetchChatLogSuccess(response) {
-    console.log("채팅 로그 가져오기 성공", response);
     setMessages(response.data);
   }
 
-  function fetchChatLogFail(response) {
-    console.log("채팅 로그 가져오기 실패", response);
-  }
+  function fetchChatLogFail(response) {}
   function fetchChatRoomSuccess(response) {
-    console.log("채팅 방 정보 가져오기 성공", response);
     setChatRoom(response.data);
-    console.log(response.data);
   }
 
-  function fetchChatRoomFail(response) {
-    console.log("채팅 방 정보 가져오기 실패", response);
-  }
+  function fetchChatRoomFail(response) {}
 
   function receiveMessage(response) {
-    console.log("새로운 채팅 메시지 수신", response);
     const recv = JSON.parse(response.body);
     setMessages(messages => [recv, ...messages]);
   }
 
   function connectSuccess(frame) {
-    console.log("connected: " + frame);
     ws.subscribe(`/topic/chat/room/${chatId}`, receiveMessage);
     sendMessage(CHAT_TYPE.ENTER, "");
     fetchChatRoom(chatId, fetchChatRoomSuccess, fetchChatRoomFail);
     fetchChatLog(chatId, fetchChatLogSuccess, fetchChatLogFail);
   }
 
-  function connectFail(error) {
-    console.log("connect failed: " + error);
-  }
+  function connectFail(error) {}
 
   function sendMessage(type, message = "") {
-    console.log("새로운 채팅 발신", message);
     const msg = {
       type: type,
       performanceId: chatId,

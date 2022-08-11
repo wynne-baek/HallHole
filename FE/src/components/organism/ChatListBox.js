@@ -12,10 +12,10 @@ import CategoryDivider from "../atom/CategoryDivider";
 import Dropdown from "../atom/Dropdown";
 
 export default function ChatListBox() {
-  const [roomBox, setRoom] = React.useState([]);
+  const [rooms, setRooms] = React.useState([]);
 
   function fetchChatListSuccess(res) {
-    setRoom(res.data);
+    setRooms(res.data);
     console.log("룸 요청 성공", res);
   }
 
@@ -23,28 +23,12 @@ export default function ChatListBox() {
     console.log("룸 요청 실패", err);
   }
 
-  function getRoomsList(rooms) {
-    return rooms.map(room => {
-      return (
-        <RoomItem
-          key={room.performance.id}
-          id={room.performance.id}
-          name={room.name}
-          openTime={room.openTime}
-          closeTime={room.closeTime}
-          memberCnt={room.memberCnt}
-          poster={room.performance.poster}
-        />
-      );
-    });
-  }
-
   useEffect(() => {
     fetchChatList(fetchChatListSuccess, fetchChatListFail);
   }, []);
   return (
     <Box>
-      {getRoomsList(room)}
+      {getRoomsList(rooms)}
       <ChatRoom />
     </Box>
   );
