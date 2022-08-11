@@ -26,7 +26,9 @@ public interface MemberService {
 
     MemberOutputDTO getInfo(String tag) throws NotFoundException;
 
-    String login(String email, String password, String sessionId) throws NotFoundException;
+//    String login(String email, String password, String sessionId) throws NotFoundException;
+
+    TokenDto login(LoginDTO memberRequestDto);
 
     CharacterDTO getCharacter(String tag) throws NotFoundException;
 

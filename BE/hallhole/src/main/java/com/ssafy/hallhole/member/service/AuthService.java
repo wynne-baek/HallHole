@@ -22,19 +22,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class AuthService {
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final MemberRepository memberRepository;
-    private final PasswordEncoder passwordEncoder;
     private final TokenProvider tokenProvider;
     private final RefreshTokenRepository refreshTokenRepository;
-
-//    @Transactional
-//    public MemberResponseDto signup(LoginDTO memberRequestDto) {
-//        if (memberRepository.existsByEmail(memberRequestDto.getEmail())) {
-//            throw new RuntimeException("이미 가입되어 있는 유저입니다");
-//        }
-//
-//        Member member = memberRequestDto.toMember(passwordEncoder);
-//        return MemberResponseDto.of(memberRepository.save(member));
-//    }
 
     @Transactional
     public TokenDto login(LoginDTO memberRequestDto) {

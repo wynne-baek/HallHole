@@ -33,10 +33,9 @@ public class MemberController {
     }
 
     @PostMapping("/login")
-    @ApiOperation(value="홀홀 로그인", notes = "세션 정보와 아이디, 비밀번호 필요")
-    public void login(@RequestBody LoginDTO member,HttpSession session) throws NotFoundException {
-        String token = memberService.login(member.getEmail(), member.getPw(), session.getId());
-//        return new TokenDto();
+    public ResponseEntity<TokenDto> login(@RequestBody LoginDTO memberRequestDto) {
+        System.out.println("login 시작");
+        return ResponseEntity.ok(memberService.login(memberRequestDto));
     }
 
     @GetMapping("/logout")

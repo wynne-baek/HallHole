@@ -9,13 +9,19 @@ import com.ssafy.hallhole.mail.MailService;
 import com.ssafy.hallhole.member.domain.Authority;
 import com.ssafy.hallhole.member.domain.Gender;
 import com.ssafy.hallhole.member.domain.Member;
+import com.ssafy.hallhole.member.domain.RefreshToken;
 import com.ssafy.hallhole.member.dto.*;
+import com.ssafy.hallhole.member.jwt.TokenProvider;
 import com.ssafy.hallhole.member.repository.HashMapRepository;
 import com.ssafy.hallhole.member.repository.MemberRepository;
+import com.ssafy.hallhole.member.repository.RefreshTokenRepository;
 import com.ssafy.hallhole.review.domain.Review;
 import com.ssafy.hallhole.review.repository.ReviewRepository;
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -37,10 +43,12 @@ public class MemberServiceImpl implements MemberService {
 
     private final JwtTokenProviderImpl jwtTokenService;
 
-    private final HashMapRepository sessionRepository;
-
     private final PasswordEncoder passwordEncoder;
     private final FollowRepositoryImpl followRepository;
+
+    private final AuthenticationManagerBuilder authenticationManagerBuilder;
+    private final TokenProvider tokenProvider;
+    private final RefreshTokenRepository refreshTokenRepository;
 
     @Override
     public void join(MemberJoinDTO m,String sessionId) throws NotFoundException {
@@ -75,19 +83,55 @@ public class MemberServiceImpl implements MemberService {
         memberRepository.save(member);
     }
 
-    @Override
-    public String login(String email, String password, String sessionId) throws NotFoundException {
-        Member member = memberRepository.findByEmail(email);
+//    @Override
+//    public String login(String email, String password, String sessionId) throws NotFoundException {
+//        Member member = memberRepository.findByEmail(email);
+//
+//        if(member==null || member.isOut() || !member.getProvider().equals("HH")){
+//            throw new NotFoundException("유효한 회원이 아닙니다.");
+//        }
+//
+//        if(!member.getPassword().equals(password)){
+//            throw new NotFoundException("비밀번호를 다시 입력해주세요.");
+//        }
+//
+//        return jwtTokenService.createToken(member.getId(), sessionId);
+//    }
 
-        if(member==null || member.isOut() || !member.getProvider().equals("HH")){
-            throw new NotFoundException("유효한 회원이 아닙니다.");
-        }
+    public TokenDto login(LoginDTO memberRequestDto) {
+        // 1. Login ID/PW 를 기반으로 AuthenticationToken 생성
+        System.out.println("로그인 시도 id : " + memberRequestDto.getEmail());
+        System.out.println("로그인 시도 pw : " + memberRequestDto.getPw());
+        UsernamePasswordAuthenticationToken authenticationToken = memberRequestDto.toAuthentication();
+        System.out.println("authenticationToken.getName() = " + authenticationToken.getName());
+        System.out.println("authenticationToken.getAuthorities() = " + authenticationToken.getAuthorities());
+        System.out.println("authenticationToken.getCredentials() = " + authenticationToken.getCredentials());
 
-        if(!member.getPassword().equals(password)){
-            throw new NotFoundException("비밀번호를 다시 입력해주세요.");
-        }
+        // 2. 실제로 검증 (사용자 비밀번호 체크) 이 이루어지는 부분
+        //    authenticate 메서드가 실행이 될 때 CustomUserDetailsService 에서 만들었던 loadUserByUsername 메서드가 실행됨
+        Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
+        System.out.println("authentication.getName() = " + authentication.getName());
+        System.out.println("authentication.getAuthorities() = " + authentication.getAuthorities());
+        System.out.println("authentication.getCredentials() = " + authentication.getCredentials());
+        System.out.println("loadUserByUsername 끝");
 
-        return jwtTokenService.createToken(member.getId(), sessionId);
+        // 3. 인증 정보를 기반으로 JWT 토큰 생성
+        TokenDto tokenDto = tokenProvider.generateTokenDto(authentication);
+        Member m = memberRepository.findByEmail(memberRequestDto.getEmail());
+
+        // 4. RefreshToken 저장   >> 내가 변경한 부분
+        m.setRefreshToken(tokenDto.getRefreshToken());
+        memberRepository.save(m);
+
+        // 4. RefreshToken 저장  >> 멀티 로그인 할까봐
+        RefreshToken refreshToken = RefreshToken.builder()
+                .key(authentication.getName())
+                .value(tokenDto.getRefreshToken())
+                .build();
+        refreshTokenRepository.save(refreshToken);
+
+        // 5. 토큰 발급
+        return tokenDto;
     }
 
     @Override
