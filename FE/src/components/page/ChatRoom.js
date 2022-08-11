@@ -132,9 +132,7 @@ export default function ChatRoom(props) {
           <ExitToAppIcon />
         </Button>
       </ChatModalHeader>
-      {!isKeyboardOpen && (
-        <PerformanceMiniPoster img={chatRoom?.performance?.poster} title={chatRoom?.name} date={chatRoom?.closeTime} />
-      )}
+      <PerformanceMiniPoster img={chatRoom?.performance?.poster} title={chatRoom?.name} date={chatRoom?.closeTime} />
       <ChatModalBody>
         <ChatBox messages={messages} sendMessage={sendMessage} />
       </ChatModalBody>
