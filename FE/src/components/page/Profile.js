@@ -78,48 +78,16 @@ const reviews = [
 ];
 
 export default function Profile({ id }) {
-  const user = useSelector(state => state.user.info);
-  const [profileUser, setProfileUser] = useState([]); 
-  // const { id } = useParams();
-
-  useEffect(() => {
-    requestUserInfo(id, getProfileUserSuccess, getProfileUserFail);
-    console.log(user);
-  }, []);
-
-  function getProfileUserSuccess(res) {
-    setProfileUser(res.data)
-    console.log("프로필 유저 정보 조회 성공", res)
-  }
-
-  function getProfileUserFail(err) {
-    console.log("프로필 유저 정보 조회 실패", err)
-  }
-
-  // profile user 정보 받아왔는지 확인
-  function validateProfileUser(profileUser) {
-    return profileUser !== []
-  }
+  //const { id } = useParams();
 
   return (
     <Box>
-      {validateProfileUser ? (
-        <Box>
-          <ProfileDetail
-            user={user}
-            idTag={profileUser.idTag}
-            name={profileUser.name}
-            profile={profileUser.profile}
-            followerCnt={profileUser.followerCnt}
-            followingCnt={profileUser.followingCnt}
-          />
-          {/* <LikePerformances /> */}
-          {/* <UserActivity username="경원" reviews={reviews}></UserActivity> */}
-          {/* <MyActivity reviews={reviews}></MyActivity> */}
-        </Box>
-      ) : (
-        <Box>로딩중</Box>
-      )}
+      <Box>
+        <ProfileDetail id={id}/>
+        {/* <LikePerformances /> */}
+        {/* <UserActivity username="경원" reviews={reviews}></UserActivity> */}
+        {/* <MyActivity reviews={reviews}></MyActivity> */}
+      </Box>
     </Box>
   );
 }
