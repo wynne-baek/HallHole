@@ -61,6 +61,10 @@ export default function Modal({
   }
 
   useEffect(() => {
+    return () => (document.body.style.overflow = "unset");
+  }, []);
+
+  useEffect(() => {
     onToggleChange(modalOn, modalOff);
   }, [toggle]);
 
