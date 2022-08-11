@@ -22,17 +22,18 @@ public class CustomUserDetailService implements UserDetailsService {
 
     @Override
     @Transactional
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        Member member = memberRepository.findByEmail(email);
+        System.out.println("loadUserByUsername: username = " + username);
+        Member member = memberRepository.findByEmail(username);
         if(member==null){
-            throw new UsernameNotFoundException(email + " -> 데이터베이스에서 찾을 수 없습니다.");
+            throw new UsernameNotFoundException(username + " -> 데이터베이스에서 찾을 수 없습니다.");
         }
 
         GrantedAuthority grantedAuthority = new SimpleGrantedAuthority(member.getAuthority().toString());
         System.out.println("loadUserByUsername");
         return new User(
-                String.valueOf(member.getId()),
+                String.valueOf(member.getIdTag()),              //내가 변경한 부분
                 member.getPassword(),
                 Collections.singleton(grantedAuthority)
         );
@@ -43,7 +44,7 @@ public class CustomUserDetailService implements UserDetailsService {
         GrantedAuthority grantedAuthority = new SimpleGrantedAuthority(member.getAuthority().toString());
         System.out.println("createUserDetails");
         return new User(
-                String.valueOf(member.getId()),
+                String.valueOf(member.getIdTag()),          // 내가 변경한 부분
                 member.getPassword(),
                 Collections.singleton(grantedAuthority)
         );

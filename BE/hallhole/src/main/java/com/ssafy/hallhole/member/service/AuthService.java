@@ -26,23 +26,25 @@ public class AuthService {
     private final TokenProvider tokenProvider;
     private final RefreshTokenRepository refreshTokenRepository;
 
-    @Transactional
-    public MemberResponseDto signup(LoginDTO memberRequestDto) {
-        if (memberRepository.existsByEmail(memberRequestDto.getEmail())) {
-            throw new RuntimeException("이미 가입되어 있는 유저입니다");
-        }
-
-        Member member = memberRequestDto.toMember(passwordEncoder);
-        return MemberResponseDto.of(memberRepository.save(member));
-    }
+//    @Transactional
+//    public MemberResponseDto signup(LoginDTO memberRequestDto) {
+//        if (memberRepository.existsByEmail(memberRequestDto.getEmail())) {
+//            throw new RuntimeException("이미 가입되어 있는 유저입니다");
+//        }
+//
+//        Member member = memberRequestDto.toMember(passwordEncoder);
+//        return MemberResponseDto.of(memberRepository.save(member));
+//    }
 
     @Transactional
     public TokenDto login(LoginDTO memberRequestDto) {
         // 1. Login ID/PW 를 기반으로 AuthenticationToken 생성
-        System.out.println(memberRequestDto.getEmail());
-        System.out.println(memberRequestDto.getPw());
+        System.out.println("로그인 시도 id : " + memberRequestDto.getEmail());
+        System.out.println("로그인 시도 pw : " + memberRequestDto.getPw());
         UsernamePasswordAuthenticationToken authenticationToken = memberRequestDto.toAuthentication();
         System.out.println("authenticationToken.getName() = " + authenticationToken.getName());
+        System.out.println("authenticationToken.getAuthorities() = " + authenticationToken.getAuthorities());
+        System.out.println("authenticationToken.getCredentials() = " + authenticationToken.getCredentials());
 
         // 2. 실제로 검증 (사용자 비밀번호 체크) 이 이루어지는 부분
         //    authenticate 메서드가 실행이 될 때 CustomUserDetailsService 에서 만들었던 loadUserByUsername 메서드가 실행됨

@@ -31,7 +31,7 @@ public class UserService {
     @Transactional(readOnly = true)
     public MemberResponseDto getMyInfo() throws NotFoundException {
 
-        Member member = memberRepository.findById(SecurityUtil.getCurrentMemberId()).get();
+        Member member = memberRepository.findByIdTag(SecurityUtil.getCurrentMemberId());
         if(member==null || member.isOut()){
             throw new NotFoundException("로그인 유저 정보가 없습니다.");
         }
