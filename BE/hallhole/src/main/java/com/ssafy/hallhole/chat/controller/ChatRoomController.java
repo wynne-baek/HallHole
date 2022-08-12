@@ -41,14 +41,6 @@ public class ChatRoomController {
         return Optional.ofNullable(chatroomService.findById(roomId)).orElseThrow(() -> new NotFoundException("해당 ID의 채팅방이 없습니다."));
     }
 
-    @GetMapping("/joinedroom/{idTag}")
-    @ResponseBody
-    @ApiOperation(value = "참여중인 채팅방 목록 가져오기")
-    public List<Chatroom> findJoinedRooms(@PathVariable(name = "idTag") String id) {
-        return chatroomService.findJoinedRoom(id);
-    }
-
-
     // 채팅방 리스트
     @GetMapping("/room")
     @ApiOperation(value = "채팅방 목록 페이지 이동 메서드 -> react와 병합후 삭제 예정")

@@ -43,15 +43,15 @@ public class Chatroom implements Serializable {
     @Convert(converter = StringListConverter.class)
     private List<String> memberNameList = new ArrayList<>();
 
-    public void addUser(String idTag) {
-        if (!memberNameList.contains(idTag)) {
-            memberNameList.add(idTag);
+    public void addUser(String name) {
+        if (!memberNameList.contains(name)) {
+            memberNameList.add(name);
         }
     }
 
-    public void subUser(String idTag) {
-        if (memberNameList.contains(idTag)) {
-            memberNameList.remove(idTag);
+    public void subUser(String name) {
+        if (memberNameList.contains(name)) {
+            memberNameList.remove(name);
         }
     }
 
