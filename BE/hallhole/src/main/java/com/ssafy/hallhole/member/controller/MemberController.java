@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.Arrays;
 import java.util.Map;
@@ -50,9 +51,8 @@ public class MemberController {
 
     @PutMapping("/out")
     @ApiOperation(value = "회원 탈퇴")
-    public void delMember(@RequestHeader Map<String, Object> requestHeader) throws NotFoundException {
-        String token = (String) requestHeader.get("token");
-        memberService.delMem(token);
+    public void delMember(HttpServletRequest request) throws NotFoundException {
+        memberService.delMem(request.getHeader("token"));
     }
 
 
@@ -75,7 +75,7 @@ public class MemberController {
         return Pattern.matches("\\w+@\\w+\\.\\w+(\\.\\w+)?", email);
     }
 
-//    @PostMapping("/chk-duplicate")
+//    @GetMapping("/chk-duplicate")
 //    @ApiOperation(value="이메일 중복 체크", notes = "이메일 중복인지 boolean 형식으로 return >> null이거나, 중복이면 return false")
 //    public boolean emailDuplicateCheck(@RequestBody String email) throws NotFoundException {
 //        if(email==null) return false;
