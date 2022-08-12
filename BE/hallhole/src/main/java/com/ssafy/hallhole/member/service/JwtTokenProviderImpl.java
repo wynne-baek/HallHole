@@ -1,6 +1,7 @@
 package com.ssafy.hallhole.member.service;
 
 import com.ssafy.hallhole.member.domain.Member;
+import com.ssafy.hallhole.member.dto.TokenDto;
 import com.ssafy.hallhole.member.repository.MemberRepository;
 import io.jsonwebtoken.*;
 import lombok.RequiredArgsConstructor;
@@ -8,10 +9,12 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
+import javax.xml.bind.SchemaOutputResolver;
 import java.util.Base64;
 import java.util.Date;
 
