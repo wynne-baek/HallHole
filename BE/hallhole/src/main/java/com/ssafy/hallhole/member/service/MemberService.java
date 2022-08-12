@@ -30,6 +30,8 @@ public interface MemberService {
 
     TokenDto login(LoginDTO memberRequestDto);
 
+    TokenDto reissue(TokenRequestDto tokenRequestDto) throws NotFoundException;
+
     CharacterDTO getCharacter(String tag) throws NotFoundException;
 
     List<Member> findAllMember() throws NotFoundException;
