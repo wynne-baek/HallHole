@@ -9,9 +9,9 @@ public interface JwtTokenProvider {
     String createToken(Long userPk, String sessionId);
 
     Authentication getAuthentication(String token);
-//
+    //
     String getUserPk(String token);
-//
+    //
     String resolveToken(HttpServletRequest request);
 
 

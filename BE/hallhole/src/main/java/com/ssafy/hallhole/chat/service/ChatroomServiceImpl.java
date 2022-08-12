@@ -46,7 +46,7 @@ public class ChatroomServiceImpl implements ChatroomService {
     }
 
     @Override
-    public void deleteRoom(String id){
+    public void deleteRoom(String id) {
         chatroomRepository.closeChatRoom(id);
     }
 
@@ -62,5 +62,24 @@ public class ChatroomServiceImpl implements ChatroomService {
         chatroom.subUser(message.getMemberNickName());
     }
 
+    @Override
+    public List<Chatroom> findJoinedRoom(String id) {
+        List<Chatroom> allRooms = chatroomRepository.findAllRooms();
+        List<Chatroom> joinedRooms = new ArrayList<>();
+        for (Chatroom c : allRooms) {
+            if (c.getMemberNameList().contains(id)) {
+                joinedRooms.add(c);
+            }
+        }
+        return joinedRooms;
+    }
+
+    @Override
+    public void outJoinedChatRoom(String idTag) {
+        List<Chatroom> joinedRoom = findJoinedRoom(idTag);
+        for (Chatroom c : joinedRoom) {
+            c.subUser(idTag);
+        }
+    }
 
 }
