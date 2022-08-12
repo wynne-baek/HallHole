@@ -71,12 +71,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     }
 
-    @Override
-    public void configure(WebSecurity web) throws Exception
-    {
-        web.ignoring().antMatchers("/acc/**", "/char/**");
-        web.ignoring().antMatchers("/resources/**", "/static/**", "/css/**", "/js/**", "/images/**", "/error", "/dist/**");
-    }
+//    @Override
+//    public void configure(WebSecurity web) throws Exception
+//    {
+////        web.ignoring().antMatchers("/acc/**", "/char/**");
+////        web.ignoring().antMatchers("/resources/**", "/static/**", "/css/**", "/js/**", "/images/**", "/error", "/dist/**");
+//    }
 
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
