@@ -32,12 +32,8 @@ public class AuthenticationProviderImpl implements AuthenticationProvider {
         String username = token.getName();
         String password = (String) token.getCredentials();
 
-        System.out.println("authentication username = " + username);
-        System.out.println("authentication password = " + password);
-
         // 해당 회원 Database 조회
         UserDetails userDetail = userDetailsService.loadUserByUsername(username);
-        System.out.println("userDetail.getUsername() = " + userDetail.getUsername());
 
         // 비밀번호 확인
         if (!passwordEncoder.matches(password, userDetail.getPassword()))

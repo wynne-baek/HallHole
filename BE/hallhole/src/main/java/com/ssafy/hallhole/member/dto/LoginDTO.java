@@ -26,7 +26,6 @@ public class LoginDTO {
    }
 
    public UsernamePasswordAuthenticationToken toAuthentication() {
-      System.out.println("toAuthentication()");
       return new UsernamePasswordAuthenticationToken(email, pw);
    }
 

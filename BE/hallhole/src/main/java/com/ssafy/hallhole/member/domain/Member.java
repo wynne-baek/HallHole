@@ -36,10 +36,6 @@ public class Member {
     private String provider="HH";
 
     private String kakaoSid;
-
-    @Setter
-    private String refreshToken;
-
     @Setter
     @NotNull
     @Column(length = 20)

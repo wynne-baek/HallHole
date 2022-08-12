@@ -34,14 +34,13 @@ public class MemberController {
 
     @PostMapping("/login")
     public ResponseEntity<TokenDto> login(@RequestBody LoginDTO memberRequestDto) {
-        System.out.println("login 시작");
         return ResponseEntity.ok(memberService.login(memberRequestDto));
     }
 
-    @PostMapping("/reissue")
-    public ResponseEntity<TokenDto> reissue(@RequestBody TokenRequestDto tokenRequestDto) throws NotFoundException {
-        return ResponseEntity.ok(memberService.reissue(tokenRequestDto));
-    }
+//    @PostMapping("/reissue")
+//    public ResponseEntity<TokenDto> reissue(@RequestBody TokenRequestDto tokenRequestDto) throws NotFoundException {
+//        return ResponseEntity.ok(memberService.reissue(tokenRequestDto));
+//    }
 
     @GetMapping("/logout")
     @ApiOperation(value="홀홀 로그아웃", notes = "세션 정보와 헤더 내 토큰 값 필요. 토큰 문제 수정 예정")
