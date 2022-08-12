@@ -21,4 +21,6 @@ public interface ChatroomService {
     void addUser(ChatLog message);
 
     void subUser(ChatLog message);
+
+    List<Chatroom> findJoinedRoom(String id);
 }
