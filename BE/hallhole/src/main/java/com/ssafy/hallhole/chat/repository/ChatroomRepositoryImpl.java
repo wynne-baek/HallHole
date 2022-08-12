@@ -33,4 +33,5 @@ public class ChatroomRepositoryImpl implements ChatroomRepository{
     public void closeChatRoom(String id) {
         em.createQuery("delete from Chatroom c where c.performance.id = :id").setParameter("id",id).executeUpdate();
     }
+
 }
