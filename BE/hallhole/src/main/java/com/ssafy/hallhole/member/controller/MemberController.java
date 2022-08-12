@@ -27,37 +27,32 @@ public class MemberController {
     private final MemberServiceImpl memberService;
 
     @PostMapping("/join")
-    @ApiOperation(value="홀홀 회원가입", notes = "토큰 만료 수정 예정, 가입 축하 메일 막아뒀습니다")
-    public void join(@RequestBody MemberJoinDTO member, HttpSession session) throws NotFoundException {
-        memberService.join(member, session.getId());
+    @ApiOperation(value="홀홀 회원가입", notes = "가입 축하 메일 막아뒀습니다")
+    public void join(@RequestBody MemberJoinDTO member) throws NotFoundException {
+        memberService.join(member);
     }
 
     @PostMapping("/login")
+    @ApiOperation(value="홀홀 로그인", notes = "이메일, 패스워드 입력 필요")
     public ResponseEntity<TokenDto> login(@RequestBody LoginDTO memberRequestDto) {
         return ResponseEntity.ok(memberService.login(memberRequestDto));
     }
 
-//    @PostMapping("/reissue")
-//    public ResponseEntity<TokenDto> reissue(@RequestBody TokenRequestDto tokenRequestDto) throws NotFoundException {
-//        return ResponseEntity.ok(memberService.reissue(tokenRequestDto));
-//    }
-
     @GetMapping("/logout")
-    @ApiOperation(value="홀홀 로그아웃", notes = "세션 정보와 헤더 내 토큰 값 필요. 토큰 문제 수정 예정")
-    public void logout(@RequestHeader Map<String, Object> requestHeader,HttpSession session) throws NotFoundException {
+    @ApiOperation(value="홀홀 로그아웃")
+    public ResponseEntity logout(@RequestHeader Map<String, Object> requestHeader) throws NotFoundException {
         try{
-            String token = (String) requestHeader.get("token");
-            memberService.logout(token, session.getId());
+            throw new NotFoundException("로그아웃 성공");
         }catch(Exception e){
             throw new NotFoundException("로그아웃 실패");
         }
     }
 
     @PutMapping("/out")
-    @ApiOperation(value = "회원 탈퇴 >> follow 관련 상의 필요. 탈퇴 잠시 막아뒀습니다. 다른 것들 다 수정 후 올릴게요")
-    public void delMember(@RequestHeader Map<String, Object> requestHeader, HttpSession session) throws NotFoundException {
-//        String token = (String) requestHeader.get("token");
-//        memberService.delMem(token, session.getId());
+    @ApiOperation(value = "회원 탈퇴")
+    public void delMember(@RequestHeader Map<String, Object> requestHeader) throws NotFoundException {
+        String token = (String) requestHeader.get("token");
+        memberService.delMem(token);
     }
 
 
@@ -66,27 +61,13 @@ public class MemberController {
 
     @GetMapping("/me")
     public ResponseEntity<MemberResponseDto> getMyMemberInfo() throws NotFoundException {
-        System.out.println("getMyMemberInfo()");
         return ResponseEntity.ok(userService.getMyInfo());
     }
 
     @GetMapping("/{email}")
     public ResponseEntity<MemberResponseDto> getMemberInfo(@PathVariable String email) throws NotFoundException {
-        System.out.println("getMemberInfo()");
         return ResponseEntity.ok(userService.getMemberInfo(email));
     }
-
-
-
-
-
-
-
-
-
-
-
-
 
     @PostMapping("/chk-email")
     @ApiOperation(value="이메일 형식 체크", notes = "이메일 형식이 맞는지 boolean 형식으로 return")

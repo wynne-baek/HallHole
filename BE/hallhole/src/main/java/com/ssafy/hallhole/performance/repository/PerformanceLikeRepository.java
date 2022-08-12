@@ -27,4 +27,7 @@ public interface PerformanceLikeRepository {
     Long isLike(String pid, Long uid);
 
     Long likeCnt(Long uid);
+
+    List<PerformanceLike> findMyLikeListById(Long uid);
+
 }
