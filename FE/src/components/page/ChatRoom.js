@@ -18,6 +18,8 @@ import PerformanceMiniPoster from "../molecule/PerformanceMiniPoster";
 import ChatBox from "../organism/ChatBox";
 import Button from "../atom/Button";
 
+import useDetectKeyboardOpen from "use-detect-keyboard-open";
+
 const ChatModal = styled(Modal)``;
 
 const ChatModalHeader = styled(Box)`
@@ -30,6 +32,7 @@ const ChatModalBody = styled(Box)`
 `;
 
 export default function ChatRoom(props) {
+  const isKeyboardOpen = useDetectKeyboardOpen();
   const dispatch = useDispatch();
   const user = useSelector(state => state.user.info);
   const chatId = useSelector(state => state.chat.id);
@@ -114,7 +117,7 @@ export default function ChatRoom(props) {
   return (
     <ChatModal
       toggle={toggle}
-      openHeight="11vh"
+      openHeight="10vh"
       closeHeight="100vh"
       modalOn={chatOn}
       modalOff={chatOff}
