@@ -16,13 +16,7 @@ import com.ssafy.hallhole.member.repository.MemberRepository;
 import com.ssafy.hallhole.performance.domain.PerformanceLike;
 import com.ssafy.hallhole.performance.repository.PerformanceLikeRepositoryImpl;
 import com.ssafy.hallhole.performance.service.PerformanceLikeServiceImpl;
-import com.ssafy.hallhole.review.domain.ReactionCnt;
-import com.ssafy.hallhole.review.domain.ReactionType;
 import com.ssafy.hallhole.review.domain.Review;
-import com.ssafy.hallhole.review.domain.ReviewReaction;
-import com.ssafy.hallhole.review.dto.ReactionOuputByMemberDTO;
-import com.ssafy.hallhole.review.repository.ReactionCntRepositoryImpl;
-import com.ssafy.hallhole.review.repository.ReviewReactionRepositoryImpl;
 import com.ssafy.hallhole.review.repository.ReviewRepository;
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
@@ -32,13 +26,11 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.regex.Pattern;
 
 @Service
-@Transactional
 @RequiredArgsConstructor
 public class MemberServiceImpl implements MemberService {
 
@@ -52,12 +44,6 @@ public class MemberServiceImpl implements MemberService {
     private final TokenProvider tokenProvider;
     private final ChatroomServiceImpl chatroomService;
     private final PerformanceLikeRepositoryImpl pLikeRepository;
-
-    private final ReviewReactionRepositoryImpl rrRepository;
-
-    private final ReactionCntRepositoryImpl rcRepository;
-
-    private static final String AUTHORITIES_KEY = "auth";
 
     @Override
     public void join(MemberJoinDTO m) throws NotFoundException {
@@ -133,24 +119,21 @@ public class MemberServiceImpl implements MemberService {
     public void delMem(String token) throws NotFoundException {
 
         Claims claim = tokenProvider.parseClaims(token);
-
-        if (claim.get(AUTHORITIES_KEY) == null) {
-            throw new RuntimeException("권한 정보가 없는 토큰입니다.");
+        Long memberId = Long.parseLong(claim.get("memberId").toString());
+        Member m = memberRepository.findById(memberId).get();
+        if(m==null || m.isOut()){
+            throw new NotFoundException("유효한 회원이 아닙니다.");
         }
 
-        System.out.println("claim fin");
-
-        String tag = claim.get("sub").toString();
-        Member m = memberRepository.findByIdTag(tag);
-        if(m==null || m.isOut()){
+        Member member = memberRepository.findById(m.getId()).get();
+        if(member==null || member.isOut()){
             throw new NotFoundException("유효한 회원이 아닙니다.");
         }
 
         System.out.println("=============Delete data start===========");
 
         // 팔로우 데이터 날리기
-        List<Follow> followList = followRepository.findAllRelationByMemberId(m.getId());
-        System.out.println("followList.size() = " + followList.size());
+        List<Follow> followList = followRepository.findAllRelationByMemberId(member.getId());
         for(Follow f:followList){
             followRepository.delete(f);
             f.getFollowingMember().subFollowingCnt();
@@ -163,7 +146,6 @@ public class MemberServiceImpl implements MemberService {
 
         //performanceLike 데이터 날리기
         List<PerformanceLike> pLikeList = pLikeRepository.findMyLikeListById(m.getId());
-        System.out.println("pLikeList.size() = " + pLikeList.size());
         for(PerformanceLike p: pLikeList){
             pLikeRepository.delete(p);
         }
@@ -172,8 +154,7 @@ public class MemberServiceImpl implements MemberService {
         chatroomService.outJoinedChatRoom(m.getIdTag());
 
         // 댓글 데이터 날리기
-        List<Comment> commentList = commentRepository.findAllCommentByMemberId(m.getId());
-        System.out.println("commentList.size() = " + commentList.size());
+        List<Comment> commentList = commentRepository.findAllCommentByMemberId(member.getId());
         for(Comment c:commentList){
             c.setDelete(true);
             commentRepository.save(c);
@@ -181,33 +162,8 @@ public class MemberServiceImpl implements MemberService {
 
         System.out.println("fin comment");
 
-        // 후기 리액션 데이터 날리기
-        List<ReviewReaction> reactionList = rrRepository.findAllReactionByMemberId(m.getId());
-        System.out.println("reactionList.size() = " + reactionList.size());
-
-        for(ReviewReaction r:reactionList){
-            ReactionType rType = r.getReactiontype();
-            ReactionCnt rCnt = rcRepository.findReactionCnt(r.getId(), rType.getId());
-            rCnt.subReaction();
-            List<ReviewReaction> rList = rrRepository.findReactionByAllData(r.getReview().getId(), m.getId());
-            for(ReviewReaction rr: rList){
-                rrRepository.delete(rr);
-            }
-
-            if(rCnt.getReactionCnt()!=0){
-                rcRepository.save(rCnt);
-            }
-            else {
-                rcRepository.delete(rCnt);
-
-            }
-
-            rrRepository.delete(r);
-        }
-
         // 후기 데이터 날리기
-        List<Review> reviewList = reviewRepository.findAllByMemberId(m.getId());
-        System.out.println("reviewList.size() = " + reviewList.size());
+        List<Review> reviewList = reviewRepository.findAllByMemberId(member.getId());
         for(Review r:reviewList){
             r.setDelete(true);
             reviewRepository.save(r);
@@ -215,9 +171,9 @@ public class MemberServiceImpl implements MemberService {
 
         System.out.println("fin review");
 
-        m.setOut(true);
-        m.setOutDate(LocalDate.now());
-        memberRepository.save(m);
+        member.setOut(true);
+        member.setOutDate(LocalDate.now());
+        memberRepository.save(member);
     }
 
     @Override

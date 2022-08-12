@@ -26,6 +26,7 @@ public class AuthenticationProviderImpl implements AuthenticationProvider {
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         // 전달 받은 UsernamePasswordAuthenticationToken
         UsernamePasswordAuthenticationToken token = (UsernamePasswordAuthenticationToken) authentication;
+        System.out.println("token = " + token);
 
         // AuthenticaionFilter에서 생성된 토큰으로부터 아이디와 비밀번호를 추출
         String username = token.getName();

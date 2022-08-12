@@ -2,6 +2,7 @@ package com.ssafy.hallhole.config;
 
 import com.ssafy.hallhole.member.jwt.JwtAccessDeniedHandler;
 import com.ssafy.hallhole.member.jwt.JwtAuthenticationEntryPoint;
+import com.ssafy.hallhole.member.service.JwtTokenProviderImpl;
 import com.ssafy.hallhole.member.jwt.TokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -11,6 +12,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @EnableWebSecurity
 @RequiredArgsConstructor
