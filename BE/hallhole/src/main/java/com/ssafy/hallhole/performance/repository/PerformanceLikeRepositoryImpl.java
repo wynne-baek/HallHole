@@ -67,4 +67,11 @@ public class PerformanceLikeRepositoryImpl implements PerformanceLikeRepository 
                 .setParameter("uid",uid)
                 .getSingleResult();
     }
+
+    @Override
+    public Long likeCnt(Long uid) {
+        return em.createQuery("select count(p.performance.id) from PerformanceLike p where p.member.id = :uid",Long.class)
+                .setParameter("uid",uid)
+                .getSingleResult();
+    }
 }

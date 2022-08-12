@@ -54,5 +54,12 @@ public class PerformanceLikeController {
     public boolean isLike(@PathVariable("pid") String pid, @PathVariable("tag") String tag) throws NotFoundException {
         return pLikeService.isLike(pid, tag);
     }
+    @GetMapping("/cnt/{tag}")
+    @ApiOperation(value = "해당 멤버가 좋아요 한 공연이 몇 개인지 확인",
+            notes = "'/plike/cnt/JVWUZ9HZ9W' 형식으로 사용. tag = 멤버태그")
+    public Long likeCnt(@PathVariable("tag") String tag) throws NotFoundException {
+        return pLikeService.likeCnt(tag);
+    }
+
 
 }

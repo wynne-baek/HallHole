@@ -43,6 +43,13 @@ public class ItemController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
+//    @PostMapping("/change")
+//    @ApiOperation(value = "내 현재 아이템 변경", notes = "'/item/change'")
+//    public ResponseEntity changeMyItem(@RequestBody ItemChangeInputDTO inputDto) throws NotFoundException {
+//        itemService.myItemChange(inputDto);
+//        return new ResponseEntity(HttpStatus.OK);
+//    }
+
     @PostMapping("/change")
     @ApiOperation(value = "내 현재 아이템 변경", notes = "'/item/change'")
     public ResponseEntity changeMyItem(@RequestBody ItemChangeInputDTO inputDto) throws NotFoundException {

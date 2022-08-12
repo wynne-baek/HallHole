@@ -17,6 +17,7 @@ import PerformanceChatList from "../components/page/PerformanceChatList";
 
 import storage from "../helper/storage";
 import PerformanceDetail from "../components/page/PerformanceDetail";
+import ChatRoom from "../components/page/ChatRoom";
 
 function checkAuth() {
   return !!storage.get("token");
@@ -41,21 +42,23 @@ export default function RouterConfiguration() {
         }
       />
       <Route
-        path="/profile"
+        path="/profile/:id"
+        component={Profile}
         element={
           <CheckAuth>
             <Profile />
           </CheckAuth>
         }
-      />
+      ></Route>
       <Route
-        path="/followlist"
+        path="/followlist/:id"
+        component={FollowList}
         element={
           <CheckAuth>
             <FollowList />
           </CheckAuth>
         }
-      />
+      ></Route>
       <Route
         path="/forgot"
         element={
@@ -97,13 +100,17 @@ export default function RouterConfiguration() {
         }
       />
       <Route
-        path="/:id"
+        path="/performancedetail/:id"
+        component={PerformanceDetail}
         element={
           <CheckAuth>
             <PerformanceDetail />
           </CheckAuth>
         }
       ></Route>
+      <Route path="chat/:chatId" element={<ChatRoom />}>
+        {/* <Route path=":chatId" element={<ChatArea />}></Route> */}
+      </Route>
     </Routes>
   );
 }

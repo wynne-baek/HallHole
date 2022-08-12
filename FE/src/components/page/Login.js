@@ -26,15 +26,17 @@ const closeIconStyle = {
 };
 
 const LoginModalHeader = styled(Box)`
+  width: 100vw;
+  height: 5vh;
   padding: 5%;
 `;
 
-const LoginModalContent = styled(Box)`
+const LoginModalBody = styled(Box)`
   text-align: center;
 `;
 
 const LogoBox = styled(Box)`
-  margin-top: 20%;
+  margin-top: 10vh;
 `;
 
 const ToggleBox = styled(Box)`
@@ -45,6 +47,10 @@ const ToggleBox = styled(Box)`
 const InputBox = styled(Box)`
   margin-top: 5%;
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
 `;
 
 export default function Login(props) {
@@ -93,7 +99,7 @@ export default function Login(props) {
         <CloseIcon sx={closeIconStyle} onClick={props.onClose} />
       </LoginModalHeader>
 
-      <LoginModalContent>
+      <LoginModalBody>
         <LogoBox>
           <Logo size="large" src="logo.png" />
         </LogoBox>
@@ -106,10 +112,13 @@ export default function Login(props) {
           />
         </ToggleBox>
         <InputBox>
-          <Input size="large" variant="filled" label="Email" onChange={e => setEmail(e.target.value)} />
+          <Input value={email} size="large" variant="filled" label="Email" onChange={e => setEmail(e.target.value)} />
 
-          {!isLogin && <Input size="large" variant="filled" label="Name" onChange={e => setName(e.target.value)} />}
+          {!isLogin && (
+            <Input value={name} size="large" variant="filled" label="Name" onChange={e => setName(e.target.value)} />
+          )}
           <Input
+            value={password}
             size="large"
             variant="filled"
             label="Password"
@@ -118,6 +127,7 @@ export default function Login(props) {
           />
           {!isLogin && (
             <Input
+              value={confirm}
               size="large"
               variant="filled"
               label="Confirm Password"
@@ -132,7 +142,7 @@ export default function Login(props) {
             </Text>
           </Button>
         </InputBox>
-      </LoginModalContent>
+      </LoginModalBody>
     </LoginModal>
   );
 }
