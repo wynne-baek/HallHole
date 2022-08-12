@@ -8,21 +8,6 @@ import CategorySelectButton from "../molecule/CategorySelectButton";
 // 팔로워 팔로잉
 const target = ["팔로워", "팔로잉"];
 
-const followList = [
-  { username: "경원" },
-  { username: "경원" },
-  { username: "경원" },
-  { username: "경원" },
-  { username: "경원" },
-];
-const followerList = [
-  { username: "효정" },
-  { username: "승리" },
-  { username: "재웅" },
-  { username: "제관" },
-  { username: "상빈" },
-];
-
 export default function FollowList(props) {
   const [selectedTarget, setSelectedTarget] = useState(target[0]);
   const [selectedTargetList, setSelectedTargetList] = useState(followerList);
