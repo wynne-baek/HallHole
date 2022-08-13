@@ -4,6 +4,7 @@ import CategoryDivider from "../atom/CategoryDivider";
 import TextStyle from "../atom/Text";
 
 import { requestName } from "../../apis/user";
+import { Link } from "react-router-dom";
 
 export default function ReviewInfo({ data }) {
   const [writerName, setWriterName] = useState([]);
@@ -35,21 +36,25 @@ export default function ReviewInfo({ data }) {
       <CategoryDivider type="dark" />
       <br />
       <TextStyle variant="black" size="small" weight="bold">
-        작성자
+        작성자&nbsp;&nbsp;
       </TextStyle>
-      <TextStyle variant="black" size="small" weight="normal">
-        {writerName}
-      </TextStyle>
+      <Link to={`/profile/${data?.writerTag}`} style={{ textDecoration: "none" }}>
+        <TextStyle variant="black" size="small" weight="normal">
+          {writerName}
+        </TextStyle>
+      </Link>
+      <br />
       <br />
       <TextStyle variant="black" size="small" weight="bold">
-        작성일
+        작성일&nbsp;&nbsp;
       </TextStyle>
       <TextStyle variant="black" size="small" weight="normal">
         {changeStrToDate(data.updateTime)}
       </TextStyle>
       <br />
+      <br />
       <TextStyle variant="black" size="small" weight="bold">
-        별점
+        별점&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
       </TextStyle>
       <TextStyle variant="black" size="small" weight="normal">
         {data.starEval}
@@ -59,6 +64,8 @@ export default function ReviewInfo({ data }) {
       <TextStyle variant="black" size="small" weight="normal">
         {data.contents}
       </TextStyle>
+      <br />
+      <br />
     </Box>
   );
 }
