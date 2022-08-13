@@ -53,13 +53,13 @@ public class ChatroomServiceImpl implements ChatroomService {
     @Override
     public void addUser(ChatLog message) {
         Chatroom chatroom = chatroomRepository.findRoomById(message.getPerformanceId());
-        chatroom.addUser(message.getMemberNickName());
+        chatroom.addUser(message.getIdTag());
     }
 
     @Override
     public void subUser(ChatLog message) {
         Chatroom chatroom = chatroomRepository.findRoomById(message.getPerformanceId());
-        chatroom.subUser(message.getMemberNickName());
+        chatroom.subUser(message.getIdTag());
     }
 
     @Override
@@ -81,5 +81,6 @@ public class ChatroomServiceImpl implements ChatroomService {
             c.subUser(idTag);
         }
     }
+
 
 }

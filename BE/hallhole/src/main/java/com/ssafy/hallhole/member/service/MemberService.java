@@ -10,13 +10,15 @@ import java.util.List;
 
 public interface MemberService {
 
-    void join(MemberJoinDTO m) throws NotFoundException;
+    void join(MemberJoinDTO m,String sessionId) throws NotFoundException;
+
+    void logout(String token, String sessionId) throws NotFoundException;
 
     void duplicateMember(String email) throws NotFoundException;
 
     void findPW(String email) throws NotFoundException;
 
-    void delMem(String token) throws NotFoundException;
+    void delMem(String token,String sessionId) throws NotFoundException;
 
     void changePW(String email, String password) throws NotFoundException;
 
@@ -24,11 +26,7 @@ public interface MemberService {
 
     MemberOutputDTO getInfo(String tag) throws NotFoundException;
 
-//    String login(String email, String password, String sessionId) throws NotFoundException;
-
-    TokenDto login(LoginDTO memberRequestDto);
-
-//    TokenDto reissue(TokenRequestDto tokenRequestDto) throws NotFoundException;
+    String login(String email, String password, String sessionId) throws NotFoundException;
 
     CharacterDTO getCharacter(String tag) throws NotFoundException;
 
@@ -41,4 +39,6 @@ public interface MemberService {
     void makeBan(String tag) throws NotFoundException;
 
     void cancelBan(String tag) throws NotFoundException;
+
+    String getMyName(String tag) throws NotFoundException;
 }
