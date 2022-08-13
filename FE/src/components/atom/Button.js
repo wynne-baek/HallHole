@@ -12,6 +12,7 @@ const style = {
 
 const ButtonCheck = styled(Button)(
   ({ size, variant, color }) => `
+  margin: 3px;
   width: ${getSizeWidth(size)};
   height: ${getSizeHeight(size)};
   background-color: ${getBackgroundColor(variant)};
