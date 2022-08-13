@@ -18,9 +18,9 @@ function editReview(contents, performanceId, performance_time, star, title, writ
     .catch(fail);
 }
 
-function deleteReview(writerTag, reviewId, success, fail) {
+function deleteReview(reviewId, writerTag, success, fail) {
   api
-    .put(`review/${reviewId}`, { data: { writerTag: writerTag } })
+    .put(`review/${reviewId}`,  { writerTag: writerTag } )
     .then(success)
     .catch(fail);
 }
