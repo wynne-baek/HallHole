@@ -73,6 +73,12 @@ public class MemberController {
         }
     }
 
+    @GetMapping("/my-name")
+    @ApiOperation(value="내 닉네임 태그로 받아오기", notes = "'/member/my-name?tag=JVWUZ9HZ9W' 형식으로 사용")
+    public String getMyName(@RequestParam("tag") String tag) throws NotFoundException {
+        return memberService.getMyName(tag);
+    }
+
     @PostMapping("/pwmail")
     @ApiOperation(value="비밀번호 변경 링크 메일 전송 >> 전송 막아뒀습니다")
     public ResponseEntity findPW(@RequestBody EmailDTO emailDto) throws NotFoundException {
