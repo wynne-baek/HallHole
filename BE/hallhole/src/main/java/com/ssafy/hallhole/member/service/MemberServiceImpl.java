@@ -18,10 +18,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 @Service
 @RequiredArgsConstructor
@@ -292,5 +289,15 @@ public class MemberServiceImpl implements MemberService {
 
         m.setBan(false);
         memberRepository.save(m);
+    }
+
+    @Override
+    public String getMyName(String tag) throws NotFoundException {
+        Member m = memberRepository.findByIdTag(tag);
+        if(m==null || m.isOut()){
+            throw new NotFoundException("유효한 회원이 아닙니다.");
+        }
+
+        return m.getName();
     }
 }
