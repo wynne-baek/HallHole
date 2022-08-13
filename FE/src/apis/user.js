@@ -23,8 +23,8 @@ function requestUserInfo(idTag, success, fail) {
   api.get(`member/info/${idTag}`).then(success).catch(fail);
 }
 
-function requestName(tag, success, fail) {
-  api.get("member/my-name", { tag: tag }).then(success).catch(fail);
+function requestName(idTag, success, fail) {
+  api.get("member/my-name", { params: { tag : idTag } }).then(success).catch(fail);
 }
 
 export { requestJoin, requestLogin, requestMyInfo, requestUserInfo, requestName };
