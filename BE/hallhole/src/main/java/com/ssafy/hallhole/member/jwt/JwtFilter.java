@@ -1,6 +1,5 @@
 package com.ssafy.hallhole.member.jwt;
 
-import com.ssafy.hallhole.member.dto.TokenSetDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -24,6 +23,7 @@ public class JwtFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws IOException, ServletException {
 
         System.out.println("JwtFilter의 doFilterInternal 시작");
+        System.out.println("request.getServletPath() = " + request.getServletPath());
 
         // 1. Request Header 에서 토큰을 꺼냄
         String accessToken = resolveToken(request);
