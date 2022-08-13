@@ -12,7 +12,6 @@ import com.ssafy.hallhole.member.domain.Gender;
 import com.ssafy.hallhole.member.domain.Member;
 import com.ssafy.hallhole.member.dto.*;
 import com.ssafy.hallhole.member.jwt.TokenProvider;
-import com.ssafy.hallhole.member.repository.HashMapRepository;
 import com.ssafy.hallhole.member.repository.MemberRepository;
 import com.ssafy.hallhole.performance.domain.PerformanceLike;
 import com.ssafy.hallhole.performance.repository.PerformanceLikeRepositoryImpl;
@@ -32,9 +31,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Service
@@ -46,9 +43,6 @@ public class MemberServiceImpl implements MemberService {
     private final CommentRepository commentRepository;
 
     private final MailService mailService;
-
-
-    private final HashMapRepository sessionRepository;
 
     private final FollowRepositoryImpl followRepository;
 
@@ -101,16 +95,10 @@ public class MemberServiceImpl implements MemberService {
     public TokenDto login(LoginDTO memberRequestDto) {
         // 1. Login ID/PW 를 기반으로 AuthenticationToken 생성
         UsernamePasswordAuthenticationToken authenticationToken = memberRequestDto.toAuthentication();
-        System.out.println("authenticationToken.getName() = " + authenticationToken.getName());
-        System.out.println("authenticationToken.getCredentials() = " + authenticationToken.getCredentials());
-        System.out.println("authenticationToken.getAuthorities() = " + authenticationToken.getAuthorities());
 
         // 2. 실제로 검증 (사용자 비밀번호 체크) 이 이루어지는 부분
         //    authenticate 메서드가 실행이 될 때 CustomUserDetailsService 에서 만들었던 loadUserByUsername 메서드가 실행됨
         Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
-        System.out.println("authentication.getName() = " + authentication.getName());
-        System.out.println("authentication.getAuthorities() = " + authentication.getAuthorities());
-        System.out.println("authentication.getCredentials() = " + authentication.getCredentials());
 
 
         // 3. 인증 정보를 기반으로 JWT 토큰 생성
@@ -162,11 +150,17 @@ public class MemberServiceImpl implements MemberService {
         List<Follow> followList = followRepository.findAllRelationByMemberId(m.getId());
         System.out.println("followList.size() = " + followList.size());
         for(Follow f:followList){
-            followRepository.delete(f);
-            f.getFollowingMember().subFollowingCnt();
-            f.getFollowedMember().subFollowerCnt();
+
+            if(f.getFollowedMember().getIdTag().equals(tag)){
+                f.getFollowedMember().subFollowerCnt();
+            }else {
+                f.getFollowingMember().subFollowingCnt();
+            }
+
             memberRepository.save(f.getFollowingMember());
             memberRepository.save(f.getFollowedMember());
+
+            followRepository.delete(f);
         }
 
         System.out.println("fin follow");
@@ -198,7 +192,6 @@ public class MemberServiceImpl implements MemberService {
         for(ReviewReaction r:reactionList){
             ReactionType rType = r.getReactiontype();
             ReactionCnt rCnt = rcRepository.findReactionCnt(r.getId(), rType.getId());
-            rCnt.subReaction();
             List<ReviewReaction> rList = rrRepository.findReactionByAllData(r.getReview().getId(), m.getId());
             for(ReviewReaction rr: rList){
                 rrRepository.delete(rr);

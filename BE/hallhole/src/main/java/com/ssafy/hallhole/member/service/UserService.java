@@ -10,13 +10,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class UserService {
 
     private final MemberRepository memberRepository;
 
-    @Transactional(readOnly = true)
     public MemberResponseDTO getMemberInfo(String email) throws NotFoundException {
+
+        System.out.println("UserService의 getMemberInfo 시작");
 
         Member member = memberRepository.findByEmail(email);
         if(member==null || member.isOut()){
@@ -28,8 +30,9 @@ public class UserService {
     }
 
     // 현재 SecurityContext 에 있는 유저 정보 가져오기
-    @Transactional(readOnly = true)
     public MemberResponseDTO getMyInfo() throws NotFoundException {
+
+        System.out.println("UserService의 getMyInfo 시작");
 
         Member member = memberRepository.findByIdTag(SecurityUtil.getCurrentMemberId());
         if(member==null || member.isOut()){
