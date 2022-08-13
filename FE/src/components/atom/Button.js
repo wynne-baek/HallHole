@@ -20,6 +20,7 @@ const ButtonCheck = styled(Button)(
   };
   text-align: center;
   color: ${getColor(color)};
+  font-family: "gmarketSansMedium"
   `,
 );
 
