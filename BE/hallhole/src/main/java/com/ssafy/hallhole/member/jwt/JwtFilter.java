@@ -27,8 +27,11 @@ public class JwtFilter extends OncePerRequestFilter {
 
         // 1. Request Header 에서 토큰을 꺼냄
         String accessToken = resolveToken(request);
-
-        System.out.println("JwtFilter의 doFilterInternal accessToken 잘 가져옴");
+        if (accessToken == null) {
+            System.out.println("JwtFilter의 doFilterInternal accessToken is null");
+        } else {
+            System.out.println("JwtFilter의 doFilterInternal accessToken accessToken = " + accessToken);
+        }
 
         // 2. validateToken 으로 토큰 유효성 검사
         // 정상 토큰이면 해당 토큰으로 Authentication 을 가져와서 SecurityContext 에 저장
@@ -52,7 +55,7 @@ public class JwtFilter extends OncePerRequestFilter {
         if(StringUtils.hasText(accessToken)){
             return accessToken;
         }
-        System.out.println("JwtFilter의 resolveToken에서 에러 남");
+
         return null;
     }
 }

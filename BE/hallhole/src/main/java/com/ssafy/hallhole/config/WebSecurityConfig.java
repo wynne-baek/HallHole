@@ -39,12 +39,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             "/",
             "/index",
             "/index_bundle.js",
-            "/resource/*",
+            "/resources/**",
             "/logo.png",
-            "/acc/*",
-            "/char/*"
+            "/char/**",
+            "/acc/**"
     };
-
 
 
     @Override
