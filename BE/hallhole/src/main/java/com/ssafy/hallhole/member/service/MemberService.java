@@ -37,4 +37,6 @@ public interface MemberService {
     void makeBan(String tag) throws NotFoundException;
 
     void cancelBan(String tag) throws NotFoundException;
+
+    String getMyName(String tag) throws NotFoundException;
 }
