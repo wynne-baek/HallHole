@@ -66,7 +66,6 @@ public class MemberController {
     public MemberOutputDTO getMyInfo(@RequestHeader Map<String, Object> requestHeader) throws NotFoundException {
         try{
             String token = (String) requestHeader.get("token");
-            System.out.println("myinfo token:"+ token);
             return memberService.findInfo(token);
         }catch(Exception e){
             throw new NotFoundException("토큰이 넘어오지 않았거나, 유효한 토큰이 아닙니다.");
