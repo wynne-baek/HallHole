@@ -17,7 +17,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -160,5 +159,16 @@ public class ReviewServiceImpl implements ReviewService {
         }
 
         return summaryList;
+    }
+
+    @Override
+    public Long findCntByReviewId(Long reviewId) throws NotFoundException {
+
+        Review review = reviewRepository.findOneReviewById(reviewId);
+        if (review==null || review.isDelete()){
+            throw new NotFoundException("후기가 존재하지 않습니다.");
+        }
+
+        return reviewRepository.findCommentCntByReviewId(reviewId);
     }
 }
