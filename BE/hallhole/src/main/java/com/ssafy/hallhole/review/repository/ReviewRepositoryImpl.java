@@ -7,7 +7,6 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
@@ -64,5 +63,10 @@ public class ReviewRepositoryImpl implements ReviewRepository{
                 .getResultList();
     }
 
-
+    @Override
+    public Long findCommentCntByReviewId(Long reviewId) {
+        return em.createQuery("select count(c.id) from Comment c where c.review.id=:review_id and c.isDelete=false",Long.class)
+                .setParameter("review_id",reviewId)
+                .getSingleResult();
+    }
 }

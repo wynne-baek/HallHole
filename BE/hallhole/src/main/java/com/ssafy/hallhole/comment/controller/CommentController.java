@@ -69,4 +69,5 @@ public class CommentController {
     public List<CommentOutputDTO> findByReviewId(@RequestBody CommentFindByReviewIdDTO inputDTO) throws NotFoundException {
         return commentService.CommentListfindByReviewId(inputDTO);
     }
+
 }

@@ -290,8 +290,7 @@ public class MemberServiceImpl implements MemberService {
             throw new NotFoundException("유효한 회원이 아닙니다.");
         }
 
-        CharacterDTO character = new CharacterDTO(tag, m.getNowBg(),
-                m.getNowChar(), m.getNowAcc());
+        CharacterDTO character = new CharacterDTO(tag,m.getNowBg(), m.getNowChar(), m.getNowAcc());
         return character;
     }
 
