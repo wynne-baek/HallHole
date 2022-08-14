@@ -44,7 +44,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity web){ // 보안 예외처리(HTML, 정적리소스)
         web.ignoring()
-                .antMatchers("/resources/**","/char/**", "/acc/**", "/favicon.ico","/index_bundle.js","/**/*.css", "/**/*.png", "/**/*.jpg", "/**/*.gif");
+                .antMatchers("/resources/**","/char/**", "/acc/**", "/favicon.ico","/index_bundle.js","/**/*.css", "/**/*.png", "/**/*.jpg", "/**/*.gif", "/**/*.woff", "/**/*.ttf");
         web.ignoring().requestMatchers(PathRequest.toStaticResources().atCommonLocations());
     }
 
