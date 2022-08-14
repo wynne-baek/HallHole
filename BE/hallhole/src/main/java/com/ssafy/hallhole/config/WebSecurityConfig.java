@@ -42,7 +42,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             "/favicon.ico",
             "/**/*.woff",
             "/**/*.ttf",
-            "/main"
+            "/main",
+            "/member/**"
     };
 
     @Override
