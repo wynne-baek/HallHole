@@ -14,9 +14,9 @@ import { useParams } from "react-router-dom";
 const reviewListStyle = {
   position: "relative",
   zIndex: 3,
-  width: "100%",
-  marginLeft: 2,
-  marginY: 1,
+  width: "90%",
+  margin: "auto",
+  // marginY: 1,
 };
 
 const reviewButtonStyle = {
@@ -37,11 +37,6 @@ function RightPerformance({ performanceInfo, performanceMoreInfo, id, performanc
       ></PerformanceInformation>
       <Box sx={reviewListStyle}>
         <ReviewList performanceReviewList={performanceReviewList}></ReviewList>
-      </Box>
-      <Box sx={reviewButtonStyle}>
-        <ButtonStyle size="large" variant="primary">
-          후기 작성
-        </ButtonStyle>
       </Box>
     </Box>
   );
@@ -66,22 +61,28 @@ export default function PerformanceDetail() {
     setPerformanceMoreInfo(res.data);
   }
   function getPerformanceReviewListSuccess(res) {
-    setPerformanceReviewList(res.data)
-    console.log("성공", res.data)
+    setPerformanceReviewList(res.data);
+    console.log("성공", res.data);
   }
 
   function getPerformanceReviewListFail(err) {
-    console.log("실패", err)
+    console.log("실패", err);
   }
-  
-  function requestPerformanceInfoFail(err) {
-  }
+
+  function requestPerformanceInfoFail(err) {}
 
   // 조건부 렌더링
   if (validatePerformanceInfo(performanceInfo)) {
     return <LoadingPerformance />;
   } else {
-    return <RightPerformance performanceInfo={performanceInfo} performanceMoreInfo={performanceMoreInfo} id={id} performanceReviewList={performanceReviewList}/>;
+    return (
+      <RightPerformance
+        performanceInfo={performanceInfo}
+        performanceMoreInfo={performanceMoreInfo}
+        id={id}
+        performanceReviewList={performanceReviewList}
+      />
+    );
   }
 }
 

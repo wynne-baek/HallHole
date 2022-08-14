@@ -4,13 +4,20 @@ import ReviewItem from "../molecule/ReviewItem";
 import CategoryDivider from "../atom/CategoryDivider";
 import { Box } from "@mui/system";
 import TextStyle from "../atom/Text";
+import ButtonStyle from "../atom/Button";
 
 export default function ReviewList({ performanceReviewList }) {
   return (
-    <Box sx={{ mt: 3, width: "95%"}}>
+    <Box>
       <CategoryDivider type="negative" />
-      <br></br>
-      <TextStyle size="medium" variant="primary">관람 후기</TextStyle>
+      <Box sx={{my:2}}>
+        <ButtonStyle size="large" variant="primary">
+          후기 작성
+        </ButtonStyle>
+      </Box>
+      <TextStyle size="medium" variant="primary">
+        관람 후기
+      </TextStyle>
       {performanceReviewList.map((item, i) => (
         <ReviewItem
           key={i}
