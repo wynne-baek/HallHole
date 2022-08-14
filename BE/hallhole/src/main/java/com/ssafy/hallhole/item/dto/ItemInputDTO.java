@@ -10,8 +10,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class ItemInputDTO {
 
-    private ItemType itemType;
+    private String itemType;
 
-    private int price;
+    private Long typeId;
 
 }

@@ -11,8 +11,6 @@ public class CharacterDTO {
 
     private String idTag;
 
-    private int bg;
-
     private int character;
 
     private int acc;
