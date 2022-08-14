@@ -15,7 +15,7 @@ public interface ItemService {
 
     List<OwnItem> getAllMyItem(String tag) throws NotFoundException;
 
-    void addItem(ItemInputDTO inputDTO);
+    void addItem(ItemInputDTO inputDTO) throws NotFoundException;
 
     void myItemChange(ItemChangeInputDTO inputDTO) throws NotFoundException;
 

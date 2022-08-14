@@ -29,12 +29,15 @@ public class Item {
     @Enumerated(EnumType.STRING)
     private ItemType itemType;
 
+    @NotNull
+    private Long type_id;
+
     @Builder.Default
     @ColumnDefault("0")
     private int price = 0;
 
-    public Item(ItemType itemType, int price) {
+    public Item(ItemType itemType, Long type_id) {
         this.itemType = itemType;
-        this.price = price;
+        this.type_id = type_id;
     }
 }
