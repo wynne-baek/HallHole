@@ -38,6 +38,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             "/member/join",
             "/member/login",
             "/",
+            "/index",
             "/favicon.ico",
             "/**/*.woff",
             "/**/*.ttf",
