@@ -8,13 +8,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CharacterDTO {
-
     private String idTag;
-
     private int bg;
 
     private int character;
-
     private int acc;
 
 }

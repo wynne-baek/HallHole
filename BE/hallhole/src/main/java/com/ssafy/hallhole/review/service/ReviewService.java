@@ -22,4 +22,6 @@ public interface ReviewService {
     List<SummaryReviewDTO> getPerformanceSummeryReviewInfo(int start, int size, String pId) throws NotFoundException;
 
     ReviewOutputDTO getDetailReviewInfo(Long rId) throws NotFoundException; //review detail
+
+    Long findCntByReviewId(Long reviewId) throws NotFoundException;
 }

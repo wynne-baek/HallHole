@@ -1,6 +1,7 @@
 package com.ssafy.hallhole.review.controller;
 
 import com.ssafy.hallhole.advice.exceptions.NotFoundException;
+import com.ssafy.hallhole.comment.service.CommentServiceImpl;
 import com.ssafy.hallhole.review.domain.Review;
 import com.ssafy.hallhole.review.dto.*;
 import com.ssafy.hallhole.review.service.ReviewServiceImpl;
@@ -20,6 +21,8 @@ import java.util.List;
 public class ReviewController {
 
     private final ReviewServiceImpl reviewService;
+
+    private final CommentServiceImpl commentService;
 
     @PostMapping("/write")
     @ApiOperation(value="리뷰 작성")
@@ -57,5 +60,11 @@ public class ReviewController {
     @ApiOperation(value="공연별 후기 요약 리스트")
     public List<SummaryReviewDTO> getPerformanceSummaryList(@RequestBody ReviewPerformanceListDTO inputDto) throws NotFoundException  {
         return reviewService.getPerformanceSummeryReviewInfo(inputDto.getStart(), inputDto.getSize(), inputDto.getPerformance_id());
+    }
+
+    @GetMapping("/comment-cnt/{reviewId}")
+    @ApiOperation(value = "리뷰 별 댓글 갯수")
+    public Long findCntByReviewId(@PathVariable("reviewId") Long reviewId) throws NotFoundException {
+        return reviewService.findCntByReviewId(reviewId);
     }
 }
