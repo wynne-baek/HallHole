@@ -22,4 +22,6 @@ public interface ReviewRepository {
     List<Review> findAllReviewPagingByMemberId(int start, int size, Long memberId);
 
     List<Review> findAllReviewPagingByPerformanceId(int start, int size, String performanceId);
+
+    Long findCommentCntByReviewId(Long reviewId);
 }
