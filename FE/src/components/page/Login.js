@@ -3,7 +3,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 
-import { Box } from "@mui/material";
+import { Box, Modal as MUIModal } from "@mui/material";
 import { styled } from "@mui/system";
 import CloseIcon from "@mui/icons-material/Close";
 
@@ -23,6 +23,18 @@ const LoginModal = styled(Modal)``;
 const closeIconStyle = {
   color: "white",
   fontSize: "3rem",
+};
+
+const style = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: "40vw",
+  bgcolor: "white",
+  borderRadius: 5,
+  boxShadow: 24,
+  p: 4,
 };
 
 const LoginModalHeader = styled(Box)`
@@ -68,6 +80,19 @@ export default function Login(props) {
   const [errorMessagePassword, setErrorMessagePassword] = React.useState("");
   const [errorMessageConfirm, setErrorMessageConfirm] = React.useState("");
 
+  const [openModal, setOpenModal] = React.useState(false);
+  const [modalTitle, setModalTitle] = React.useState("");
+  const [modalMessage, setModalMessage] = React.useState("");
+
+  function modalOpen(title, message) {
+    setModalTitle(title);
+    setModalMessage(message);
+    setOpenModal(true);
+  }
+  function modalClose() {
+    setOpenModal(false);
+  }
+
   function onChangeEmail(e) {
     const email = e.target.value;
     setEmail(email);
@@ -100,15 +125,20 @@ export default function Login(props) {
   }
 
   function loginFail(res) {
-    console.log("로그인 실패");
+    modalOpen("로그인 실패", "이메일 또는 비밀번호가 잘못되었습니다.");
   }
 
   function joinSuccess(res) {
-    console.log("회원가입 성공");
+    modalOpen("회원가입 성공", "회원가입이 완료되었습니다.");
+
+    setEmail("");
+    setName("");
+    setPassword("");
+    setConfirm("");
   }
 
   function joinFail(res) {
-    console.log("회원가입 실패");
+    modalOpen("회원가입 실패", "이미 존재하는 이메일입니다.");
   }
 
   function validateEmail(email) {
@@ -284,6 +314,22 @@ export default function Login(props) {
           </Button>
         </InputBox>
       </LoginModalBody>
+
+      <MUIModal
+        open={openModal}
+        onClose={modalClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+          <div id="modal-modal-title">
+            <Text size="medium">{modalTitle}</Text>
+          </div>
+          <div id="modal-modal-description">
+            <Text weight="lighter">{modalMessage}</Text>
+          </div>
+        </Box>
+      </MUIModal>
     </LoginModal>
   );
 }
