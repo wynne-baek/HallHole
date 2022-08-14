@@ -4,6 +4,7 @@ import com.ssafy.hallhole.member.jwt.JwtAccessDeniedHandler;
 import com.ssafy.hallhole.member.jwt.JwtAuthenticationEntryPoint;
 import com.ssafy.hallhole.member.jwt.TokenProvider;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -37,14 +38,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             "/member/join",
             "/member/login",
             "/",
-            "/index",
-            "/index_bundle.js",
-            "/resources/**",
-            "/logo.png",
-            "/char/**",
-            "/acc/**"
+            "/index"
     };
 
+    @Override
+    public void configure(WebSecurity web){
+        // resources 모든 접근을 허용하는 설정을 해버리면
+        // HttpSecurity 설정한 ADIM권한을 가진 사용자만 resources 접근가능한 설정을 무시해버린다.
+        web.ignoring()
+                .antMatchers("/resources/**","/char/**", "/acc/**", "/favicon.ico","/index_bundle.js","/**/*.css", "/**/*.png", "/**/*.jpg", "/**/*.gif");
+        web.ignoring().requestMatchers(PathRequest.toStaticResources().atCommonLocations());
+    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
