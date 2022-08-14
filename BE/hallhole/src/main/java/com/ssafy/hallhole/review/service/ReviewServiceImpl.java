@@ -38,7 +38,7 @@ public class ReviewServiceImpl implements ReviewService {
     public void writeReview(ReviewInputDTO reviewDto) throws NotFoundException { // review form
         Performance p = performanceRepository.findOnePerformanceById(reviewDto.getPerformanceId());
         Member m = memberRepository.findByIdTag(reviewDto.getWriterTag());
-        Review r = new Review(m,p,reviewDto.getTitle(),reviewDto.getPerformance_time(),
+        Review r = new Review(m,p,reviewDto.getTitle(),reviewDto.getPerformance_time().minusHours(9),
                 reviewDto.getContents(), reviewDto.getStar());
         reviewRepository.save(r);
     }
