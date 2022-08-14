@@ -119,7 +119,7 @@ public class MemberController {
     }
 
     @GetMapping("/deco/{tag}")
-    @ApiOperation(value = "현재 멤버 캐릭터 캐릭터, 악세사리 값 가져오기",
+    @ApiOperation(value = "현재 멤버 캐릭터 배경, 캐릭터, 악세사리 값 가져오기",
             notes = "'/member/deco/JVWUZ9HZ9W' 형식으로 사용. tag = 멤버태그")
     public CharacterDTO getCharacter(@PathVariable("tag") String tag) throws NotFoundException{
         return memberService.getCharacter(tag);
