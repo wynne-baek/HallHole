@@ -17,4 +17,7 @@ public interface ItemRepository extends JpaRepository<Item,Long> {
     @Query(value = "select * from own_item where member_id=:mId", nativeQuery = true)
     List<OwnItem> findAllMyItem(@Param("mId")Long mId);
 
+    @Query(value = "select count(*) from item where item_type=:type and type_id=:typeId",nativeQuery = true)
+    Long findByTypeInfo(@Param("type")String type, @Param("typeId")Long typeId);
+
 }

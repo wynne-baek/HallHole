@@ -42,11 +42,24 @@ public class ItemServiceImpl implements ItemService{
     }
 
     @Override
-    public void addItem(ItemInputDTO inputDTO) {
-        Item item = new Item(inputDTO.getItemType(), inputDTO.getPrice());
-        itemRepository.save(item);
-    }
+    public void addItem(ItemInputDTO inputDTO) throws NotFoundException {
 
+        if(itemRepository.findByTypeInfo(inputDTO.getItemType(), inputDTO.getTypeId())==0){
+            Item item;
+            if(inputDTO.getItemType().equals("ACC")){
+                item = new Item(ItemType.ACC, inputDTO.getTypeId());
+            } else {
+                item = new Item(ItemType.CHAR, inputDTO.getTypeId());
+            }
+
+            itemRepository.save(item);
+        }
+
+        else{
+            throw new NotFoundException("해당 타입별 해당 타입아이디가 이미 있습니다.");
+        }
+
+    }
     @Override
     public void myItemChange(ItemChangeInputDTO inputDTO) throws NotFoundException {
 
@@ -55,18 +68,15 @@ public class ItemServiceImpl implements ItemService{
             throw new NotFoundException("유효한 사용자가 아닙니다.");
         }
 
-        Item acc = itemRepository.findById(inputDTO.getAcc_id()).get();
-        Item character = itemRepository.findById(inputDTO.getChar_id()).get();
-
-        if(acc==null){
+        if(itemRepository.findByTypeInfo("ACC", inputDTO.getAcc_id())==0){
             throw new NotFoundException("해당 악세사리는 존재하지 않습니다.");
         }
-        if(character==null){
+        if(itemRepository.findByTypeInfo("CHAR", inputDTO.getChar_id())==0){
             throw new NotFoundException("해당 색상이 존재하지 않습니다.");
         }
 
-        m.setNowChar(character.getId().intValue());
-        m.setNowAcc(acc.getId().intValue());
+        m.setNowChar(inputDTO.getChar_id().intValue());
+        m.setNowAcc(inputDTO.getAcc_id().intValue());
 
         memberRepository.save(m);
     }
