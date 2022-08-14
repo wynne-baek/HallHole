@@ -21,35 +21,18 @@ import java.util.List;
 public class ItemController {
 
     private final ItemServiceImpl itemService;
-
     @GetMapping("/all-list/{type}")
     @ApiOperation(value = "아이템 전체 목록 보기",
             notes = "'/item/all-list/ACC' 형식으로 사용. type >> ACC(악세사리), BG(배경), CHAR(캐릭터)")
     public List<Item> showAllListByType(@PathVariable("type") String type) throws NotFoundException {
         return itemService.getAllItemByType(type);
     }
-
-    @GetMapping("/my-list/{tag}")
-    @ApiOperation(value = "현재 해당 아이디가 보유 중인 아이템 목록 가져오기 >> 상의 후 상점을 한다고 하면 작성",
-            notes = "'/item/my-list/XD7UFRRWES' 형식으로 사용.")
-    public List<OwnItem> showMyListByType(@PathVariable("tag") String tag) throws NotFoundException {
-        return itemService.getAllMyItem(tag);
-    }
-
     @PostMapping("/add")
     @ApiOperation(value = "아이템 상점 등록", notes = "'/item/add'")
     public ResponseEntity addItemInShop(@RequestBody ItemInputDTO inputDto) throws NotFoundException {
         itemService.addItem(inputDto);
         return new ResponseEntity(HttpStatus.OK);
     }
-
-//    @PostMapping("/change")
-//    @ApiOperation(value = "내 현재 아이템 변경", notes = "'/item/change'")
-//    public ResponseEntity changeMyItem(@RequestBody ItemChangeInputDTO inputDto) throws NotFoundException {
-//        itemService.myItemChange(inputDto);
-//        return new ResponseEntity(HttpStatus.OK);
-//    }
-
     @PostMapping("/change")
     @ApiOperation(value = "내 현재 아이템 변경", notes = "'/item/change'")
     public ResponseEntity changeMyItem(@RequestBody ItemChangeInputDTO inputDto) throws NotFoundException {
