@@ -42,16 +42,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     };
 
     @Override
-    public void configure(WebSecurity web){
-        // resources 모든 접근을 허용하는 설정을 해버리면
-        // HttpSecurity 설정한 ADIM권한을 가진 사용자만 resources 접근가능한 설정을 무시해버린다.
+    public void configure(WebSecurity web){ // 보안 예외처리(HTML, 정적리소스)
         web.ignoring()
                 .antMatchers("/resources/**","/char/**", "/acc/**", "/favicon.ico","/index_bundle.js","/**/*.css", "/**/*.png", "/**/*.jpg", "/**/*.gif");
         web.ignoring().requestMatchers(PathRequest.toStaticResources().atCommonLocations());
     }
 
     @Override
-    protected void configure(HttpSecurity http) throws Exception {
+    protected void configure(HttpSecurity http) throws Exception { // 보안처리
         System.out.println("WebSecurityConfig의 configure 시작");
 
         http.csrf().disable();
