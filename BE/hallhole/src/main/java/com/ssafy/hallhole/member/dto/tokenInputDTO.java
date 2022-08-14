@@ -7,10 +7,10 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class LoginDTO {
+public class tokenInputDTO {
 
-   private String email;
+    Long userId;
 
-   private String pw;
+    String sessionId;
 
 }

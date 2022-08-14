@@ -12,7 +12,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.Arrays;
 import java.util.Map;
@@ -27,15 +26,16 @@ public class MemberController {
     private final MemberServiceImpl memberService;
 
     @PostMapping("/join")
-    @ApiOperation(value="홀홀 회원가입", notes = "가입 축하 메일 막아뒀습니다")
-    public void join(@RequestBody MemberJoinDTO member) throws NotFoundException {
-        memberService.join(member);
+    @ApiOperation(value="홀홀 회원가입", notes = "토큰 만료 수정 예정, 가입 축하 메일 막아뒀습니다")
+    public void join(@RequestBody MemberJoinDTO member, HttpSession session) throws NotFoundException {
+        memberService.join(member, session.getId());
     }
 
     @PostMapping("/login")
-    @ApiOperation(value="홀홀 로그인", notes = "이메일, 패스워드 입력 필요")
-    public ResponseEntity<TokenDto> login(@RequestBody LoginDTO memberRequestDto) {
-        return ResponseEntity.ok(memberService.login(memberRequestDto));
+    @ApiOperation(value="홀홀 로그인", notes = "세션 정보와 아이디, 비밀번호 필요")
+    public TokenDto login(@RequestBody LoginDTO member,HttpSession session) throws NotFoundException {
+        String token = memberService.login(member.getEmail(), member.getPw(), session.getId());
+        return new TokenDto(token);
     }
 
     @PostMapping("/chk-email")
@@ -52,10 +52,11 @@ public class MemberController {
     }
 
     @GetMapping("/logout")
-    @ApiOperation(value="홀홀 로그아웃")
-    public ResponseEntity logout() throws NotFoundException {
+    @ApiOperation(value="홀홀 로그아웃", notes = "세션 정보와 헤더 내 토큰 값 필요. 토큰 문제 수정 예정")
+    public void logout(@RequestHeader Map<String, Object> requestHeader,HttpSession session) throws NotFoundException {
         try{
-            throw new NotFoundException("로그아웃 성공");
+            String token = (String) requestHeader.get("token");
+            memberService.logout(token, session.getId());
         }catch(Exception e){
             throw new NotFoundException("로그아웃 실패");
         }
@@ -101,9 +102,10 @@ public class MemberController {
     }
 
     @PutMapping("/out")
-    @ApiOperation(value = "회원 탈퇴")
-    public void delMember(HttpServletRequest request) throws NotFoundException {
-        memberService.delMem(request.getHeader("token"));
+    @ApiOperation(value = "회원 탈퇴 >> follow 관련 상의 필요. 탈퇴 잠시 막아뒀습니다. 다른 것들 다 수정 후 올릴게요")
+    public void delMember(@RequestHeader Map<String, Object> requestHeader, HttpSession session) throws NotFoundException {
+//        String token = (String) requestHeader.get("token");
+//        memberService.delMem(token, session.getId());
     }
 
     @PutMapping("")
@@ -119,7 +121,7 @@ public class MemberController {
     }
 
     @GetMapping("/deco/{tag}")
-    @ApiOperation(value = "현재 멤버 캐릭터 캐릭터, 악세사리 값 가져오기",
+    @ApiOperation(value = "현재 멤버 캐릭터 배경, 캐릭터, 악세사리 값 가져오기",
             notes = "'/member/deco/JVWUZ9HZ9W' 형식으로 사용. tag = 멤버태그")
     public CharacterDTO getCharacter(@PathVariable("tag") String tag) throws NotFoundException{
         return memberService.getCharacter(tag);

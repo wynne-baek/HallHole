@@ -77,11 +77,4 @@ public class ReviewReactionRepositoryImpl implements ReviewReactionRepository {
                 .getSingleResult();
     }
 
-    @Override
-    public List<ReviewReaction> findAllReactionByMemberId(Long memberId) {
-        return em.createQuery("select r from ReviewReaction r where r.member.id=:memberId",ReviewReaction.class)
-                .setParameter("memberId",memberId)
-                .getResultList();
-    }
-
 }
