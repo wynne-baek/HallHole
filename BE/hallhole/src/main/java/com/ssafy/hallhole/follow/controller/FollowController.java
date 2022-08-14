@@ -23,22 +23,19 @@ public class FollowController {
     private final FollowServiceImpl followService;
 
     @PostMapping
-    @ApiOperation(value="팔로우 하기 following -> follower",
-            notes = "ing이 팔로우 버튼 누른 사람. er가 팔로우 당한 사람")
+    @ApiOperation(value="팔로우 하기 following -> follower")
     public void addFollow(@RequestBody FollowInputDTO dto) throws NotFoundException {
         followService.addFollow(dto.getFollowingTag(),dto.getFollowerTag());
     }
 
     @DeleteMapping
-    @ApiOperation(value="팔로우 취소 following -> follower",
-            notes = "ing이 팔로우 버튼 누른 사람. er가 팔로우 당한 사람")
+    @ApiOperation(value="팔로우 취소 following -> follower")
     public void delFollow(@RequestBody FollowInputDTO dto) throws NotFoundException {
         followService.delFollow(dto.getFollowingTag(),dto.getFollowerTag());
     }
 
     @PostMapping("/following")
-    @ApiOperation(value="아이디 태그로 팔로우를 누른사람 보기",
-            notes = "태그아이디가 팔로우를 누른사람 보기 (해당 아이디의 팔로잉 목록 보기)")
+    @ApiOperation(value="내 ID로 내가 팔로잉 중인 사용자 찾기 >> input: followingTag")
     public ResponseEntity<FollowOutputDTO> getFollowing(@RequestBody PagingInputDTO inputDto){
         try{
             List<FollowOutputDTO> followingList = followService.findFollowing(inputDto);
@@ -49,8 +46,7 @@ public class FollowController {
     }
 
     @PostMapping("/follower")
-    @ApiOperation(value="아이디 태그로 팔로워 보기",
-            notes = "태그아이디를 팔로우 한 사람들 목록 보기 (해당 아이디의 팔로워 목록 보기)")
+    @ApiOperation(value="내 ID로 나를 팔로잉 중인 사용자 찾기 >> input: followerTag")
     public ResponseEntity<FollowOutputDTO> getFollower(@RequestBody PagingInputDTO inputDto){
         try{
             List<FollowOutputDTO> followerList = followService.findFollower(inputDto);
@@ -61,8 +57,7 @@ public class FollowController {
     }
 
     @PostMapping("/chk-follow")
-    @ApiOperation(value="팔로우 관계인지 알아보기 >> input: followingTag, followerTag",
-            notes = "팔로잉이 팔로워를 팔로우 했는지 알아보기")
+    @ApiOperation(value="팔로우 관계인지 알아보기 >> input: followingTag, followerTag")
     public boolean findRelation(@RequestBody FollowInputDTO inputDto) throws NotFoundException {
         List<Follow> relation = followService.findRelation(inputDto);
         if(relation.size()==0) return false;
