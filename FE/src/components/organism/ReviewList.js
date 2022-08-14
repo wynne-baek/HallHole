@@ -25,6 +25,8 @@ export default function ReviewList({ performanceReviewList }) {
           written_date={item.writing_time}
           star_eval={item.star_eval}
           user={item.name}
+          writerTag={item.writerTag}
+          id={item.id}
         ></ReviewItem>
       ))}
     </Box>
