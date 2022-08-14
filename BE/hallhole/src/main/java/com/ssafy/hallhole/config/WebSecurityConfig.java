@@ -38,17 +38,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             "/member/join",
             "/member/login",
             "/",
-            "/favicon.ico",
-            "/**/*.woff",
-            "/**/*.ttf",
-            "/main"
+            "/index"
     };
 
     @Override
     public void configure(WebSecurity web){ // 보안 예외처리(HTML, 정적리소스)
         web.ignoring()
-                .antMatchers("/resources/**","/char/**", "/acc/**", "/favicon.ico","/index_bundle.js","/**/*.css",
-                        "/**/*.png", "/**/*.jpg", "/**/*.gif", "/**/*.woff", "/**/*.ttf");
+                .antMatchers("/resources/**","/char/**", "/acc/**", "/favicon.ico","/index_bundle.js","/**/*.css", "/**/*.png", "/**/*.jpg", "/**/*.gif", "/**/*.woff", "/**/*.ttf");
         web.ignoring().requestMatchers(PathRequest.toStaticResources().atCommonLocations());
     }
 
@@ -75,7 +71,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 .antMatchers(PERMIT_URL_ARRAY).permitAll()
-//                .anyRequest().authenticated()   // 나머지 API 는 전부 인증 필요
+                .anyRequest().authenticated()   // 나머지 API 는 전부 인증 필요
 
                 // JwtFilter 를 addFilterBefore 로 등록했던 JwtSecurityConfig 클래스를 적용
                 .and()
