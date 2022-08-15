@@ -110,7 +110,7 @@ public class MemberController {
 
     @PutMapping("")
     @ApiOperation(value = "프로필 변경")
-    public MemberOutputDTO changeInfo(@RequestBody MyProfileDTO myDto) throws NotFoundException {
+    public MyProfileDTO changeInfo(@RequestBody MyProfileDTO myDto) throws NotFoundException {
         return memberService.changeInfo(myDto);
     }
 

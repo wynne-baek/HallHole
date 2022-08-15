@@ -25,10 +25,4 @@ public class MyProfileDTO {
 
     private String profile;
 
-    private int nowBg;
-
-    private int nowChar;
-
-    private int nowAcc;
-
 }
