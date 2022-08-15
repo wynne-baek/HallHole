@@ -17,12 +17,12 @@ const flexContainer = {
 
 const Content = styled(Box)``;
 
-export default function LikePerformances({ id }) {
+export default function LikePerformances() {
   const [famousPerformanceList, setFamousPerformanceList] = useState([]);
 
   useEffect(() => {
     mostLikedPerformance(10, getLikePerformanceRankSuccess, getLikePerformanceRankFail);
-  });
+  }, []);
 
   function getLikePerformanceRankSuccess(res) {
     setFamousPerformanceList(res.data);
