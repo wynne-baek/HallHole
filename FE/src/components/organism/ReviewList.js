@@ -9,11 +9,11 @@ import { getPerformanceReviewList } from "../../apis/review";
 
 export default function ReviewList({ id }) {
   const [performanceReviewList, setPerformanceReviewList] = useState([]);
-  
+
   useEffect(() => {
     getPerformanceReviewList(id, 5, 0, getPerformanceReviewListSuccess, getPerformanceReviewListFail);
     checkReviewList();
-    console.log(performanceReviewList)
+    console.log(performanceReviewList);
   }, [id]);
 
   function getPerformanceReviewListSuccess(res) {
@@ -24,8 +24,13 @@ export default function ReviewList({ id }) {
   function getPerformanceReviewListFail(err) {
     console.log("실패", err);
   }
+
   function checkReviewList() {
-    return performanceReviewList !== [];
+    if (performanceReviewList !== []) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   return (
