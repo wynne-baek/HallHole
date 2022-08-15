@@ -13,9 +13,24 @@ import SlickBox from "../organism/SlickBox";
 
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { fetchJoinedChatRoom } from "../../apis/chat";
 
 export default function Main() {
   const user = useSelector(state => state.user.info);
+  const [joinedChatRooms, setJoinedChatRooms] = React.useState([]);
+
+  function fetchJoinedChatRoomSuccess(response) {
+    setJoinedChatRooms(response.data);
+  }
+
+  function fetchJoinedChatRoomFail(response) {
+    setJoinedChatRooms([]);
+  }
+
+  React.useEffect(() => {
+    console.log("user 정보!! ", user);
+    fetchJoinedChatRoom(user?.idTag, fetchJoinedChatRoomSuccess, fetchJoinedChatRoomFail);
+  }, [user]);
 
   return (
     <Box
@@ -41,7 +56,7 @@ export default function Main() {
       </Box>
       <Box sx={backGroundPoster}></Box>
       <Box sx={posterPosition}>
-        <SlickBox />
+        <SlickBox rooms={joinedChatRooms} />
       </Box>
       <Box sx={bottomPosition}>
         <Box sx={buttonPosition}>
