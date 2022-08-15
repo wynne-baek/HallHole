@@ -22,7 +22,7 @@ public interface MemberService {
 
     void changePW(String email, String password) throws NotFoundException;
 
-    MemberOutputDTO changeInfo(MyProfileDTO myDto) throws NotFoundException;
+    MyProfileDTO changeInfo(MyProfileDTO myDto) throws NotFoundException;
 
     MemberOutputDTO getInfo(String tag) throws NotFoundException;
 
