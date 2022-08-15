@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Slider from "react-slick";
+import { useNavigate } from "react-router-dom";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
@@ -12,8 +13,10 @@ import PosterSize from "../atom/PosterSize";
 import Card from "@mui/material/Card";
 import Box from "@mui/material/Box";
 
-export default function SlickBox({ id }) {
-  const settings = {
+export default function SimpleSlider({ rooms = [] }) {
+  const navigate = useNavigate();
+
+  const sliderSetting = {
     dots: true,
     infinite: true,
     speed: 500,
@@ -21,7 +24,7 @@ export default function SlickBox({ id }) {
     slidesToScroll: 1,
     arrows: false,
   };
-  const posterCard = {
+  const cardStyle = {
     maxWidth: 300,
     width: "100vw",
     marginX: "auto",
@@ -30,27 +33,33 @@ export default function SlickBox({ id }) {
     borderRadius: 10,
   };
 
-  const [joined, setJoined] = useState([]);
-
-  useEffect(() => {
-    fetchChatJoin(id, getJoinedSuccess, getJoinedFail);
-  }, [id]);
-
-  function getJoinedSuccess(res) {
-    setJoined(res.data);
+  function getSliderItems(rooms) {
+    return rooms.map(room => {
+      return (
+        <Card sx={cardStyle} key={room?.performance?.id}>
+          <Box>
+            <PosterSize
+              size="large"
+              src={room?.performance?.poster}
+              onClick={() => navigate(`/performancedetail/${room?.performance?.id}`)}
+            ></PosterSize>
+          </Box>
+        </Card>
+      );
+    });
   }
 
-  function getJoinedFail(err) {}
+  function getDefaultCard() {
+    return (
+      <Card sx={cardStyle}>
+        <PosterSize size="large" src="enter_new_chat.png" onClick={() => navigate(`/performancechatlist`)}></PosterSize>
+      </Card>
+    );
+  }
 
   return (
     <Box>
-      <Slider {...settings}>
-        {joined?.map(item => (
-          <Card key={item.performance.id} sx={posterCard}>
-            <PosterSize size="large" src={item.performance.poster} />
-          </Card>
-        ))}
-      </Slider>
+      <Slider {...sliderSetting}>{rooms.length > 0 ? getSliderItems(rooms) : getDefaultCard()}</Slider>
     </Box>
   );
 }
