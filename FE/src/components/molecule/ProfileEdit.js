@@ -11,7 +11,14 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import TextField from '@mui/material/TextField';
 import { useNavigate } from "react-router";
 import ButtonStyle from "../atom/Button";
+import dayjs from "dayjs";
 
+
+const genderName = {
+  'F' : '여자',
+  'M' : '남자',
+  'N' : '비공개',
+}
 
 export default function ProfileEdit() {
   const user = useSelector(state => state.user.info)
@@ -20,9 +27,9 @@ export default function ProfileEdit() {
   const [name, setName] = React.useState('')
   const [profile, setProfile] = React.useState('')
   const [email, setEmail] = React.useState('')
-  const [birth, setBirth] = React.useState(null)
+  const [birth, setBirth] = React.useState('')
+  const dateFormat = dayjs(birth).format("YYYY-MM-DD");
   
-  // 기존 유저 정보 가져오기
   useEffect(() => {
     requestUserInfo(user?.idTag, getProfileUserSuccess, getProfileUserFail);
     setName(user?.name)
@@ -33,18 +40,18 @@ export default function ProfileEdit() {
   }, [user]);
   
   function getProfileUserSuccess(res) {
-    console.log('요청 성공')
     console.log(user)
-    setUserInfo(res.data);
+    setName(user?.name)
+    setProfile(user?.profile)
+    setGender(user?.gender)
+    setEmail(user?.email)
+    setBirth(user?.birth)
+    // window.location.replace("/editprofile")
   }
 
   function getProfileUserFail(err) {
     console.log('에러')
   }
-
-  const handleChange = (event) => {
-    setGender(event.target.value);
-  };
 
   const handleClose = () => {
     setOpen(false);
@@ -62,19 +69,25 @@ export default function ProfileEdit() {
   }
 
   function changePassword(){
-    movePage(`/`)
+    movePage(`/forgot`)
   }
 
-  function editConfirm() {
-    const birth = user.birth
-
+  function changeConfirm() {
+    const userId = user.idTag
+    const nowAcc = user.nowAcc
+    const nowBg = user.nowBg
+    const nowChar = user.nowChar
+    const birth = dateFormat
+    userEditProfile(birth, email, gender, userId, name, nowAcc, nowBg, nowChar, profile)
+    alert('성공적으로 저장되었습니다.')
+    console.log(birth)
+    movePage(`/profile/${userId}`)
   }
 
   return (
-    // 프로필 설정에서 변경할 수 있는 모든 폼들이 모여있습니다.
-    // 마진 관련 재설정 필요(px외 단위로), 위치 설정
     <Box sx={{ mx:6.5, my:2, display: 'flex',
-    alignItems: 'flex-start',
+    justifyContent: "center",
+    alignItems: 'center',
     flexDirection: 'column',}}>
       <Box>
         <TextStyle size="medium">이름</TextStyle>
@@ -88,25 +101,24 @@ export default function ProfileEdit() {
         <Box>
         <TextStyle size="small">최대 50자만 입력 가능합니다.</TextStyle>
         </Box>
-        <Input size="large" value={profile} onChange={(e) => {setProfile(e.target.value)}}> </Input>
+        <Input size="large" value={profile} onChange={(e) => {setProfile(e.target.value)}} />
       </Box>
       <Box>
         <TextStyle size="medium">이메일</TextStyle>
-        <Input size="large" disabled="true" value={email}></Input>
+        <Input size="large" read-Only value={email}/>
       </Box>
-      <Box sx={{ mt:2, display: "flex", alignItems:"center" }}>
-        <Box>
+      <Box sx={{ mt: 2, width:"100%", display: "flex", flexDirection:"row", alignItems:"center", justifyContent:"space-around" }}>
+        <Box sx={{ display: "flex", flexDirection:"column", alignItems:"start" }}>
           <TextStyle size="medium">성별</TextStyle>
           <FormControl sx={{ minWidth: 120 }}>
-            {/* <InputLabel id="gender"></InputLabel> */}
+            <InputLabel id="gender">{genderName[gender]}</InputLabel>
               <Select
                 labelId="gender"
                 id="gender-selector"
                 open={open}
                 onClose={handleClose}
                 onOpen={handleOpen}
-                label="setGender"
-                value={gender}
+                label="gender"
                 onChange={(e) => {setGender(e.target.value)}}
               >
                 <MenuItem value="N">비공개</MenuItem>
@@ -115,26 +127,29 @@ export default function ProfileEdit() {
               </Select>
           </FormControl>
         </Box>
-        <Box sx={{ ml: 1 }}>
+        <Box sx={{ ml: 2 }}>
           <TextStyle size="medium">생년월일</TextStyle>
           <LocalizationProvider dateAdapter={AdapterDateFns}>
             <DatePicker
+              inputFormat={"yyyy-MM-dd"}
+              mask={"____-__-__"}
+              value={dateFormat}
               onChange={(newBirth) => {
                 setBirth(newBirth);
               }}
-              renderInput={(params) => <TextField {...params} sx={{ width: '105%' }} />}
+              renderInput={(params) => <TextField {...params} sx={{ width: '100%' }} />}
             />
           </LocalizationProvider>
-        </Box>
+        </Box> 
       </Box>
-        <Box>
-          <ButtonStyle size="medium" variant="grey" onClick={ cancelEdit }>취소</ButtonStyle>
-          <ButtonStyle size="medium" variant="primary" onClick={ cancelEdit }>저장</ButtonStyle>
-        </Box>
-        <Box sx={{ mt:2 }}>
-            <Button color="info" size="small" sx={{ mr: 4 }} variant="text">비밀번호 변경하기</Button>
-            <Button sx={{ ml: 4}} color="warning" size="small" variant="text">회원 탈퇴</Button>
-        </Box>
+      <Box sx={{ mt: 2, width:"100%",display:"flex", justifyContent:"space-between", alignItems:"center" }}> 
+        <ButtonStyle size="medium" variant="grey" onClick={ cancelEdit }>취소</ButtonStyle>
+        <ButtonStyle size="medium" variant="primary" onClick={ changeConfirm }>저장</ButtonStyle>
+      </Box>
+      <Box sx={{ mt:2 }}>
+        <Button size="small" variant="text" onClick={ changePassword }>비밀번호 변경하기</Button>
+      </Box>
+        <Button size="small" variant="text">회원 탈퇴</Button>
     </Box>
-  );
+  ); 
 }
