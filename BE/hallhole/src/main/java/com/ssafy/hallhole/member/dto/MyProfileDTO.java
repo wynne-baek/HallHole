@@ -1,6 +1,5 @@
 package com.ssafy.hallhole.member.dto;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.ssafy.hallhole.member.domain.Gender;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -22,9 +21,14 @@ public class MyProfileDTO {
 
     private Gender gender;
 
-    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate birth;
 
     private String profile;
+
+    private int nowBg;
+
+    private int nowChar;
+
+    private int nowAcc;
 
 }
