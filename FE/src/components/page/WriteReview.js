@@ -6,11 +6,10 @@ import PerformanceMiniPoster from "../molecule/PerformanceMiniPoster";
 import CategoryDivider from "../atom/CategoryDivider";
 import { fetchPerformance } from "../../apis/performance";
 import ReviewForm from "../organism/ReviewForm";
-// import { useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
-export default function WriteReview({ id }) {
-  // 공연 id
-  // const { id } = useParams();
+export default function WriteReview() {
+  const { id } = useParams();
   const [perfoInfo, setPerfoInfo] = useState([]);
 
   useEffect(() => {
