@@ -90,6 +90,11 @@ public class MemberServiceImpl implements MemberService {
             }
         }
         member.setAuthority(Authority.ROLE_USER);
+        member.setBirth(LocalDate.now());
+        member.setProfile("-");
+        member.setGender(Gender.N);
+
+
         memberRepository.save(member);
     }
 
