@@ -21,11 +21,10 @@ export default function TwitterBox() {
 
   function requestTweetSuccess(res) {
     setTweet(res.data);
-    console.log("트윗 요청 성공", res);
   }
 
   function requestTweetFail(err) {
-    console.log("트윗 요청 실패", err);
+    setTweet([]);
   }
 
   useEffect(() => {
@@ -73,7 +72,6 @@ export default function TwitterBox() {
 }
 
 function getTweetList(tweets) {
-  console.log(tweets);
   return tweets
     .map(tweet => {
       return <TwitterItem key={tweet.id} content={tweet.contents} url={tweet.url} />;

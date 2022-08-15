@@ -28,7 +28,6 @@ export default function Main() {
   }
 
   React.useEffect(() => {
-    console.log("user 정보!! ", user);
     fetchJoinedChatRoom(user?.idTag, fetchJoinedChatRoomSuccess, fetchJoinedChatRoomFail);
   }, [user]);
 
