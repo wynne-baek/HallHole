@@ -6,6 +6,7 @@ import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import { Box } from "@mui/system";
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 import Input from "../atom/Input";
 import TextStyle from "../atom/Text";
@@ -19,6 +20,7 @@ export default function ReviewForm({ id }) {
   const [performanceTime, setPerformanceTime] = useState(new Date());
   const [star, setStar] = useState(0);
   const [moveTo, setMoveTo] = useState("");
+  let navigate = useNavigate();
 
   function onChangeTitle(e) {
     const title = e.target.value;
@@ -29,19 +31,19 @@ export default function ReviewForm({ id }) {
     const contents = e.target.value;
     setContents(contents);
   }
-  
+
   function postReview(e) {
     e.preventDefault();
-    writeReview(contents, id, performanceTime, star, title, user?.idTag, writeReviewSuccess, writeReviewFail)
+    writeReview(contents, id, performanceTime, star, title, user?.idTag, writeReviewSuccess, writeReviewFail);
   }
 
   function writeReviewSuccess(res) {
-    setMoveTo(res.data)
+    setMoveTo(res.data);
     // movePage(`/reviewdetail/${moveTo}`)
   }
 
   function writeReviewFail(err) {
-    console.log(err)
+    console.log(err);
   }
 
   return (
@@ -83,9 +85,19 @@ export default function ReviewForm({ id }) {
         rows={8}
         onChange={onChangeContents}
       />
-      <Box sx={{ width: "50%", mt:1, marginX: "auto", display:"flex", justifyContent: "space-between" }}>
-        <ButtonStyle variant="grey" size="smaller">취소</ButtonStyle>
-        <ButtonStyle variant="primary" size="smaller" onClick={postReview}>작성</ButtonStyle>
+      <Box sx={{ width: "50%", mt: 1, marginX: "auto", display: "flex", justifyContent: "space-between" }}>
+        <ButtonStyle
+          variant="grey"
+          size="smaller"
+          onClick={() => {
+            navigate(-1);
+          }}
+        >
+          취소
+        </ButtonStyle>
+        <ButtonStyle variant="primary" size="smaller" onClick={postReview}>
+          작성
+        </ButtonStyle>
       </Box>
     </Box>
   );
