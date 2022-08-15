@@ -10,23 +10,21 @@ import java.util.List;
 
 public interface MemberService {
 
-    void join(MemberJoinDTO m,String sessionId) throws NotFoundException;
-
-    void logout(String token, String sessionId) throws NotFoundException;
+    void join(MemberJoinDTO m) throws NotFoundException;
 
     void duplicateMember(String email) throws NotFoundException;
 
     void findPW(String email) throws NotFoundException;
 
-    void delMem(String token,String sessionId) throws NotFoundException;
+    void delMem(String token) throws NotFoundException;
 
     void changePW(String email, String password) throws NotFoundException;
 
-    MemberOutputDTO changeInfo(MyProfileDTO myDto) throws NotFoundException;
+    MyProfileDTO changeInfo(MyProfileDTO myDto) throws NotFoundException;
 
     MemberOutputDTO getInfo(String tag) throws NotFoundException;
 
-    String login(String email, String password, String sessionId) throws NotFoundException;
+    TokenDto login(LoginDTO memberRequestDto);
 
     CharacterDTO getCharacter(String tag) throws NotFoundException;
 
