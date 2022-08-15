@@ -28,14 +28,14 @@ public class MemberController {
 
     @PostMapping("/join")
     @ApiOperation(value="홀홀 회원가입", notes = "가입 축하 메일 막아뒀습니다")
-    public void join(@RequestBody MemberJoinDTO member) throws NotFoundException {
+    public void join(@RequestBody MemberJoinDTO member, HttpSession session) throws NotFoundException {
         memberService.join(member);
     }
 
     @PostMapping("/login")
     @ApiOperation(value="홀홀 로그인", notes = "이메일, 패스워드 입력 필요")
-    public ResponseEntity<TokenDto> login(@RequestBody LoginDTO memberRequestDto) {
-        return ResponseEntity.ok(memberService.login(memberRequestDto));
+    public TokenDto login(@RequestBody LoginDTO memberRequestDto, HttpSession session) throws NotFoundException {
+        return memberService.login(memberRequestDto);
     }
 
     @PostMapping("/chk-email")

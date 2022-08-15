@@ -30,16 +30,8 @@ public class JwtFilter extends OncePerRequestFilter {
         System.out.println("JwtFilter의 doFilterInternal 시작");
         System.out.println("request.getServletPath() = " + request.getServletPath());
 
-
         // 1. Request Header 에서 토큰을 꺼냄
         String accessToken = resolveToken(request);
-
-        Enumeration<String> headerNames = request.getHeaderNames();
-        while(headerNames.hasMoreElements()){
-            String headerName = headerNames.nextElement();
-            System.out.println(headerName+"!!!!!!!!!!!!!!!!");
-            System.out.println(request.getHeader(headerName));
-        }
 
         if (accessToken == null) {
             System.out.println("JwtFilter의 doFilterInternal accessToken is null");
