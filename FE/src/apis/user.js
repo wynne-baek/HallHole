@@ -27,13 +27,16 @@ function requestName(idTag, success, fail) {
   api.get("member/my-name", { params: { tag : idTag } }).then(success).catch(fail);
 }
 
-function userEditProfile(birth, email, gender, idTag, name, profile, success, fail) {
+function userEditProfile(birth, email, gender, idTag, name, nowAcc, nowBg, nowChar, profile, success, fail) {
   api.put("member", {
     birth: birth,
     email: email,
     gender: gender,
     idTag: idTag,
     name: name,
+    nowAcc: nowAcc,
+    nowBg: nowBg,
+    nowChar: nowChar,
     profile: profile,
   }).then(success).catch(fail);
 }
