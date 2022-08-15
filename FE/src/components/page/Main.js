@@ -1,15 +1,10 @@
 import React from "react";
-import Card from "@mui/material/Card";
-import { CardActionArea } from "@mui/material";
 import Text from "../atom/Text";
 import Box from "@mui/material/Box";
-import PosterSize from "../atom/PosterSize";
-import Input from "../atom/Input";
 import TwitterBox from "../organism/TwitterBox";
 import LikePerformanceRank from "../organism/LikePerformanceRank";
 import Button from "../atom/Button";
 import SlickBox from "../organism/SlickBox";
-// import ProfileImage from "../atom/ProfileImage";
 
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
@@ -27,7 +22,7 @@ export default function Main() {
     setJoinedChatRooms([]);
   }
 
-  React.useEffect(() => {
+  React.useLayoutEffect(() => {
     fetchJoinedChatRoom(user?.idTag, fetchJoinedChatRoomSuccess, fetchJoinedChatRoomFail);
   }, [user]);
 
@@ -44,9 +39,9 @@ export default function Main() {
             <Box sx={userCheck}>
               <Text variant="white" size="medium">
                 <Text variant="primary" size="large">
-                  {user?.name}
+                  {user?.name}님<br />
                 </Text>
-                님<br />이 채팅에 참여중이었어요!
+                {joinedChatRooms.length > 0 ? `이 채팅에 참여중이었어요!` : `아직 참여중인 채팅이 없어요!`}
               </Text>
             </Box>
           </Box>
@@ -58,13 +53,15 @@ export default function Main() {
         <SlickBox rooms={joinedChatRooms} />
       </Box>
       <Box sx={bottomPosition}>
-        <Box sx={buttonPosition}>
-          <Link to="/performancechatlist" style={{ textDecoration: "none" }}>
-            <Button variant="primary" size="large" color="white">
-              실시간 채팅방 더보기
-            </Button>
-          </Link>
-        </Box>
+        {joinedChatRooms.length > 0 && (
+          <Box sx={buttonPosition}>
+            <Link to="/performancechatlist" style={{ textDecoration: "none" }}>
+              <Button variant="primary" size="large" color="white">
+                실시간 채팅방 더보기
+              </Button>
+            </Link>
+          </Box>
+        )}
         <Box sx={{ marginTop: 10, marginBottom: 5 }}>
           <LikePerformanceRank />
         </Box>

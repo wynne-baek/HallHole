@@ -30,21 +30,31 @@ export default function SimpleSlider({ rooms = [] }) {
 
   function getSliderItems(rooms) {
     return rooms.map(room => {
-      <Card sx={cardStyle}>
-        <Box>
-          <PosterSize
-            size="large"
-            src={room?.performance?.poster}
-            onClick={() => navigate(`performancedetail/${room?.performance?.id}`)}
-          ></PosterSize>
-        </Box>
-      </Card>;
+      return (
+        <Card sx={cardStyle} key={room?.performance?.id}>
+          <Box>
+            <PosterSize
+              size="large"
+              src={room?.performance?.poster}
+              onClick={() => navigate(`/performancedetail/${room?.performance?.id}`)}
+            ></PosterSize>
+          </Box>
+        </Card>
+      );
     });
+  }
+
+  function getDefaultCard() {
+    return (
+      <Card sx={cardStyle}>
+        <PosterSize size="large" src="enter_new_chat.png" onClick={() => navigate(`/performancechatlist`)}></PosterSize>
+      </Card>
+    );
   }
 
   return (
     <Box>
-      <Slider {...sliderSetting}>{getSliderItems(rooms)}</Slider>
+      <Slider {...sliderSetting}>{rooms.length > 0 ? getSliderItems(rooms) : getDefaultCard()}</Slider>
     </Box>
   );
 }
