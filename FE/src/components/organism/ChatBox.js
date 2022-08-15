@@ -40,12 +40,22 @@ export default function ChatBox({ messages, sendMessage }) {
   const contentRef = useRef();
   const inputRef = useRef();
 
+  let updateTimeInterval = null;
+
+  useEffect(() => {
+    updateTimeInterval = setInterval(() => {
+      setCurrentTime(new Date());
+    }, 60000);
+    return () => {
+      clearInterval(updateTimeInterval);
+    };
+  }, []);
+
   function scrollToBottom() {
     contentRef.current.scrollTop = contentRef.current.scrollHeight;
   }
 
   useEffect(() => {
-    setCurrentTime(new Date());
     scrollToBottom();
   }, [messages]);
 
