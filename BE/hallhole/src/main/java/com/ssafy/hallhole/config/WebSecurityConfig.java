@@ -43,14 +43,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             "/**/*.ttf",
             "/favicon.ico",
             "/performance/images",
-            "/main"
+            "/main",
+            "/review/reviewdetail/**"
     };
 
-    @Override
+    @Override 
     public void configure(WebSecurity web){ // 보안 예외처리(HTML, 정적리소스)
         web.ignoring()
                 .antMatchers("/resources/**","/char/**", "/acc/**", "/favicon.ico", "/index_bundle.js","/**/*.css", "/**/*.png", "/**/*.jpg",
-                        "/**/*.gif","/**/*.woff", "/**/*.ttf","/performance/images","/member/join",
+                        "/**/*.gif","/**/*.woff", "/**/*.ttf","/performance/images","/member/join","/review/reviewdetail/**",
                         "/member/login");
         web.ignoring().antMatchers(PERMIT_URL_ARRAY);
         web.ignoring().requestMatchers(PathRequest.toStaticResources().atCommonLocations());
