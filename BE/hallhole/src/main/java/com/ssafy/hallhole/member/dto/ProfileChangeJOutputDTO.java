@@ -10,7 +10,7 @@ import java.time.LocalDate;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProfileChangeOutputDTO {
+public class ProfileChangeJOutputDTO {
 
     private String idTag;
 

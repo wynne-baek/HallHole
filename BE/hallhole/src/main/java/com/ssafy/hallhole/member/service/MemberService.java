@@ -1,5 +1,6 @@
 package com.ssafy.hallhole.member.service;
 
+import com.ssafy.hallhole.advice.exceptions.BadRequestException;
 import com.ssafy.hallhole.advice.exceptions.NotFoundException;
 import com.ssafy.hallhole.member.domain.Member;
 import com.ssafy.hallhole.member.dto.*;
@@ -21,7 +22,7 @@ public interface MemberService {
 
     void changePW(String email, String password) throws NotFoundException;
 
-    ProfileChangeOutputDTO changeInfo(MyProfileDTO myDto) throws NotFoundException;
+    ProfileChangeJOutputDTO changeInfo(MyProfileDTO myDto) throws NotFoundException;
 
     MemberOutputDTO getInfo(String tag) throws NotFoundException;
 
