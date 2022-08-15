@@ -1,19 +1,15 @@
 package com.ssafy.hallhole.member.controller;
 
-import com.ssafy.hallhole.advice.exceptions.BadRequestException;
 import com.ssafy.hallhole.advice.exceptions.NotFoundException;
-import com.ssafy.hallhole.member.domain.Member;
 import com.ssafy.hallhole.member.dto.*;
 import com.ssafy.hallhole.member.service.MemberServiceImpl;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
-import java.util.Arrays;
 import java.util.Map;
 import java.util.regex.Pattern;
 
@@ -110,7 +106,7 @@ public class MemberController {
 
     @PutMapping("")
     @ApiOperation(value = "프로필 변경")
-    public ProfileChangeJOutputDTO changeInfo(@RequestBody MyProfileDTO myDto) throws NotFoundException {
+    public ProfileChangeOutputDTO changeInfo(@RequestBody MyProfileDTO myDto) throws NotFoundException {
         return memberService.changeInfo(myDto);
     }
 
