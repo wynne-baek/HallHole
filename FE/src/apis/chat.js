@@ -12,8 +12,8 @@ function fetchChatLog(id, success, fail) {
   api.get(`chat/logs/${id}`).then(success).catch(fail);
 }
 
-function fetchChatJoin(id, success, fail) {
+function fetchJoinedChatRoom(id, success, fail) {
   api.get(`chat/joinedroom/${id}`).then(success).catch(fail);
 }
 
-export { fetchChatList, fetchChatRoom, fetchChatLog, fetchChatJoin };
+export { fetchChatList, fetchChatRoom, fetchChatLog, fetchJoinedChatRoom };
