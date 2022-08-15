@@ -40,10 +40,13 @@ export default function ChatBox({ messages, sendMessage }) {
   const contentRef = useRef();
   const inputRef = useRef();
 
+  function scrollToBottom() {
+    contentRef.current.scrollTop = contentRef.current.scrollHeight;
+  }
+
   useEffect(() => {
     setCurrentTime(new Date());
-    contentRef.current.scrollTop = contentRef.current.scrollHeight;
-    // contentRef.current.scrollIntoView({ behavior: "smooth" });
+    scrollToBottom();
   }, [messages]);
 
   function getChatList(chats) {
