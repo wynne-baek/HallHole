@@ -4,9 +4,6 @@ import React, { useEffect, useState } from "react";
 import PerformanceInformation from "../organism/PerformanceInformation";
 import ReviewList from "../organism/ReviewList";
 
-import CategoryDivider from "../atom/CategoryDivider";
-import ButtonStyle from "../atom/Button";
-
 import { fetchPerformance } from "../../apis/performance";
 import { getPerformanceReviewList } from "../../apis/review";
 import { useParams } from "react-router-dom";
@@ -16,15 +13,6 @@ const reviewListStyle = {
   zIndex: 3,
   width: "90%",
   margin: "auto",
-  // marginY: 1,
-};
-
-const reviewButtonStyle = {
-  position: "sticky",
-  bottom: 0,
-  zIndex: 1000,
-  marginBottom: 1,
-  textAlign: "center",
 };
 
 function RightPerformance({ performanceInfo, performanceMoreInfo, id, performanceReviewList }) {
@@ -53,7 +41,7 @@ export default function PerformanceDetail() {
   //공연 정보 설정
   useEffect(() => {
     fetchPerformance(id, requestPerformanceInfoSuccess, requestPerformanceInfoFail);
-    getPerformanceReviewList(id, 5, 1, getPerformanceReviewListSuccess, getPerformanceReviewListFail);
+    getPerformanceReviewList(id, 5, 0, getPerformanceReviewListSuccess, getPerformanceReviewListFail);
   }, [id]);
 
   function requestPerformanceInfoSuccess(res) {
