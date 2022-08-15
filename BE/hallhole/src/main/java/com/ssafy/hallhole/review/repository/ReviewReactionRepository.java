@@ -26,4 +26,6 @@ public interface ReviewReactionRepository {
 
     Long findSameReactionName(String rTypeName);
 
+    List<ReviewReaction> findAllReactionByMemberId(Long memberId);
+
 }
