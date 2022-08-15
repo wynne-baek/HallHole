@@ -85,6 +85,7 @@ export default function ProfileDetail({ id }) {
   function editProfile(e) {
     e.preventDefault();
     movePage(`/editprofile`)
+    // location.reload();
   }
 
   // 프로필 수정, 팔로우, 언팔로우 버튼 설정

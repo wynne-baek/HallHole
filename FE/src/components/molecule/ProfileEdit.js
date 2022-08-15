@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router";
-import { requestUserInfo, userEditProfile } from "../../apis/user";
+import { requestUserInfo, userEditProfile, deleteProfile } from "../../apis/user";
 
 import TextStyle from "../atom/Text";
 import Input from "../atom/Input"
@@ -34,13 +34,18 @@ export default function ProfileEdit() {
   const [birth, setBirth] = React.useState('')
   const dateFormat = dayjs(birth).format("YYYY-MM-DD");
   
-  useEffect(() => {
-    requestUserInfo(user?.idTag, getProfileUserSuccess, getProfileUserFail);
+
+  const profileUpdate = async (user) => {
+    await requestUserInfo(user?.idTag, getProfileUserSuccess, getProfileUserFail);
     setName(user?.name)
     setProfile(user?.profile)
     setGender(user?.gender)
     setEmail(user?.email)
     setBirth(user?.birth)
+  }
+
+  useEffect(() => {
+    profileUpdate(user)
   }, [user]);
   
   function getProfileUserSuccess(res) {
@@ -81,6 +86,12 @@ export default function ProfileEdit() {
     userEditProfile(birth, email, gender, userId, name, profile)
     alert('성공적으로 저장되었습니다.')
     movePage(`/profile/${userId}`)
+    location.reload();
+  }
+  // 회원탈퇴 확인 팝업 띄울 수 있도록 하기
+  function deleteConfirm() {
+
+    //deleteProfile();
   }
 
   return (
