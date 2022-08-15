@@ -1,14 +1,31 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import ReviewItem from "../molecule/ReviewItem";
 import CategoryDivider from "../atom/CategoryDivider";
 import { Box } from "@mui/system";
 import TextStyle from "../atom/Text";
 import ButtonStyle from "../atom/Button";
+import { getPerformanceReviewList } from "../../apis/review";
 
-export default function ReviewList({ performanceReviewList }) {
+export default function ReviewList({ id }) {
+  const [performanceReviewList, setPerformanceReviewList] = useState([]);
+  
+  useEffect(() => {
+    getPerformanceReviewList(id, 5, 0, getPerformanceReviewListSuccess, getPerformanceReviewListFail);
+    checkReviewList();
+    console.log(performanceReviewList)
+  }, [id]);
+
+  function getPerformanceReviewListSuccess(res) {
+    setPerformanceReviewList(res.data);
+    console.log("성공", res.data);
+  }
+
+  function getPerformanceReviewListFail(err) {
+    console.log("실패", err);
+  }
   function checkReviewList() {
-    return performanceReviewList === [];
+    return performanceReviewList !== [];
   }
 
   return (
