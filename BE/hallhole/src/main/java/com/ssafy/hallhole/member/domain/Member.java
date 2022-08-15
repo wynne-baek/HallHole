@@ -132,6 +132,9 @@ public class Member implements UserDetails {
         this.email = email;
         this.name = name;
         this.password = password;
+        this.birth = LocalDate.now();
+        this.gender = Gender.N;
+        this.profile = "";
     }
 
     public Member(String provider, String kakaoSid, String name, String email) {

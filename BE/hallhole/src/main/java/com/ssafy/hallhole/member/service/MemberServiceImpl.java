@@ -175,7 +175,7 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public MemberOutputDTO changeInfo(MyProfileDTO myDto) throws NotFoundException {
+    public ProfileChangeJOutputDTO changeInfo(MyProfileDTO myDto) throws NotFoundException {
 
         Member m = memberRepository.findByIdTag(myDto.getIdTag());
 
@@ -192,16 +192,12 @@ public class MemberServiceImpl implements MemberService {
         else if(gender==Gender.M) g = Gender.M;
         m.setGender(g);
 
-        m.setNowBg(myDto.getNowBg());
-        m.setNowChar(myDto.getNowChar());
-        m.setNowAcc(myDto.getNowAcc());
+        m.setBirth(myDto.getBirth());
 
         memberRepository.save(m);
 
-        MemberOutputDTO member = new MemberOutputDTO(m.getName(),m.getEmail(),
-                m.getGender(),m.getBirth(),m.isAdmin(),m.getPoint(),m.isOut(),m.getIdTag(),m.isBan(),
-                m.getFollowingCnt(),m.getFollowerCnt(),m.getProfile(),m.getNowBg(),m.getNowChar(),
-                m.getNowAcc());
+        ProfileChangeJOutputDTO member = new ProfileChangeJOutputDTO(m.getIdTag(), m.getName(),
+                m.getEmail(), m.getGender(), m.getBirth(), m.getProfile());
 
         return member;
     }
