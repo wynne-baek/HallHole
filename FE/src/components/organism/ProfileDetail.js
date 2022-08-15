@@ -6,7 +6,6 @@ import ProfileImage from "../atom/ProfileImage";
 import TextStyle from "../atom/Text";
 import ButtonStyle from "../atom/Button";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router";
 
 import { checkFollowStatus, followUser, unfollowUser } from "../../apis/follow";
 import { requestUserInfo } from "../../apis/user";
@@ -16,8 +15,6 @@ export default function ProfileDetail({ id }) {
   const [followStatus, setFollowStatus] = useState("");
   const user = useSelector(state => state.user.info);
   const [profileUser, setProfileUser] = useState([]);
-  const movePage = useNavigate();
-
 
   useEffect(() => {
     requestUserInfo(id, getProfileUserSuccess, getProfileUserFail);
@@ -83,10 +80,9 @@ export default function ProfileDetail({ id }) {
     unfollowUser(user.idTag, id, unfollowSuccess, unfollowFail);
   }
 
-  // 프로필 수정 페이지 이동 => 연결 완료
+  // 프로필 수정 페이지 이동
   function editProfile(e) {
     e.preventDefault();
-    movePage(`/editprofile`)
   }
 
   // 프로필 수정, 팔로우, 언팔로우 버튼 설정

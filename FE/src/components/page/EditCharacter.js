@@ -55,17 +55,21 @@ export default function EditCharacter() {
   useEffect(() => {
     customedCharacter(user?.idTag, characterLoadSuccess, characterLoadFail);
   }, [user])
-
+  
   // 캐릭터 정보 불러오기 성공 시 - 색상 가져오기, 악세사리 정보 가져오기
   function characterLoadSuccess(res) {
     const nowColor = user.nowChar
     const nowAcc = user.nowAcc
+    const userId = user.idTag
     const colorName = charNum[nowColor]
     const accName = accNum[nowAcc]
-    console.log(accName)
     setBodyColor('/body_' + colorName + '.png');
     setArmColor('/arm_' + colorName + '.png');
-    setAcc('/' + accName + '.png');
+    if (nowAcc === 0) {
+      setAcc(0)
+    } else {
+      setAcc('/' + accName + '.png');
+    }
   } 
   
   function characterLoadFail(err) {
@@ -100,14 +104,14 @@ export default function EditCharacter() {
     const pickedAcc = acc
     const pickedChar = char
 
+    changeCharacter(userId, acc, char);
     console.log(userId, pickedAcc, pickedChar)
-    changeCharacter(userId, pickedAcc, pickedChar);
-    movePage(`/editprofile`)
+    movePage(`/profile/${userId}`)
   }
 
 
   function cancelEdit() {
-    movePage(`/editprofile`)
+    movePage(`/profile/${user.idTag}`)
   }
     
   return (
