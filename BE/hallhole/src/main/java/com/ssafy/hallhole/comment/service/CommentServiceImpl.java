@@ -100,7 +100,7 @@ public class CommentServiceImpl implements CommentService{
         for(Comment c:commentList){
             CommentOutputDTO output = new CommentOutputDTO(c.getId(),c.getMember().getIdTag(),
                     c.getMember().getNowBg(),c.getMember().getNowChar(),c.getMember().getNowAcc(),
-                    c.getReview().getId(), c.getContents(), c.getWritingTime(), c.getUpdateTime());
+                    c.getReview().getId(), c.getContents(), c.getWritingTime().plusHours(9), c.getUpdateTime());
             outputList.add(output);
         }
 
@@ -122,7 +122,7 @@ public class CommentServiceImpl implements CommentService{
         for(Comment c:commentList){
             CommentOutputDTO output = new CommentOutputDTO(c.getId(),c.getMember().getIdTag(),
                     c.getMember().getNowBg(),c.getMember().getNowChar(),c.getMember().getNowAcc(),
-                    c.getReview().getId(), c.getContents(), c.getWritingTime(), c.getUpdateTime());
+                    c.getReview().getId(), c.getContents(), c.getWritingTime().plusHours(9), c.getUpdateTime());
             outputList.add(output);
         }
 
