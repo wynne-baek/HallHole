@@ -3,6 +3,8 @@ import React from "react";
 import { Box, useTheme } from "@mui/material";
 import { styled } from "@mui/system";
 
+import { CHAT_TYPE } from "../../helper/constants";
+
 import ProfileImage from "../atom/ProfileImage";
 import Text from "../atom/Text";
 
@@ -46,7 +48,7 @@ const NameBox = styled(Box)``;
 
 const TimeBox = styled(Box)``;
 
-export default function ChatItem({ whoseMessage = "other", name, message, time, currentTime }) {
+export default function ChatItem({ whoseMessage = "other", name, message, time, currentTime, type }) {
   const theme = useTheme();
 
   function getFormattedTime(time) {
@@ -100,11 +102,13 @@ export default function ChatItem({ whoseMessage = "other", name, message, time, 
         >
           {message}
         </MessageBox>
-        <TimeBox>
-          <Text size="smallest" variant="grey" weight="lighter">
-            {getFormattedTime(new Date(time))} 전
-          </Text>
-        </TimeBox>
+        {type == CHAT_TYPE.TALK && (
+          <TimeBox>
+            <Text size="smallest" variant="grey" weight="lighter">
+              {getFormattedTime(new Date(time))} 전
+            </Text>
+          </TimeBox>
+        )}
       </ChatBody>
     </Content>
   );
