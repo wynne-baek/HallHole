@@ -48,7 +48,6 @@ export default function ProfileEdit() {
   }, [user]);
   
   function getProfileUserSuccess(res) {
-    console.log(user)
     setName(user?.name)
     setProfile(user?.profile)
     setGender(user?.gender)
@@ -57,7 +56,6 @@ export default function ProfileEdit() {
   }
 
   function getProfileUserFail(err) {
-    console.log('에러')
   }
 
   const handleClose = () => {
@@ -82,7 +80,6 @@ export default function ProfileEdit() {
   function changeConfirm() {
     const userId = user.idTag
     userEditProfile(birth, email, gender, userId, name, profile)
-    console.log(birth)
     alert("프로필 변경이 완료되었습니다.");
     movePage(`/profile/${userId}`)
     location.reload();
