@@ -9,7 +9,6 @@ import { fetchChatList } from "../../apis/chat";
 import Input from "../atom/Input";
 import SearchIcon from "@mui/icons-material/Search";
 import CategoryDivider from "../atom/CategoryDivider";
-import Dropdown from "../atom/Dropdown";
 
 export default function ChatListBox() {
   const [rooms, setRooms] = React.useState([]);
@@ -41,7 +40,6 @@ const inputPosition = {
 };
 
 function getRoomsList(rooms) {
-  // console.log(rooms);
   const [searchTerm, setSearchTerm] = React.useState("");
   return (
     <div>

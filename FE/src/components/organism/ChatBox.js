@@ -183,6 +183,7 @@ export default function ChatBox({ messages, sendMessage, chatEnter, setMessages 
             time={chat.messageTime}
             currentTime={currentTime}
             type={chat.type}
+            idTag={chat.idTag}
           />
         );
       })
