@@ -28,8 +28,8 @@ public class CommentRepositoryImpl implements CommentRepository {
 
     @Override
     public List<Comment> findAllCommentByReviewId(Long reviewId) {
-        return em.createQuery("select c from Comment c where c.review.id=:review_id and c.isDelete=false",Comment.class)
-                .setParameter("review_id",reviewId)
+        return em.createQuery("select c from Comment c where c.review.id=:reviewId and c.isDelete=false",Comment.class)
+                .setParameter("reviewId",reviewId)
                 .getResultList();
     }
 
