@@ -163,12 +163,8 @@ public class MemberServiceImpl implements MemberService {
         List<Follow> followList = followRepository.findAllRelationByMemberId(m.getId());
         System.out.println("followList.size() = " + followList.size());
         for(Follow f:followList){
-
-            if(f.getFollowedMember().getIdTag().equals(tag)){
-                f.getFollowedMember().subFollowerCnt();
-            }else {
-                f.getFollowingMember().subFollowingCnt();
-            }
+            f.getFollowedMember().subFollowerCnt();
+            f.getFollowingMember().subFollowingCnt();
 
             memberRepository.save(f.getFollowingMember());
             memberRepository.save(f.getFollowedMember());

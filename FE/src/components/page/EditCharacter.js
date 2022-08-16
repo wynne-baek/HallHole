@@ -12,7 +12,7 @@ import Accessory from "../atom/Accessory";
 import Partition from "../atom/CharacterPart";
 
 import { useSelector } from "react-redux";
-// 캐릭터 수정 api
+
 import { changeCharacter, customedCharacter } from "../../apis/item";
 
 const ToggleBox = styled(Box)`
@@ -26,7 +26,7 @@ const charNum = {
   2: 'green',
   3: 'yellow',
   4: 'orange',
-  5: 'red',
+  5: 'skyblue',
   6: 'primary',
 }
 
@@ -44,12 +44,12 @@ const accNum = {
 
 export default function EditCharacter() {
   const user = useSelector(state => state.user.info);
-  // togglebutton 용
   const [choose, setChoose] = React.useState(true);
   const [char, setChar] = React.useState(0);
   const [bodyColor, setBodyColor] = React.useState('');
   const [armColor, setArmColor] = React.useState('');
   const [acc, setAcc] = React.useState(0);
+
 
   // 기존 캐릭터 정보 가져오기
   useEffect(() => {
@@ -60,25 +60,19 @@ export default function EditCharacter() {
   function characterLoadSuccess(res) {
     const nowColor = user.nowChar
     const nowAcc = user.nowAcc
-    const userId = user.idTag
     const colorName = charNum[nowColor]
-    const accName = accNum[nowAcc]
     setBodyColor('/body_' + colorName + '.png');
     setArmColor('/arm_' + colorName + '.png');
-    if (nowAcc === 0) {
-      setAcc(0)
-    } else {
-      setAcc('/' + accName + '.png');
-    }
+    setAcc(nowAcc)
   } 
   
   function characterLoadFail(err) {
-    console.log("캐릭터 정보 불러오기 실패", err);
     // 불러오기 실패 후 가장 기본 캐릭터 모습으로 보여주기
     // 기본 캐릭터 정보 캐릭터 색상 하양, 아무것도 액세서리 착용하지 않음 
     characterLoadFail.defaultProps = {
       setBodyColor: '/body_default.png',
       setArmColor: '/arm_default.png',
+      setAcc: 0,
     }
   }
   
@@ -104,22 +98,23 @@ export default function EditCharacter() {
     const pickedAcc = acc
     const pickedChar = char
 
+
     changeCharacter(userId, acc, char);
-    console.log(userId, pickedAcc, pickedChar)
-    movePage(`/profile/${userId}`)
+    movePage(`/editprofile`);
+    location.reload();
   }
 
 
   function cancelEdit() {
-    movePage(`/profile/${user.idTag}`)
+    movePage(`/editprofile`)
   }
     
   return (
     <Box>
       <Box sx={{ ml: 2 }}>
-        <Box sx={{ mt: 1 }}>
+        <Box sx={{ mt: 2 }}>
           <TextStyle size="large" variant="black">
-            🔃 내 캐릭터 변경
+            캐릭터 꾸미기
           </TextStyle>
         </Box>
         <Box sx={{ my: 0.5, mr: 2 }}>
@@ -162,17 +157,17 @@ export default function EditCharacter() {
               </Box>
               {/* 얼굴 위치 (가면, 웃는남자) */}
               { acc === 6 &&
-              <Partition sx={{ mr:6, mb:10, position:"absolute", height:"auto", width:50, zIndex:12 }} src="/mask.png"/>}
+              <Partition sx={{ mr:6, mb:10.3, position:"absolute", height:"auto", width:50, zIndex:12 }} src="/mask.png"/>}
               { acc === 7 &&
-              <Partition sx={{ ml:0.2, mb:7.2, position:"absolute", height:"auto", width:50, zIndex:12 }} src="/smile.png"/>}
+              <Partition sx={{ ml:0.1, mb:7.2, position:"absolute", height:"auto", width:50, zIndex:12 }} src="/smile.png"/>}
             </Box>
           </Box>
         </Box>
       </Box>
       <ToggleBox>
         <ToggleButton
-          textLeft="　🧪색상"
-          textRight="　　💎소품　 "
+          textLeft="　색상"
+          textRight="　　액세서리　 "
           onClickLeft={() => setChoose(true)}
           onClickRight={() => setChoose(false)}
         />
@@ -189,7 +184,7 @@ export default function EditCharacter() {
             <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
               <CircleIcon sx={{ fontSize: 80, color: "#f8ea67" }} onClick={ pickColor({ char: 3 }) } />
               <CircleIcon sx={{ fontSize: 80, color: "#e0712c" }} onClick={ pickColor({ char: 4 }) } />
-              <CircleIcon sx={{ fontSize: 80, color: "#a63d36" }} onClick={ pickColor({ char: 5 }) } />
+              <CircleIcon sx={{ fontSize: 80, color: "#60bde7" }} onClick={ pickColor({ char: 5 }) } />
             </Box>
             <Box sx={{ ml: 0.5 }}>
               <CircleIcon sx={{ fontSize: 80, color: "#e37373" }} onClick={ pickColor({ char: 6 }) } />
