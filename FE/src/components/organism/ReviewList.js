@@ -6,7 +6,6 @@ import { Box } from "@mui/system";
 import TextStyle from "../atom/Text";
 import ButtonStyle from "../atom/Button";
 import { getPerformanceReviewList } from "../../apis/review";
-import { Link } from "react-router-dom";
 
 export default function ReviewList({ id }) {
   const [performanceReviewList, setPerformanceReviewList] = useState([]);
@@ -38,11 +37,9 @@ export default function ReviewList({ id }) {
     <Box>
       <CategoryDivider type="negative" />
       <Box sx={{ my: 2 }}>
-        <Link to={`/writereview/${id}`} style={{ textDecoration: "none" }}>
-          <ButtonStyle size="large" variant="primary">
-            후기 작성
-          </ButtonStyle>
-        </Link>
+        <ButtonStyle size="large" variant="primary">
+          후기 작성
+        </ButtonStyle>
       </Box>
       <TextStyle size="medium" variant="primary">
         관람 후기

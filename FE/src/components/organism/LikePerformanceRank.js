@@ -41,9 +41,9 @@ export default function LikePerformances() {
             Top 10
           </Text>{" "}
           <Text size="smallest">
-            공연 <br />
+            Performances <br />
             <Text size="smallest" variant="primary">
-              홀홀 유저가 선정한 순위
+              that hallhole users are interested in
             </Text>
           </Text>
         </Box>

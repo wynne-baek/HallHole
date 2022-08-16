@@ -24,9 +24,6 @@ export default function MyActivity() {
     getUserReviewList(5, 0, user?.idTag, getUserReviewListSuccess, getUserReviewListFail);
   }, [user]);
 
-  useEffect(() => {
-    console.log(reviewList);
-  }, [reviewList]);
   function getUserCommentListSuccess(res) {
     setCommentList(res.data);
   }
@@ -62,9 +59,9 @@ export default function MyActivity() {
             <ProfileReviewItem
               key={i}
               title={item.title}
-              writing_time={item.writing_time}
+              date={item.date}
               star_eval={item.star_eval}
-              reviewId={item.id}
+              performance_name={item.performance_name}
             ></ProfileReviewItem>
           ))}
         </List>

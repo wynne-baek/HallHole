@@ -71,9 +71,7 @@ function getSizeWidth(size) {
     case "smallest":
       return "5vw";
     case "none":
-      return "unset";
-    case "full":
-      return "100%";
+      return "unset"
     default:
       return "75vw";
   }

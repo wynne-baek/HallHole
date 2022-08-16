@@ -15,8 +15,6 @@ import EditCharacter from "../components/page/EditCharacter";
 import EditProfile from "../components/page/EditProfile";
 import PerformanceChatList from "../components/page/PerformanceChatList";
 
-import WriteReview from "../components/page/WriteReview";
-
 import storage from "../helper/storage";
 import PerformanceDetail from "../components/page/PerformanceDetail";
 import ChatRoom from "../components/page/ChatRoom";
@@ -123,15 +121,6 @@ export default function RouterConfiguration() {
           </CheckAuth>
         }
       ></Route>
-      <Route
-        path="/writereview/:id"
-        component={WriteReview}
-        element={
-          <CheckAuth>
-            <WriteReview />
-          </CheckAuth>
-        }
-      />
     </Routes>
   );
 }

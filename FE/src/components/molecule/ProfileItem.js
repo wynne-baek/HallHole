@@ -15,7 +15,7 @@ export default function ProfileItem({ user, profileId, name }) {
 
   useEffect(() => {
     if (user !== profileId) {
-      checkFollowStatus(profileId, user, checkFollowStatusSuccess, checkFollowStatusFail);
+      checkFollowStatus(user, profileId, checkFollowStatusSuccess, checkFollowStatusFail);
     }
   }, [user, profileId, followStatus]);
 
