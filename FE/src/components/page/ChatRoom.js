@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-import { useSelector, useDispatch, shallowEqual } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
 import { setChatToggle } from "../../stores/chat";
 
@@ -10,15 +10,13 @@ import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 
 import { getWebsocket } from "../../helper/websocket";
-import { CHAT_TYPE } from "../../helper/constants";
+import { CHAT_TYPE, CHAT_LOAD_SIZE } from "../../helper/constants";
 import { fetchChatLog, fetchChatRoom } from "../../apis/chat";
 
 import Modal from "../organism/Modal";
 import PerformanceMiniPoster from "../molecule/PerformanceMiniPoster";
 import ChatBox from "../organism/ChatBox";
 import Button from "../atom/Button";
-
-import useDetectKeyboardOpen from "use-detect-keyboard-open";
 
 const ChatModal = styled(Modal)``;
 
@@ -32,7 +30,6 @@ const ChatModalBody = styled(Box)`
 `;
 
 export default function ChatRoom(props) {
-  const isKeyboardOpen = useDetectKeyboardOpen();
   const dispatch = useDispatch();
   const user = useSelector(state => state.user.info);
   const chatId = useSelector(state => state.chat.id);
@@ -42,9 +39,11 @@ export default function ChatRoom(props) {
 
   const [chatRoom, setChatRoom] = useState({});
   const [messages, setMessages] = useState([]);
+  const [chatEnter, setChatEnter] = useState(0);
 
   function fetchChatLogSuccess(response) {
     setMessages(response.data);
+    setChatEnter(chatEnter + 1);
   }
 
   function fetchChatLogFail(response) {}
@@ -63,7 +62,7 @@ export default function ChatRoom(props) {
     ws.subscribe(`/topic/chat/room/${chatId}`, receiveMessage);
     sendMessage(CHAT_TYPE.ENTER, "");
     fetchChatRoom(chatId, fetchChatRoomSuccess, fetchChatRoomFail);
-    fetchChatLog(chatId, fetchChatLogSuccess, fetchChatLogFail);
+    fetchChatLog(chatId, 0, CHAT_LOAD_SIZE, fetchChatLogSuccess, fetchChatLogFail);
   }
 
   function connectFail(error) {}
@@ -134,7 +133,7 @@ export default function ChatRoom(props) {
       </ChatModalHeader>
       <PerformanceMiniPoster img={chatRoom?.performance?.poster} title={chatRoom?.name} date={chatRoom?.closeTime} />
       <ChatModalBody>
-        <ChatBox messages={messages} sendMessage={sendMessage} />
+        <ChatBox messages={messages} sendMessage={sendMessage} chatEnter={chatEnter} setMessages={setMessages} />
       </ChatModalBody>
     </ChatModal>
   );
