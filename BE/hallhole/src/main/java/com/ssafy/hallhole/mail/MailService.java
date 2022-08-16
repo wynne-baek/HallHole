@@ -1,10 +1,14 @@
 package com.ssafy.hallhole.mail;
 
+import com.ssafy.hallhole.advice.exceptions.NotFoundException;
 import com.ssafy.hallhole.member.domain.Member;
+import com.ssafy.hallhole.member.dto.AuthEmailDTO;
 import lombok.AllArgsConstructor;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
+
+import java.util.concurrent.ThreadLocalRandom;
 
 @Service
 @AllArgsConstructor
@@ -12,16 +16,26 @@ public class MailService{
 
     private final JavaMailSender emailSender;
 
-    public void sendPWMail(String email) {
+    public AuthEmailDTO sendPWMail(String email) {
         SimpleMailMessage message = new SimpleMailMessage();
-        message.setFrom("leemyo5435@gmail.com");
+        String authKey="";
+        try{
+            message.setFrom("leemyo5435@gmail.com");
 
-        message.setTo(email);
-        message.setSubject("비밀번호 변경 메일입니다.");
+            message.setTo(email);
+            message.setSubject("[HallHole] 비밀번호 변경 관련 인증번호입니다.");
 
-//        String url="www.naver.com";
-//        message.setText(url+"\n"+"비밀번호 바꾸려면 눌러주세요.");
-        emailSender.send(message);
+            //인증키 6자리 랜덤으로 생성 후 초기화
+            authKey = Integer.toString( ThreadLocalRandom.current().nextInt(100000, 1000000) );
+
+            message.setText("인증번호는 " + authKey + "입니다.\n비밀번호 바꾸려면 눌러주세요.");
+            emailSender.send(message);
+
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return new AuthEmailDTO(email, authKey);
     }
 
     public void sendCongMail(Member member){
@@ -31,12 +45,12 @@ public class MailService{
         message.setTo(member.getEmail());
         String title="[HallHole] ";
         if(!member.getName().equals("")){
-            title+=member.getName()+"님!";
+            title+=member.getName()+"님! ";
         }
         title+="가입을 축하드립니다!";
         message.setSubject(title);
 
-        message.setText("가입을...축하...");
+        message.setText("여기에 홀홀 설명 쓰면 좋을듯");
         emailSender.send(message);
     }
 }
