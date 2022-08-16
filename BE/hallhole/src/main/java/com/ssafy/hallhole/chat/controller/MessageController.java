@@ -6,6 +6,8 @@ import com.ssafy.hallhole.chat.domain.ChatType;
 import com.ssafy.hallhole.chat.domain.Chatroom;
 import com.ssafy.hallhole.chat.service.ChatLogService;
 import com.ssafy.hallhole.chat.service.ChatroomService;
+import com.ssafy.hallhole.member.domain.Member;
+import com.ssafy.hallhole.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
@@ -30,6 +32,8 @@ public class MessageController {
 
     private final ChatLogService chatLogService;
 
+    private final MemberService memberService;
+
     @MessageMapping("/chat/message")
     @Transactional
     public void enter(ChatLog message) {
@@ -40,7 +44,10 @@ public class MessageController {
 
         } else if (ChatType.TALK.equals(message.getType())) {
             //db 저장
-            //멤버의 프로필 이미지 가져와서 메세지에 저장
+            Member member = memberService.findMemberByIdTag(message.getIdTag());
+            message.setBackground(String.valueOf(member.getNowBg()));
+            message.setCharacterType(String.valueOf(member.getNowChar()));
+            message.setAccessoryType(String.valueOf(member.getNowAcc()));
             message.setMessageTime(LocalDateTime.from(ZonedDateTime.now(ZoneId.of("Asia/Seoul"))));
             chatLogService.saveChat(message);
 

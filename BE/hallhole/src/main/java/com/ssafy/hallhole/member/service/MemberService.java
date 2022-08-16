@@ -44,4 +44,5 @@ public interface MemberService {
 
     Long getMembersCntByName(String name);
 
+    Member findMemberByIdTag(String idTag);
 }
