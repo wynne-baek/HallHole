@@ -24,7 +24,6 @@ public class CustomUserDetailService implements UserDetailsService {
     @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        System.out.println("CustomUserDetailService의 loadUserByUsername 시작");
 
 
         Member member = memberRepository.findByEmail(username);
@@ -43,7 +42,6 @@ public class CustomUserDetailService implements UserDetailsService {
     // DB 에 User 값이 존재한다면 UserDetails 객체로 만들어서 리턴
     private UserDetails createUserDetails(Member member) {
 
-        System.out.println("CustomUserDetailService의 createUserDetails 시작");
 
         GrantedAuthority grantedAuthority = new SimpleGrantedAuthority(member.getAuthority().toString());
         return new User(

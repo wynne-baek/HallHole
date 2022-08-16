@@ -116,8 +116,6 @@ public class MemberServiceImpl implements MemberService {
         TokenDto tokenDto = tokenProvider.generateTokenDto(authentication);
         Member m = memberRepository.findByEmail(memberRequestDto.getEmail());
 
-        System.out.println("token = " + tokenDto.getToken());
-
         // 5. 토큰 발급
         return tokenDto;
     }
@@ -149,7 +147,7 @@ public class MemberServiceImpl implements MemberService {
             throw new RuntimeException("권한 정보가 없는 토큰입니다.");
         }
 
-        System.out.println("claim fin");
+
 
         String tag = claim.get("sub").toString();
         Member m = memberRepository.findByIdTag(tag);
@@ -157,11 +155,11 @@ public class MemberServiceImpl implements MemberService {
             throw new NotFoundException("유효한 회원이 아닙니다.");
         }
 
-        System.out.println("=============Delete data start===========");
+
 
         // 팔로우 데이터 날리기
         List<Follow> followList = followRepository.findAllRelationByMemberId(m.getId());
-        System.out.println("followList.size() = " + followList.size());
+
         for(Follow f:followList){
             f.getFollowedMember().subFollowerCnt();
             f.getFollowingMember().subFollowingCnt();
@@ -172,11 +170,9 @@ public class MemberServiceImpl implements MemberService {
             followRepository.delete(f);
         }
 
-        System.out.println("fin follow");
-
         //performanceLike 데이터 날리기
         List<PerformanceLike> pLikeList = pLikeRepository.findMyLikeListById(m.getId());
-        System.out.println("pLikeList.size() = " + pLikeList.size());
+
         for(PerformanceLike p: pLikeList){
             pLikeRepository.delete(p);
         }
@@ -186,17 +182,14 @@ public class MemberServiceImpl implements MemberService {
 
         // 댓글 데이터 날리기
         List<Comment> commentList = commentRepository.findAllCommentByMemberId(m.getId());
-        System.out.println("commentList.size() = " + commentList.size());
+
         for(Comment c:commentList){
             c.setDelete(true);
             commentRepository.save(c);
         }
 
-        System.out.println("fin comment");
-
         // 후기 리액션 데이터 날리기
         List<ReviewReaction> reactionList = rrRepository.findAllReactionByMemberId(m.getId());
-        System.out.println("reactionList.size() = " + reactionList.size());
 
         for(ReviewReaction r:reactionList){
             ReactionType rType = r.getReactiontype();
@@ -219,13 +212,12 @@ public class MemberServiceImpl implements MemberService {
 
         // 후기 데이터 날리기
         List<Review> reviewList = reviewRepository.findAllByMemberId(m.getId());
-        System.out.println("reviewList.size() = " + reviewList.size());
+
         for(Review r:reviewList){
             r.setDelete(true);
             reviewRepository.save(r);
         }
 
-        System.out.println("fin review");
 
         m.setOut(true);
         m.setOutDate(LocalDate.now());
@@ -240,7 +232,6 @@ public class MemberServiceImpl implements MemberService {
             throw new NotFoundException("유효한 회원이 아닙니다.");
         }
 
-        System.out.println(member.getPassword());
         memberRepository.save(member);
     }
 
@@ -320,13 +311,10 @@ public class MemberServiceImpl implements MemberService {
     public MemberOutputDTO findInfo(String token) throws NotFoundException {
         Claims claim = tokenProvider.parseClaims(token);
         String tag = claim.get("sub").toString();
-        System.out.println("memberServiceImpl의 findinfo tag = " + tag);
         Member m = memberRepository.findByIdTag(tag);
-        System.out.println("memberServiceImpl의 findinfo >>>>>>>>>>>>> m.tag = " + m.getIdTag());
         if(m==null || m.isOut()){
             throw new NotFoundException("유효한 회원이 아닙니다.");
         }
-        System.out.println("회원인증 끝");
 
         MemberOutputDTO member = new MemberOutputDTO(m.getName(),m.getEmail(),
                 m.getGender(),m.getBirth(),m.isAdmin(),m.getPoint(),m.isOut(),m.getIdTag(),m.isBan(),

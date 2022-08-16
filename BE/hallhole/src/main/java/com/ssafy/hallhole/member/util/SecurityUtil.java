@@ -13,7 +13,6 @@ public class SecurityUtil {
     // Request 가 들어올 때 JwtFilter 의 doFilter 에서 저장
     public static String getCurrentMemberId() {
 
-        System.out.println("SecurityUtil의 getCurrentMemberId 시작");
 
         final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 

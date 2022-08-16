@@ -60,7 +60,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception { // 보안처리
-        System.out.println("WebSecurityConfig의 configure 시작");
 
         http.csrf().disable();
 

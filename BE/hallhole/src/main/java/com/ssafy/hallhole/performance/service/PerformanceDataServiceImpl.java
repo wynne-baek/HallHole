@@ -35,7 +35,6 @@ public class PerformanceDataServiceImpl implements PerformanceDataService {
     @Override
     @Scheduled(cron = "0 0 3 * * *")
     public void scheduledData() throws Exception {
-        System.out.println("데이터 받아오기");
         getPerformanceData("AAAA", 1, 100);
         getPerformanceData("AAAB", 1, 100);
         getDetails();
