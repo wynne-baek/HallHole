@@ -107,7 +107,7 @@ public class ReviewServiceImpl implements ReviewService {
         }
 
         ReviewOutputDTO review = new ReviewOutputDTO(r.getId(), r.getMember().getIdTag(), r.getPerformance().getId(),
-                r.getTitle(), r.getPerformanceDatetime(), r.getContents(), r.getUpdateTime(), r.getStarEval());
+                r.getTitle(), r.getPerformanceDatetime(), r.getContents(), r.getUpdateTime().plusHours(9), r.getStarEval());
 
         return review;
     }
@@ -125,7 +125,7 @@ public class ReviewServiceImpl implements ReviewService {
 
         for(Review r : reviewList){
             Member writer = r.getMember();
-            SummaryReviewDTO s = new SummaryReviewDTO(r.getId(),writer.getIdTag(),r.getTitle(), r.getUpdateTime(),
+            SummaryReviewDTO s = new SummaryReviewDTO(r.getId(),writer.getIdTag(),r.getTitle(), r.getUpdateTime().plusHours(9),
                     r.getStarEval(),writer.getName(),writer.getNowBg(),writer.getNowChar(), writer.getNowAcc());
             summaryList.add(s);
         }
@@ -135,7 +135,7 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     public List<SummaryReviewDTO> getPerformanceSummeryReviewInfo(int start, int size, String pId) throws NotFoundException {
-        Performance p = performanceRepository.findOnePerformanceById(pId);
+            Performance p = performanceRepository.findOnePerformanceById(pId);
 
         if(p==null){
             throw new NotFoundException("유효한 공연이 아닙니다.");
@@ -146,7 +146,7 @@ public class ReviewServiceImpl implements ReviewService {
 
         for(Review r : reviewList){
             Member writer = r.getMember();
-            SummaryReviewDTO s = new SummaryReviewDTO(r.getId(),writer.getIdTag(),r.getTitle(), r.getUpdateTime(),
+            SummaryReviewDTO s = new SummaryReviewDTO(r.getId(),writer.getIdTag(),r.getTitle(), r.getUpdateTime().plusHours(9),
                     r.getStarEval(),writer.getName(),writer.getNowBg(),writer.getNowChar(), writer.getNowAcc());
             summaryList.add(s);
         }
