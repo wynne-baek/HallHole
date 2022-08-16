@@ -39,4 +39,10 @@ public interface MemberService {
     void cancelBan(String tag) throws NotFoundException;
 
     String getMyName(String tag) throws NotFoundException;
+
+    List<Member> findMemberByName(int start, int size, String name);
+
+    List<Member> findMembersByName(int start, int size, String name);
+
+    Long getMembersCntByName(String name);
 }

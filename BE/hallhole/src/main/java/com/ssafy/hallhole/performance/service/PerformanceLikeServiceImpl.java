@@ -3,6 +3,7 @@ package com.ssafy.hallhole.performance.service;
 import com.ssafy.hallhole.advice.exceptions.NotFoundException;
 import com.ssafy.hallhole.member.domain.Member;
 import com.ssafy.hallhole.member.repository.MemberRepository;
+import com.ssafy.hallhole.member.repository.MemberRepositoryImpl;
 import com.ssafy.hallhole.performance.domain.Performance;
 import com.ssafy.hallhole.performance.domain.PerformanceLike;
 import com.ssafy.hallhole.performance.dto.PerformanceLikePagingInputDTO;
@@ -20,7 +21,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PerformanceLikeServiceImpl implements PerformanceLikeService{
 
-    private final MemberRepository memberRepository;
+    private final MemberRepositoryImpl memberRepository;
 
     private final PerformanceRepositoryImpl performanceRepository;
 

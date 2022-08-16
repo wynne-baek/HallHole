@@ -5,6 +5,7 @@ import com.ssafy.hallhole.advice.exceptions.NotFoundException;
 import com.ssafy.hallhole.member.domain.Member;
 import com.ssafy.hallhole.member.dto.*;
 import com.ssafy.hallhole.member.service.MemberServiceImpl;
+import com.ssafy.hallhole.performance.dto.PerformanceSearchResult;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
@@ -137,4 +138,13 @@ public class MemberController {
         memberService.cancelBan(tag);
     }
 
+    @GetMapping("/search/{name}")
+    @ApiOperation(value = "멤버 검색",notes = "'/member/search/{name}?start=0&size=20' 형식으로 사용")
+    public MemberSearchResult searchMemberByName(@RequestParam("start") int start, @RequestParam("size") int size, @PathVariable("name") String name){
+        MemberSearchResult memberSearchResult = MemberSearchResult.builder()
+                .members(memberService.findMembersByName(start, size, name))
+                .MemberSearchCnt(memberService.getMembersCntByName(name))
+                .build();
+        return memberSearchResult;
+    }
 }

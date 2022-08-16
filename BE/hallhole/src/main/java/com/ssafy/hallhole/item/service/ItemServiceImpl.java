@@ -9,6 +9,7 @@ import com.ssafy.hallhole.item.dto.ItemInputDTO;
 import com.ssafy.hallhole.item.repository.ItemRepository;
 import com.ssafy.hallhole.member.domain.Member;
 import com.ssafy.hallhole.member.repository.MemberRepository;
+import com.ssafy.hallhole.member.repository.MemberRepositoryImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,7 +23,7 @@ public class ItemServiceImpl implements ItemService{
 
     private final ItemRepository itemRepository;
 
-    private final MemberRepository memberRepository;
+    private final MemberRepositoryImpl memberRepository;
 
     @Override
     public List<Item> getAllItemByType(String type) {

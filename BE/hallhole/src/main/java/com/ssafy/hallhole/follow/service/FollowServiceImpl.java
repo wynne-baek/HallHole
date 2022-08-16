@@ -8,6 +8,7 @@ import com.ssafy.hallhole.follow.dto.PagingInputDTO;
 import com.ssafy.hallhole.follow.repository.FollowRepositoryImpl;
 import com.ssafy.hallhole.member.domain.Member;
 import com.ssafy.hallhole.member.repository.MemberRepository;
+import com.ssafy.hallhole.member.repository.MemberRepositoryImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,7 +20,7 @@ import java.util.List;
 @Transactional
 @RequiredArgsConstructor
 public class FollowServiceImpl implements FollowService {
-    private final MemberRepository memberRepository;
+    private final MemberRepositoryImpl memberRepository;
     private final FollowRepositoryImpl followRepository;
 
     @Override

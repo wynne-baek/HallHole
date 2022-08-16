@@ -3,6 +3,7 @@ package com.ssafy.hallhole.review.service;
 import com.ssafy.hallhole.advice.exceptions.NotFoundException;
 import com.ssafy.hallhole.member.domain.Member;
 import com.ssafy.hallhole.member.repository.MemberRepository;
+import com.ssafy.hallhole.member.repository.MemberRepositoryImpl;
 import com.ssafy.hallhole.review.domain.ReactionCnt;
 import com.ssafy.hallhole.review.domain.ReactionType;
 import com.ssafy.hallhole.review.domain.Review;
@@ -25,7 +26,7 @@ public class ReviewReactionServiceImpl implements ReviewReactionService {
 
     private final ReviewReactionRepositoryImpl rrRepository;
 
-    private final MemberRepository memberRepository;
+    private final MemberRepositoryImpl memberRepository;
 
     private final ReviewRepositoryImpl reviewRepository;
 
