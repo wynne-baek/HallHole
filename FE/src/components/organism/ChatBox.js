@@ -89,6 +89,7 @@ export default function ChatBox({ messages, sendMessage, chatEnter, setMessages 
   const [topDetector, setTopDetector] = useState(null);
   const [isScrollBottom, setIsScrollBottom] = useState(true);
   const [isScrollTop, setIsScrollTop] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   function onBottomIntersect([entry]) {
     if (!entry.isIntersecting) {
@@ -108,6 +109,7 @@ export default function ChatBox({ messages, sendMessage, chatEnter, setMessages 
 
   useEffect(() => {
     if (isScrollTop) {
+      setIsLoading(true);
       fetchChatLog(
         chatId,
         page + 1,
@@ -116,6 +118,7 @@ export default function ChatBox({ messages, sendMessage, chatEnter, setMessages 
           setMessages(messages => [...messages, ...response.data]);
           setPage(page => page + 1);
           setScrollHeight(contentRef.current.scrollHeight);
+          setIsLoading(false);
         },
         response => {},
       );
@@ -183,6 +186,7 @@ export default function ChatBox({ messages, sendMessage, chatEnter, setMessages 
             time={chat.messageTime}
             currentTime={currentTime}
             type={chat.type}
+            idTag={chat.idTag}
           />
         );
       })
@@ -206,7 +210,7 @@ export default function ChatBox({ messages, sendMessage, chatEnter, setMessages 
   return (
     <Content>
       <ChatHistoryArea ref={contentRef}>
-        {isScrollTop && (
+        {isLoading && (
           <Box sx={{ display: "flex", justifyContent: "center", marginTop: "2rem" }}>
             <CircularProgress />
           </Box>

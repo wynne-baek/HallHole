@@ -1,15 +1,18 @@
 import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 
 import { Box } from "@mui/system";
 
 import PosterImage from "../atom/PosterSize";
 import TextStyle from "../atom/Text";
+import ChatRoom from "../page/ChatRoom";
+
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
-import CurtainsIcon from "@mui/icons-material/Curtains";
+import ChatIcon from "@mui/icons-material/Chat";
 
 import { checkLikeStatus, likePerformance, unlikePerformance } from "../../apis/performanceLike";
-import { useSelector } from "react-redux";
+import { setChatId, setChatToggle } from "../../stores/chat";
 
 const smallPosterStyle = {
   position: "relative",
@@ -44,12 +47,14 @@ const imageStyle = {
 export default function PerformanceInformation({ performanceInfo, performanceMoreInfo, id }) {
   const [performanceLike, setPerformanceLike] = useState("");
   const user = useSelector(state => state.user.info);
+  const dispatch = useDispatch();
 
   function enterPerformanceChat(e) {
     e.preventDefault();
     // chat 연결 코드 추가 예정
     // Link to 해야함
-    console.log("들어가는중");
+    dispatch(setChatId(id));
+    dispatch(setChatToggle("on"));
   }
 
   function changeStrToDate(str) {
@@ -113,7 +118,7 @@ export default function PerformanceInformation({ performanceInfo, performanceMor
       <Box sx={smallPosterStyle}>
         <PosterImage size="small" src={performanceInfo.poster}></PosterImage>
         <Box sx={{ mt: 6 }}>
-          <CurtainsIcon sx={{ mr: 1.5 }} color="action" fontSize="large" onClick={enterPerformanceChat} />
+          <ChatIcon sx={{ mr: 1.5 }} color="primary" fontSize="large" onClick={enterPerformanceChat} />
           {performanceLike === false ? (
             <FavoriteBorderIcon onClick={changePerformanceLike} fontSize="large" color="primary" />
           ) : (
@@ -145,6 +150,7 @@ export default function PerformanceInformation({ performanceInfo, performanceMor
           </TextStyle>
         </Box>
       </Box>
+      <ChatRoom />
     </Box>
   );
 }

@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 
-import { Box, useTheme } from "@mui/material";
+import { Box, useTheme, Menu, MenuItem } from "@mui/material";
 import { styled } from "@mui/system";
+
+import { Link } from "react-router-dom";
 
 import { CHAT_TYPE } from "../../helper/constants";
 
@@ -48,8 +50,10 @@ const NameBox = styled(Box)``;
 
 const TimeBox = styled(Box)``;
 
-export default function ChatItem({ whoseMessage = "other", name, message, time, currentTime, type }) {
+export default function ChatItem({ whoseMessage = "other", name, message, time, currentTime, type, idTag }) {
   const theme = useTheme();
+  const [menuAnchorElement, setMenuAnchorElement] = useState(null);
+  const open = Boolean(menuAnchorElement);
 
   function getFormattedTime(time) {
     const seconds = (currentTime - time) / 1000;
@@ -83,9 +87,31 @@ export default function ChatItem({ whoseMessage = "other", name, message, time, 
     else return "#ccc";
   }
 
+  function handleClick(event) {
+    setMenuAnchorElement(event.currentTarget);
+  }
+  function handleClose() {
+    setMenuAnchorElement(null);
+  }
+
   return (
     <Content whoseMessage={whoseMessage}>
-      <ProfileImageBox>{whoseMessage == "other" && <ProfileImage size="small" />}</ProfileImageBox>
+      <ProfileImageBox onClick={handleClick}>
+        {whoseMessage == "other" && <ProfileImage size="small" />}
+      </ProfileImageBox>
+      <Menu
+        id="basic-menu"
+        anchorEl={menuAnchorElement}
+        open={open}
+        onClose={handleClose}
+        MenuListProps={{
+          "aria-labelledby": "basic-button",
+        }}
+      >
+        <MenuItem onClick={handleClose} component={Link} to={`/profile/${idTag}`}>
+          프로필 보기
+        </MenuItem>
+      </Menu>
       <ChatBody>
         {whoseMessage == "other" && (
           <SenderInfoBox>
