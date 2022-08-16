@@ -26,6 +26,7 @@ export default function SimpleSlider({ rooms = [] }) {
     slidesToScroll: 1,
     arrows: false,
   };
+
   const sliderbackSetting = {
     dots: false,
     infinite: true,
@@ -35,6 +36,7 @@ export default function SimpleSlider({ rooms = [] }) {
     arrows: false,
     fade: true,
   };
+
   const cardStyle = {
     maxWidth: 300,
     width: "100vw",
@@ -43,6 +45,7 @@ export default function SimpleSlider({ rooms = [] }) {
     boxShadow: 3,
     borderRadius: 10,
   };
+
   const cardbackStyle = {
     width: "100vw",
     height: "550px",

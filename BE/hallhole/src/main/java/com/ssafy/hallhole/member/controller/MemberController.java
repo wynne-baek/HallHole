@@ -137,4 +137,14 @@ public class MemberController {
         memberService.cancelBan(tag);
     }
 
+    @GetMapping("/search/{name}")
+    @ApiOperation(value = "멤버 검색",notes = "'/member/search/{name}?start=0&size=20' 형식으로 사용")
+    public MemberSearchResult searchMemberByName(@RequestParam("start") int start, @RequestParam("size") int size, @PathVariable("name") String name){
+        MemberSearchResult memberSearchResult = MemberSearchResult.builder()
+                .members(memberService.findMembersByName(start, size, name))
+                .MemberSearchCnt(memberService.getMembersCntByName(name))
+                .build();
+        return memberSearchResult;
+    }
+
 }

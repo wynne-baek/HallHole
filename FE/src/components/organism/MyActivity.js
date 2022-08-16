@@ -24,9 +24,6 @@ export default function MyActivity() {
     getUserReviewList(5, 0, user?.idTag, getUserReviewListSuccess, getUserReviewListFail);
   }, [user]);
 
-  useEffect(() => {
-    console.log(reviewList);
-  }, [reviewList]);
   function getUserCommentListSuccess(res) {
     setCommentList(res.data);
   }
