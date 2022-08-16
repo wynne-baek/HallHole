@@ -1,21 +1,22 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router";
-import { requestUserInfo, userEditProfile, deleteProfile } from "../../apis/user";
+import { requestUserInfo, userEditProfile, } from "../../apis/user";
 
 import TextStyle from "../atom/Text";
 import Input from "../atom/Input"
 import ButtonStyle from "../atom/Button";
 import CategoryDivider from "../atom/CategoryDivider"
+import DeleteModal from "../molecule/DeletModal";
 
-import { Box } from "@mui/system";
+import { Box, Modal as MUIModal } from "@mui/system";
 import TextField from '@mui/material/TextField';
 import { MenuItem, FormControl, Select, InputLabel, Button } from "@mui/material"
 
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import dayjs from "dayjs";
+
 
 
 const genderName = {
@@ -32,8 +33,6 @@ export default function ProfileEdit() {
   const [profile, setProfile] = React.useState('')
   const [email, setEmail] = React.useState('')
   const [birth, setBirth] = React.useState('')
-  const dateFormat = dayjs(birth).format("YYYY-MM-DD");
-  
 
   const profileUpdate = async (user) => {
     await requestUserInfo(user?.idTag, getProfileUserSuccess, getProfileUserFail);
@@ -82,16 +81,11 @@ export default function ProfileEdit() {
 
   function changeConfirm() {
     const userId = user.idTag
-    const birth = dateFormat
     userEditProfile(birth, email, gender, userId, name, profile)
-    alert('성공적으로 저장되었습니다.')
+    console.log(birth)
+    alert("프로필 변경이 완료되었습니다.");
     movePage(`/profile/${userId}`)
     location.reload();
-  }
-  // 회원탈퇴 확인 팝업 띄울 수 있도록 하기
-  function deleteConfirm() {
-
-    //deleteProfile();
   }
 
   return (
@@ -102,7 +96,7 @@ export default function ProfileEdit() {
       <CategoryDivider type="thinDark"/>
       <Box sx={{ mt:1, display: "flex", flexDirection: 'column' }}>
       <TextStyle size="medium">{email}</TextStyle>
-      <Button sx={{ mt: 1}} size="small" variant="text" onClick={ changePassword }>비밀번호 변경하기</Button>
+      <Button sx={{ mt: 1 }} size="small" variant="text" onClick={ changePassword }>비밀번호 변경하기</Button>
       </Box>
       <CategoryDivider type="thinDark"/>
       <Box sx={{mt:2}}>
@@ -139,13 +133,13 @@ export default function ProfileEdit() {
               </Select>
           </FormControl>
         </Box>
-        <Box sx={{ ml: 2 }}>
+        <Box sx={{ ml: 1.5 }}>
           <TextStyle size="medium">생년월일</TextStyle>
           <LocalizationProvider dateAdapter={AdapterDateFns}>
             <DatePicker
               inputFormat={"yyyy-MM-dd"}
               mask={"____-__-__"}
-              value={dateFormat}
+              value={birth}
               onChange={(newBirth) => {
                 setBirth(newBirth);
               }}
@@ -158,7 +152,7 @@ export default function ProfileEdit() {
         <ButtonStyle size="medium" variant="grey" onClick={ cancelEdit }>취소</ButtonStyle>
         <ButtonStyle size="medium" variant="primary" onClick={ changeConfirm }>저장</ButtonStyle>
       </Box>
-        <Button sx={{ mt:2 }} size="small" variant="text">회원 탈퇴</Button>
+        <DeleteModal/>
     </Box>
   ); 
 }
