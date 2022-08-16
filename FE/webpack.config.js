@@ -9,7 +9,8 @@ module.exports = {
     publicPath: "/",
   },
   module: {
-    rules: [{
+    rules: [
+      {
         test: /\.js$/,
         exclude: /node_modules/,
         use: {
@@ -47,6 +48,12 @@ module.exports = {
     },
     static: {
       directory: path.join(__dirname, "static"),
+    },
+    proxy: {
+      "/ws": {
+        target: "https://i7a401.p.ssafy.io",
+        changeOrigin: true,
+      },
     },
   },
 };
