@@ -174,7 +174,6 @@ export default function ChatBox({ messages, sendMessage, chatEnter, setMessages 
     let id = 0;
     return chats
       .map(chat => {
-        console.log(chat);
         return (
           <ChatItem
             key={id++ + chat.messageTime}
