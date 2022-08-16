@@ -4,19 +4,30 @@ import { useNavigate } from "react-router-dom";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
-import { requestUserInfo } from "../../apis/user";
-import { Link } from "react-router-dom";
-
-import { fetchChatJoin } from "../../apis/chat";
+import { useSelector, useDispatch } from "react-redux";
+import ChatRoom from "../page/ChatRoom";
 
 import PosterSize from "../atom/PosterSize";
 import Card from "@mui/material/Card";
 import Box from "@mui/material/Box";
 
+import { setChatId, setChatToggle } from "../../stores/chat";
+
 export default function SimpleSlider({ rooms = [] }) {
   const navigate = useNavigate();
   const slider1 = useRef(null);
   const slider2 = useRef(null);
+
+  const user = useSelector(state => state.user.info);
+  const dispatch = useDispatch();
+
+  function enterPerformanceChat(e) {
+    e.preventDefault();
+    // chat 연결 코드 추가 예정
+    // Link to 해야함
+    dispatch(setChatId(user?.id));
+    dispatch(setChatToggle("on"));
+  }
 
   const sliderSetting = {
     dots: true,
@@ -60,11 +71,7 @@ export default function SimpleSlider({ rooms = [] }) {
       return (
         <Card sx={cardStyle} key={room?.performance?.id}>
           <Box>
-            <PosterSize
-              size="large"
-              src={room?.performance?.poster}
-              onClick={() => navigate(`/performancedetail/${room?.performance?.id}`)}
-            ></PosterSize>
+            <PosterSize size="large" src={room?.performance?.poster} onClick={enterPerformanceChat}></PosterSize>
           </Box>
         </Card>
       );
@@ -119,6 +126,7 @@ export default function SimpleSlider({ rooms = [] }) {
           {rooms.length > 0 ? getSliderItems(rooms) : getDefaultCard()}
         </Slider>
       </Box>
+      <ChatRoom />
     </Box>
   );
 }
