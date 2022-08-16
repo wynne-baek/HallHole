@@ -378,4 +378,9 @@ public class MemberServiceImpl implements MemberService {
         return memberCustomRepository.getMemberCntByName(name);
     }
 
+    @Override
+    public Member findMemberByIdTag(String idTag) {
+        return memberRepository.findByIdTag(idTag);
+    }
+
 }

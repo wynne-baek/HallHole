@@ -20,7 +20,6 @@ public class WebConfig extends WebMvcConfigurerAdapter {
                 .addMapping("/**")
                 .allowedOrigins("*")
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
-//                .allowCredentials(true)
                 .maxAge(60000);
     }
 
