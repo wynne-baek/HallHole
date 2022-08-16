@@ -107,7 +107,7 @@ public class ReviewServiceImpl implements ReviewService {
         }
 
         ReviewOutputDTO review = new ReviewOutputDTO(r.getId(), r.getMember().getIdTag(), r.getPerformance().getId(),
-                r.getTitle(), r.getPerformanceDatetime(), r.getContents(), r.getUpdateTime().plusHours(9), r.getStarEval());
+                r.getTitle(), r.getPerformanceDatetime().plusHours(9), r.getContents(), r.getUpdateTime().plusHours(9), r.getStarEval());
 
         return review;
     }
