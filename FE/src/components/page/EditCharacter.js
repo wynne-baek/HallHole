@@ -53,7 +53,6 @@ export default function EditCharacter() {
   // 기존 캐릭터 정보 가져오기
   useEffect(() => {
     customedCharacter(user?.idTag, characterLoadSuccess, characterLoadFail);
-    console.log(user)
   }, [user])
   
   // 캐릭터 정보 불러오기 성공 시 - 색상 가져오기, 악세사리 정보 가져오기
@@ -67,7 +66,6 @@ export default function EditCharacter() {
   } 
   
   function characterLoadFail(err) {
-    console.log("캐릭터 정보 불러오기 실패", err);
     // 불러오기 실패 후 가장 기본 캐릭터 모습으로 보여주기
     // 기본 캐릭터 정보 캐릭터 색상 하양, 아무것도 액세서리 착용하지 않음 
     characterLoadFail.defaultProps = {

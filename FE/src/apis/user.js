@@ -27,7 +27,7 @@ function requestName(idTag, success, fail) {
   api.get("member/my-name", { params: { tag : idTag } }).then(success).catch(fail);
 }
 
-// 유저 정보 수정
+// 프로필 수정 api
 function userEditProfile(birth, email, gender, idTag, name, profile, success, fail) {
   api.put("member", {
     birth: birth,
@@ -39,7 +39,7 @@ function userEditProfile(birth, email, gender, idTag, name, profile, success, fa
   }).then(success).catch(fail);
 }
 
-// 회원 탈퇴
+// 탈퇴 api
 function deleteProfile(success, fail) {
   api.put("member/out").then(success).catch(fail);
 }
