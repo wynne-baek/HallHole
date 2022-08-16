@@ -96,11 +96,6 @@ public class CommentServiceImpl implements CommentService{
 
         List<Comment> commentList = commentRepository.findAllCommentPagingByMemberId(
                 inputDTO.getStart(), inputDTO.getSize(), member.getId());
-
-        if (commentList.size()==0){
-            throw new NotFoundException("해당 사용자가 작성한 댓글이 없습니다.");
-        }
-
         List<CommentOutputDTO> outputList = new LinkedList<>();
         for(Comment c:commentList){
             CommentOutputDTO output = new CommentOutputDTO(c.getId(),c.getMember().getIdTag(),
@@ -122,10 +117,6 @@ public class CommentServiceImpl implements CommentService{
 
         List<Comment> commentList = commentRepository.findAllCommentPagingByReviewId(
                 inputDTO.getStart(), inputDTO.getSize(), inputDTO.getReviewId());
-
-        if (commentList.size()==0){
-            throw new NotFoundException("해당 후기에 대한 댓글이 없습니다.");
-        }
 
         List<CommentOutputDTO> outputList = new LinkedList<>();
         for(Comment c:commentList){
