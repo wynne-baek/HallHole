@@ -39,15 +39,25 @@ public class FollowController {
     @PostMapping("/following")
     @ApiOperation(value="아이디 태그로 팔로우를 누른사람 보기",
             notes = "태그아이디가 팔로우를 누른사람 보기 (해당 아이디의 팔로잉 목록 보기)")
-    public List<FollowOutputDTO> getFollowing(@RequestBody PagingInputDTO inputDto) throws NotFoundException {
-        return followService.findFollowing(inputDto);
+    public ResponseEntity<FollowOutputDTO> getFollowing(@RequestBody PagingInputDTO inputDto){
+        try{
+            List<FollowOutputDTO> followingList = followService.findFollowing(inputDto);
+            return new ResponseEntity(followingList, HttpStatus.OK);
+        }catch(Exception e){
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
     }
 
     @PostMapping("/follower")
     @ApiOperation(value="아이디 태그로 팔로워 보기",
             notes = "태그아이디를 팔로우 한 사람들 목록 보기 (해당 아이디의 팔로워 목록 보기)")
-    public List<FollowOutputDTO> getFollower(@RequestBody PagingInputDTO inputDto) throws NotFoundException {
-        return followService.findFollower(inputDto);
+    public ResponseEntity<FollowOutputDTO> getFollower(@RequestBody PagingInputDTO inputDto){
+        try{
+            List<FollowOutputDTO> followerList = followService.findFollower(inputDto);
+            return new ResponseEntity(followerList, HttpStatus.OK);
+        }catch(Exception e){
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
     }
 
     @PostMapping("/chk-follow")

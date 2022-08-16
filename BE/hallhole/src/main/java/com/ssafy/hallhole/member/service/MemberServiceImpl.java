@@ -12,7 +12,7 @@ import com.ssafy.hallhole.member.domain.Gender;
 import com.ssafy.hallhole.member.domain.Member;
 import com.ssafy.hallhole.member.dto.*;
 import com.ssafy.hallhole.member.jwt.TokenProvider;
-import com.ssafy.hallhole.member.repository.MemberRepositoryImpl;
+import com.ssafy.hallhole.member.repository.MemberRepository;
 import com.ssafy.hallhole.performance.domain.PerformanceLike;
 import com.ssafy.hallhole.performance.repository.PerformanceLikeRepositoryImpl;
 import com.ssafy.hallhole.review.domain.ReactionCnt;
@@ -41,7 +41,7 @@ import java.util.regex.Pattern;
 @RequiredArgsConstructor
 public class MemberServiceImpl implements MemberService {
 
-    private final MemberRepositoryImpl memberRepository;
+    private final MemberRepository memberRepository;
     private final ReviewRepository reviewRepository;
     private final CommentRepository commentRepository;
 
@@ -101,18 +101,30 @@ public class MemberServiceImpl implements MemberService {
     }
 
     public TokenDto login(LoginDTO memberRequestDto) {
+        System.out.println("login>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
         // 1. Login ID/PW 를 기반으로 AuthenticationToken 생성
         UsernamePasswordAuthenticationToken authenticationToken = memberRequestDto.toAuthentication();
+        System.out.println("authenticationToken.getName() = " + authenticationToken.getName());
+        System.out.println("authenticationToken.getCredentials() = " + authenticationToken.getCredentials());
+        System.out.println("authenticationToken.getAuthorities() = " + authenticationToken.getAuthorities());
+        System.out.println("authenticationToken.getPrincipal() = " + authenticationToken.getPrincipal());
 
         // 2. 실제로 검증 (사용자 비밀번호 체크) 이 이루어지는 부분
         //    authenticate 메서드가 실행이 될 때 CustomUserDetailsService 에서 만들었던 loadUserByUsername 메서드가 실행됨
         Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
+        System.out.println("authentication.getName() = " + authentication.getName());
+        System.out.println("authentication.getCredentials() = " + authentication.getCredentials());
+        System.out.println("authentication.getAuthorities() = " + authentication.getAuthorities());
+        System.out.println("authentication.getPrincipal() = " + authentication.getPrincipal());
+        System.out.println(">>>>>>>>>>>> authentication.isAuthenticated() = " + authentication.isAuthenticated());
 
 
         // 3. 인증 정보를 기반으로 JWT 토큰 생성
         TokenDto tokenDto = tokenProvider.generateTokenDto(authentication);
         Member m = memberRepository.findByEmail(memberRequestDto.getEmail());
 
+        System.out.println("token = " + tokenDto.getToken());
+        System.out.println(">>>>>>>>>>>>>>>>>>>fin login");
         // 5. 토큰 발급
         return tokenDto;
     }
@@ -366,20 +378,4 @@ public class MemberServiceImpl implements MemberService {
 
         return m.getName();
     }
-
-    @Override
-    public List<Member> findMemberByName(int start, int size, String name) {
-        return memberRepository.findMembersByNamePaging(start, size, name);
-    }
-
-    @Override
-    public List<Member> findMembersByName(int start, int size, String name) {
-        return memberRepository.findMembersByNamePaging(start, size, name);
-    }
-
-    @Override
-    public Long getMembersCntByName(String name) {
-        return memberRepository.getMemberCntByName(name);
-    }
-
 }

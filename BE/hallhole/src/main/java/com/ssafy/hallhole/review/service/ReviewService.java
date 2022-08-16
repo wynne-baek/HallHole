@@ -11,7 +11,7 @@ import java.util.List;
 
 public interface ReviewService {
 
-    Long writeReview(ReviewInputDTO reviewDto) throws NotFoundException; // review form
+    void writeReview(ReviewInputDTO reviewDto) throws NotFoundException; // review form
 
     void updateReview(Long rId, ReviewInputDTO reviewDto) throws NotFoundException; // review detail
 

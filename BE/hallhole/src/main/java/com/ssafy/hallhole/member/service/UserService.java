@@ -4,7 +4,6 @@ import com.ssafy.hallhole.advice.exceptions.NotFoundException;
 import com.ssafy.hallhole.member.domain.Member;
 import com.ssafy.hallhole.member.dto.MemberResponseDTO;
 import com.ssafy.hallhole.member.repository.MemberRepository;
-import com.ssafy.hallhole.member.repository.MemberRepositoryImpl;
 import com.ssafy.hallhole.member.util.SecurityUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class UserService {
 
-    private final MemberRepositoryImpl memberRepository;
+    private final MemberRepository memberRepository;
 
     public MemberResponseDTO getMemberInfo(String email) throws NotFoundException {
 

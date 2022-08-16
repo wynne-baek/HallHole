@@ -6,7 +6,6 @@ import com.ssafy.hallhole.comment.dto.*;
 import com.ssafy.hallhole.comment.repository.CommentRepository;
 import com.ssafy.hallhole.member.domain.Member;
 import com.ssafy.hallhole.member.repository.MemberRepository;
-import com.ssafy.hallhole.member.repository.MemberRepositoryImpl;
 import com.ssafy.hallhole.review.domain.Review;
 import com.ssafy.hallhole.review.repository.ReviewRepository;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +20,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CommentServiceImpl implements CommentService{
 
-    private final MemberRepositoryImpl memberRepository;
+    private final MemberRepository memberRepository;
     private final ReviewRepository reviewRepository;
     private final CommentRepository commentRepository;
 
@@ -98,6 +97,10 @@ public class CommentServiceImpl implements CommentService{
         List<Comment> commentList = commentRepository.findAllCommentPagingByMemberId(
                 inputDTO.getStart(), inputDTO.getSize(), member.getId());
 
+        if (commentList.size()==0){
+            throw new NotFoundException("해당 사용자가 작성한 댓글이 없습니다.");
+        }
+
         List<CommentOutputDTO> outputList = new LinkedList<>();
         for(Comment c:commentList){
             CommentOutputDTO output = new CommentOutputDTO(c.getId(),c.getMember().getIdTag(),
@@ -119,6 +122,10 @@ public class CommentServiceImpl implements CommentService{
 
         List<Comment> commentList = commentRepository.findAllCommentPagingByReviewId(
                 inputDTO.getStart(), inputDTO.getSize(), inputDTO.getReviewId());
+
+        if (commentList.size()==0){
+            throw new NotFoundException("해당 후기에 대한 댓글이 없습니다.");
+        }
 
         List<CommentOutputDTO> outputList = new LinkedList<>();
         for(Comment c:commentList){

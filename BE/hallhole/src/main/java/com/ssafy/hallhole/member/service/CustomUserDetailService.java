@@ -2,7 +2,6 @@ package com.ssafy.hallhole.member.service;
 
 import com.ssafy.hallhole.member.domain.Member;
 import com.ssafy.hallhole.member.repository.MemberRepository;
-import com.ssafy.hallhole.member.repository.MemberRepositoryImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -19,7 +18,7 @@ import java.util.Collections;
 @RequiredArgsConstructor
 public class CustomUserDetailService implements UserDetailsService {
 
-    private final MemberRepositoryImpl memberRepository;
+    private final MemberRepository memberRepository;
 
     @Override
     @Transactional

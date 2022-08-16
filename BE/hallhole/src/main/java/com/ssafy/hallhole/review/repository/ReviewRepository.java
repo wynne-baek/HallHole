@@ -11,7 +11,7 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface ReviewRepository {
-    Long save(Review review);
+    void save(Review review);
 
     Review findOneReviewById(Long id) throws NotFoundException;
 

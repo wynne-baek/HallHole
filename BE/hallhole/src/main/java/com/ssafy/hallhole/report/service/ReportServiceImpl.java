@@ -3,7 +3,6 @@ package com.ssafy.hallhole.report.service;
 import com.ssafy.hallhole.advice.exceptions.NotFoundException;
 import com.ssafy.hallhole.member.domain.Member;
 import com.ssafy.hallhole.member.repository.MemberRepository;
-import com.ssafy.hallhole.member.repository.MemberRepositoryImpl;
 import com.ssafy.hallhole.report.domain.Report;
 import com.ssafy.hallhole.report.dto.ReportInputDTO;
 import com.ssafy.hallhole.report.dto.ReportOutputDTO;
@@ -23,7 +22,7 @@ public class ReportServiceImpl implements ReportService {
 
     private final ReportRepositoryImpl reportRepository;
 
-    private final MemberRepositoryImpl memberRepository;
+    private final MemberRepository memberRepository;
 
     @Override
     public void addReport(ReportInputDTO inputDto) throws NotFoundException {
