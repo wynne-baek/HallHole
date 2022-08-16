@@ -92,6 +92,8 @@ public class ReviewServiceImpl implements ReviewService {
         List<Comment> commentList = commentRepository.findAllCommentByReviewId(rId);
         for(Comment c : commentList){
             c.setDelete(true);
+            commentRepository.save(c);
+
         }
 
         review.setDelete(true);
