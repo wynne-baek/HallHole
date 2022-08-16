@@ -20,6 +20,7 @@ import storage from "../helper/storage";
 import PerformanceDetail from "../components/page/PerformanceDetail";
 import ChatRoom from "../components/page/ChatRoom";
 import ReviewDetail from "../components/page/ReviewDetail";
+import EditReview from "../components/page/EditReview";
 
 function checkAuth() {
   return !!storage.get("token");
@@ -128,6 +129,15 @@ export default function RouterConfiguration() {
         element={
           <CheckAuth>
             <WriteReview />
+          </CheckAuth>
+        }
+      />
+      <Route
+        path="/editreview/:reviewId"
+        component={EditReview}
+        element={
+          <CheckAuth>
+            <EditReview />
           </CheckAuth>
         }
       />

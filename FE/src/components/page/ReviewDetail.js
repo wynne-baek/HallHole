@@ -16,6 +16,7 @@ import CategoryDivider from "../atom/CategoryDivider";
 import CommentForm from "../molecule/CommentForm";
 import CommentBox from "../organism/CommentBox";
 import TextStyle from "../atom/Text";
+import { Link } from "react-router-dom";
 
 export default function ReviewDetail() {
   const { reviewId } = useParams();
@@ -77,9 +78,12 @@ export default function ReviewDetail() {
         <Box sx={{ display: "flex", width: "44%", margin: "auto", my: 3, justifyContent: "space-between" }}>
           <AlertModal title="삭제" alertTitle="삭제하시겠습니까?" reviewId={`${reviewId}`}></AlertModal>
           {/* 수정페이지로 가는 링크 추가 */}
-          <ButtonStyle size="smaller" variant="primary">
-            수정
-          </ButtonStyle>
+          <Link to={`/editreview/${reviewId}`} style={{ textDecoration: "none" }}>
+            <ButtonStyle size="smaller" variant="primary">
+              수정
+              {console.log(reviewId)}
+            </ButtonStyle>
+          </Link>
         </Box>
       ) : (
         <Box />
