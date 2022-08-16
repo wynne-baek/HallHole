@@ -8,10 +8,9 @@ function fetchChatRoom(id, success, fail) {
   api.get(`chat/room/${id}`).then(success).catch(fail);
 }
 
-function fetchChatLog(id, start, size, success, fail) {
-  console.log("fetchChat", start, size);
+function fetchChatLog(id, page, size, success, fail) {
   api
-    .get(`chat/logs/${id}`, { params: { start: start, size: size } })
+    .get(`chat/logs/${id}`, { params: { page: page, size: size } })
     .then(success)
     .catch(fail);
 }
