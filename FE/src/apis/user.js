@@ -45,3 +45,4 @@ function deleteProfile(success, fail) {
 }
 
 export { requestJoin, requestLogin, requestMyInfo, requestUserInfo, requestName, userEditProfile, deleteProfile };
+

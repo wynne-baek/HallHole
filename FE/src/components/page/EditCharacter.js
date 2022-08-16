@@ -44,6 +44,7 @@ const accNum = {
 
 export default function EditCharacter() {
   const user = useSelector(state => state.user.info);
+  // togglebutton 용
   const [choose, setChoose] = React.useState(true);
   const [char, setChar] = React.useState(0);
   const [bodyColor, setBodyColor] = React.useState('');
@@ -60,9 +61,14 @@ export default function EditCharacter() {
     const nowColor = user.nowChar
     const nowAcc = user.nowAcc
     const colorName = charNum[nowColor]
+    const accName = accNum[nowAcc]
     setBodyColor('/body_' + colorName + '.png');
     setArmColor('/arm_' + colorName + '.png');
-    setAcc(nowAcc);
+    if (nowAcc === 0) {
+      setAcc(0)
+    } else {
+      setAcc('/' + accName + '.png');
+    }
   } 
   
   function characterLoadFail(err) {
@@ -71,7 +77,6 @@ export default function EditCharacter() {
     characterLoadFail.defaultProps = {
       setBodyColor: '/body_default.png',
       setArmColor: '/arm_default.png',
-      setAcc: 0,
     }
   }
   
@@ -104,15 +109,15 @@ export default function EditCharacter() {
 
 
   function cancelEdit() {
-    movePage(`/editprofile`);
+    movePage(`/profile/${user.idTag}`)
   }
     
   return (
     <Box>
       <Box sx={{ ml: 2 }}>
-        <Box sx={{ mt: 2 }}>
+        <Box sx={{ mt: 1 }}>
           <TextStyle size="large" variant="black">
-            캐릭터 꾸미기
+            🔃 내 캐릭터 변경
           </TextStyle>
         </Box>
         <Box sx={{ my: 0.5, mr: 2 }}>
@@ -164,8 +169,8 @@ export default function EditCharacter() {
       </Box>
       <ToggleBox>
         <ToggleButton
-          textLeft="　색상"
-          textRight="　액세서리 "
+          textLeft="　🧪색상"
+          textRight="　　💎소품　 "
           onClickLeft={() => setChoose(true)}
           onClickRight={() => setChoose(false)}
         />

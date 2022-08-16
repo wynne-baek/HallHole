@@ -34,13 +34,14 @@ public class ReviewServiceImpl implements ReviewService {
     private final CommentRepository commentRepository;
 
     @Override
-    public void writeReview(ReviewInputDTO reviewDto) throws NotFoundException { // review form
+    public Long writeReview(ReviewInputDTO reviewDto) throws NotFoundException { // review form
         Performance p = performanceRepository.findOnePerformanceById(reviewDto.getPerformanceId());
         Member m = memberRepository.findByIdTag(reviewDto.getWriterTag());
         Review r = new Review(m,p,reviewDto.getTitle(),reviewDto.getPerformance_time().minusHours(9),
                 reviewDto.getContents(), reviewDto.getStar());
-        reviewRepository.save(r);
+        return reviewRepository.save(r);
     }
+
 
     @Override
     public void updateReview(Long rId, ReviewInputDTO reviewDto) throws NotFoundException { // review detail
@@ -129,10 +130,6 @@ public class ReviewServiceImpl implements ReviewService {
             summaryList.add(s);
         }
 
-        if(summaryList.size()==0){
-            throw new NotFoundException("해당 사용자가 작성한 리뷰가 없습니다.");
-        }
-
         return summaryList;
     }
 
@@ -152,10 +149,6 @@ public class ReviewServiceImpl implements ReviewService {
             SummaryReviewDTO s = new SummaryReviewDTO(r.getId(),writer.getIdTag(),r.getTitle(), r.getUpdateTime(),
                     r.getStarEval(),writer.getName(),writer.getNowBg(),writer.getNowChar(), writer.getNowAcc());
             summaryList.add(s);
-        }
-
-        if(summaryList.size()==0){
-            throw new NotFoundException("해당 사용자가 작성한 리뷰가 없습니다.");
         }
 
         return summaryList;

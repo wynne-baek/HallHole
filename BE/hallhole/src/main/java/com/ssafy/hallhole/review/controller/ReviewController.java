@@ -26,8 +26,8 @@ public class ReviewController {
 
     @PostMapping("/write")
     @ApiOperation(value="리뷰 작성")
-    public void writeReview(@RequestBody ReviewInputDTO reviewDto) throws NotFoundException {
-        reviewService.writeReview(reviewDto);
+    public Long writeReview(@RequestBody ReviewInputDTO reviewDto) throws NotFoundException {
+        return reviewService.writeReview(reviewDto);
     }
 
     @PostMapping("/{reviewId}")

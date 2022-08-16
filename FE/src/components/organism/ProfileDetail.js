@@ -9,14 +9,13 @@ import { useSelector } from "react-redux";
 
 import { checkFollowStatus, followUser, unfollowUser } from "../../apis/follow";
 import { requestUserInfo } from "../../apis/user";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export default function ProfileDetail({ id }) {
   const [followStatus, setFollowStatus] = useState("");
   const user = useSelector(state => state.user.info);
   const [profileUser, setProfileUser] = useState([]);
-  const movePage = useNavigate();
-  
+
   useEffect(() => {
     requestUserInfo(id, getProfileUserSuccess, getProfileUserFail);
   }, [followStatus]);
@@ -83,27 +82,25 @@ export default function ProfileDetail({ id }) {
   // 프로필 수정 페이지 이동
   function editProfile(e) {
     e.preventDefault();
-    movePage(`/editprofile`)
-    // location.reload();
   }
 
   // 프로필 수정, 팔로우, 언팔로우 버튼 설정
   let ProfileButton;
   if (user?.idTag === id) {
     ProfileButton = (
-      <ButtonStyle size="small" variant="negative" onClick={editProfile}>
+      <ButtonStyle size="full" variant="negative" onClick={editProfile}>
         프로필 수정
       </ButtonStyle>
     );
   } else if (followStatus) {
     ProfileButton = (
-      <ButtonStyle size="small" variant="grey" onClick={unfollow}>
+      <ButtonStyle size="full" variant="grey" onClick={unfollow}>
         언팔로우
       </ButtonStyle>
     );
   } else {
     ProfileButton = (
-      <ButtonStyle size="small" variant="primary" onClick={follow}>
+      <ButtonStyle size="full" variant="primary" onClick={follow}>
         팔로우
       </ButtonStyle>
     );
@@ -124,7 +121,7 @@ export default function ProfileDetail({ id }) {
             <br></br>
             <Link to={`/followlist/${id}`} style={{ textDecoration: "none" }}>
               <TextStyle size="medium">
-                팔로워 : {profileUser.followingCnt} | 팔로잉 : {profileUser.followerCnt}
+                팔로워 : {profileUser.followerCnt} | 팔로잉 : {profileUser.followingCnt}
               </TextStyle>
             </Link>
             <br></br>
