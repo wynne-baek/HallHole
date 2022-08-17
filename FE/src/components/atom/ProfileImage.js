@@ -33,6 +33,7 @@ function getSizeByType(type) {
 }
 
 export default function ProfileImage({ type, onClick, char, acc }) {
+  const imgUrl = char && acc && `/${char}_${acc}.png`;
   /**
    * props
    *  - type : "large" 또는 "small" 또는 "thumb"
@@ -40,5 +41,5 @@ export default function ProfileImage({ type, onClick, char, acc }) {
    *  - char : 캐릭터 색상 정보
    *  - acc : 악세서리 정보
    */
-  return <Image type={type} src={`/${char}_${acc}.png`} onClick={onClick}></Image>;
+  return <Image type={type} src={imgUrl} onClick={onClick}></Image>;
 }
