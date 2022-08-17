@@ -33,8 +33,9 @@ public class ReviewController {
     @PostMapping("/{reviewId}")
     @ApiOperation(value="리뷰 수정",
             notes = "writerTag는 리뷰의 작성자가 아닌 현재 수정하려는 사람의 tag로 넣어주세요")
-    public void updateReview(@PathVariable("reviewId") Long reviewId, @RequestBody ReviewInputDTO reviewDto) throws NotFoundException {
+    public Long updateReview(@PathVariable("reviewId") Long reviewId, @RequestBody ReviewUpdateDTO reviewDto) throws NotFoundException {
         reviewService.updateReview(reviewId,reviewDto);
+        return reviewId;
     }
 
     @PutMapping("/{reviewId}")

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 import Box from "@mui/material/Box";
 import TwitterIcon from "@mui/icons-material/Twitter";
@@ -9,7 +9,18 @@ import TwitterItem from "../molecule/TwitterItem";
 import { requestTweet } from "../../apis/twitter";
 
 const TwitterItemBox = styled(Box)`
-  height: 70%;
+  width: 90vw;
+  height: 50vh;
+
+  margin: auto;
+  padding: 3%;
+
+  border: solid;
+  border-color: ${props => props.theme.palette.primary.main};
+  border-radius: 10px;
+
+  background-color: white;
+
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -18,6 +29,7 @@ const TwitterItemBox = styled(Box)`
 
 export default function TwitterBox() {
   const [tweet, setTweet] = React.useState([]);
+  const [currentTime, setCurrentTime] = useState(new Date());
 
   function requestTweetSuccess(res) {
     setTweet(res.data);
@@ -30,51 +42,19 @@ export default function TwitterBox() {
   useEffect(() => {
     requestTweet(requestTweetSuccess, requestTweetFail);
   }, []);
-  return (
-    <Box
-      sx={{
-        width: 330,
-        height: 330,
-        marginX: "auto",
-        border: 2,
-        borderColor: "SteelBlue",
-        borderRadius: 3,
-        boxShadow: 3,
-        backgroundColor: "white",
-      }}
-    >
-      <Box
-        sx={{
-          margin: 1,
-          width: 35,
-          backgroundColor: "SteelBlue",
-          marginLeft: "85%",
-          marginTop: -0.5,
-          height: 60,
-        }}
-      >
-        <TwitterIcon style={{ color: "white" }} fontSize="large" />
-      </Box>
-      <Box
-        sx={{
-          margin: 1,
-          width: 35,
-          height: 35,
-          backgroundColor: "white",
-          marginLeft: "85%",
-          marginTop: -2.5,
-          transform: "rotate(45deg)",
-        }}
-      ></Box>
-      <TwitterItemBox>{getTweetList(tweet)}</TwitterItemBox>
-    </Box>
-  );
+  return <TwitterItemBox>{getTweetList(tweet, currentTime)}</TwitterItemBox>;
 }
 
-function getTweetList(tweets) {
-  return tweets
-    .map(tweet => {
-      return <TwitterItem key={tweet.id} content={tweet.contents} url={tweet.url} />;
-    })
-    .reverse();
+function getTweetList(tweets, currentTime) {
+  return tweets.map(tweet => {
+    return (
+      <TwitterItem
+        key={tweet.id}
+        content={tweet.contents}
+        url={tweet.url}
+        time={tweet.time}
+        currentTime={currentTime}
+      />
+    );
+  });
 }
