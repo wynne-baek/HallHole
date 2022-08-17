@@ -21,6 +21,7 @@ import PerformanceDetail from "../components/page/PerformanceDetail";
 import ChatRoom from "../components/page/ChatRoom";
 import ReviewDetail from "../components/page/ReviewDetail";
 import EditReview from "../components/page/EditReview";
+import LikedPerformance from "../components/page/LikedPerformance";
 
 function checkAuth() {
   return !!storage.get("token");
@@ -138,6 +139,15 @@ export default function RouterConfiguration() {
         element={
           <CheckAuth>
             <EditReview />
+          </CheckAuth>
+        }
+      />
+      <Route
+        path="/likedperformance/:id"
+        component={LikedPerformance}
+        element={
+          <CheckAuth>
+            <LikedPerformance />
           </CheckAuth>
         }
       />

@@ -8,10 +8,7 @@ import com.ssafy.hallhole.member.repository.MemberRepository;
 import com.ssafy.hallhole.performance.domain.Performance;
 import com.ssafy.hallhole.performance.repository.PerformanceRepository;
 import com.ssafy.hallhole.review.domain.Review;
-import com.ssafy.hallhole.review.dto.ReviewDeleteDTO;
-import com.ssafy.hallhole.review.dto.ReviewInputDTO;
-import com.ssafy.hallhole.review.dto.ReviewOutputDTO;
-import com.ssafy.hallhole.review.dto.SummaryReviewDTO;
+import com.ssafy.hallhole.review.dto.*;
 import com.ssafy.hallhole.review.repository.ReviewRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -44,7 +41,7 @@ public class ReviewServiceImpl implements ReviewService {
 
 
     @Override
-    public void updateReview(Long rId, ReviewInputDTO reviewDto) throws NotFoundException { // review detail
+    public void updateReview(Long rId, ReviewUpdateDTO reviewDto) throws NotFoundException { // review detail
         Performance p = performanceRepository.findOnePerformanceById(reviewDto.getPerformanceId());
         if(p==null){
             throw new NotFoundException("해당하는 공연이 존재하지 않습니다.");
@@ -66,7 +63,6 @@ public class ReviewServiceImpl implements ReviewService {
 
         r.setContents(reviewDto.getContents());
         r.setPerformance(p);
-        r.setPerformanceDatetime(reviewDto.getPerformance_time());
         r.setStarEval(reviewDto.getStar());
         r.setTitle(reviewDto.getTitle());
 

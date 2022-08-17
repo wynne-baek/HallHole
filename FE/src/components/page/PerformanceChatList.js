@@ -1,9 +1,10 @@
 import React from "react";
 // import Card from "@mui/material/Card";
 // import { CardActionArea } from "@mui/material";
-import Text from "../atom/Text";
+import TextStyle from "../atom/Text";
 import Box from "@mui/material/Box";
 // import PosterSize from "../atom/PosterSize";
+import CategoryDivider from "../atom/CategoryDivider";
 
 import ChatListBox from "../organism/ChatListBox";
 
@@ -17,9 +18,15 @@ export default function Performance() {
     >
       <Box sx={allPosition}>
         <Box sx={textQuestionDesign}>
-          <Text variant="black" size="large">
-            오픈 공연방
-          </Text>
+          <TextStyle variant="black" size="large">
+          🎪 공연/채팅
+          </TextStyle>
+        </Box>
+        <Box sx={{mx:2}}>
+          <CategoryDivider type="dark"/>
+        </Box>
+        <Box sx={{textAlign:"left", ml: 2, mt: 0.5}}>
+          <TextStyle variant="black" size="small" weight="lighter">공연 정보와 채팅을 목록에서 확인할 수 있습니다</TextStyle>
         </Box>
       </Box>
       <ChatListBox></ChatListBox>
