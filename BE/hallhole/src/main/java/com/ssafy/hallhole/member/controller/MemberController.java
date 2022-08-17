@@ -2,6 +2,7 @@ package com.ssafy.hallhole.member.controller;
 
 import com.ssafy.hallhole.advice.exceptions.BadRequestException;
 import com.ssafy.hallhole.advice.exceptions.NotFoundException;
+import com.ssafy.hallhole.mail.MailService;
 import com.ssafy.hallhole.member.domain.Member;
 import com.ssafy.hallhole.member.dto.*;
 import com.ssafy.hallhole.member.service.MemberServiceImpl;
@@ -25,6 +26,8 @@ import java.util.regex.Pattern;
 public class MemberController {
 
     private final MemberServiceImpl memberService;
+
+    private final MailService mailService;
 
     @PostMapping("/join")
     @ApiOperation(value="홀홀 회원가입", notes = "가입 축하 메일 막아뒀습니다")
@@ -79,25 +82,16 @@ public class MemberController {
     }
 
     @PostMapping("/pwmail")
-    @ApiOperation(value="비밀번호 변경 링크 메일 전송 >> 전송 막아뒀습니다")
-    public ResponseEntity findPW(@RequestBody EmailDTO emailDto) throws NotFoundException {
-        try{
-            memberService.findPW(emailDto.getEmail());
-            return new ResponseEntity(HttpStatus.OK);
-        }catch(NotFoundException e){
-            return new ResponseEntity(HttpStatus.NOT_FOUND);
-        }
+    @ApiOperation(value="비밀번호 변경을 위한 인증번호 전송 api")
+    public AuthEmailDTO findPW(@RequestBody EmailDTO emailDto) throws NotFoundException {
+        return mailService.sendPWMail(emailDto.getEmail());
     }
 
     @PostMapping("/new-pw")
     @ApiOperation(value = "비밀번호 링크 접속 후 변경")
-    public ResponseEntity changePW(@RequestBody LoginDTO member)  throws NotFoundException {
-        try{
-            memberService.changePW(member.getEmail(), member.getPw());
-            return new ResponseEntity(HttpStatus.OK);
-        }catch(NotFoundException e){
-            return new ResponseEntity(HttpStatus.NOT_FOUND);
-        }
+    public TokenDto changePW(@RequestBody LoginDTO member)  throws NotFoundException {
+        memberService.changePW(member.getEmail(), member.getPw());
+        return memberService.login(member);
     }
 
     @PutMapping("/out")

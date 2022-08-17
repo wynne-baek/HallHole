@@ -232,6 +232,7 @@ public class MemberServiceImpl implements MemberService {
             throw new NotFoundException("유효한 회원이 아닙니다.");
         }
 
+        member.setPassword(passwordEncoder.encode(password));
         memberRepository.save(member);
     }
 
