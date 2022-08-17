@@ -70,10 +70,10 @@ export default function Main() {
 
         <Box sx={TwitterBoxBackground}>
           <Box sx={{ mb:2, paddingTop: 3, textAlign: "left", mx:2}}>
-              <Text size="large" weight="">
+              <Text size="large" variant="primary">
                 🎫 실시간 티켓 정보
               </Text>
-            <CategoryDivider type="dark"/>
+            <CategoryDivider type="primary"/>
           <Box>
           </Box>
           </Box>
