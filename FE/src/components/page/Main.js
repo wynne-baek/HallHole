@@ -5,10 +5,12 @@ import TwitterBox from "../organism/TwitterBox";
 import LikePerformanceRank from "../organism/LikePerformanceRank";
 import Button from "../atom/Button";
 import SlickBox from "../organism/SlickBox";
+import CategoryDivider from "../atom/CategoryDivider";
 
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { fetchJoinedChatRoom } from "../../apis/chat";
+import { styled } from "@mui/system";
 
 export default function Main() {
   const user = useSelector(state => state.user.info);
@@ -75,7 +77,8 @@ export default function Main() {
               </Text>
             </Text>
           </Box>
-          <TwitterBox></TwitterBox>
+
+          <TwitterBox />
           <Box sx={{ marginTop: 15, marginBottom: 5 }}>
             <Text size="smallest">(주)HALLHOLE</Text> <br />
             <Text size="smallest">서울 강남구 테헤란로 212 멀티캠퍼스 12층</Text> <br />
@@ -155,7 +158,6 @@ const likePeroformanceList = {
 const TwitterBoxBackground = {
   textAlign: "center",
   paddingBottom: 2,
-  backgroundColor: "rgba(255, 0, 0, 0.2)",
 };
 
 // const userAlarm = {
