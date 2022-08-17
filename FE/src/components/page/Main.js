@@ -97,6 +97,7 @@ const userCheckBox = {
 };
 
 const userCheckText = {
+  marginTop: 0.5,
   position: "absolute",
   zIndex: 1,
   width: "100vw",
