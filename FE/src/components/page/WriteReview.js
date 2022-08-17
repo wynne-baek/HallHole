@@ -30,15 +30,15 @@ export default function WriteReview() {
       <PerformanceMiniPoster
         img={perfoInfo?.performance?.poster}
         title={perfoInfo?.performance?.name}
-        date={perfoInfo?.performance?.endDate}
-      ></PerformanceMiniPoster>
+        // date={perfoInfo?.performance?.endDate}
+      />
       <Box sx={{ width: "90%", margin: "auto", mt: 3 }}>
-        <TextStyle variant="black" size="medium" weight="bold">
+        <TextStyle variant="black" size="medium" weight="">
           ✍🏼 후기 작성
         </TextStyle>
         <CategoryDivider type="dark"></CategoryDivider>
-        <TextStyle variant="black" size="small">
-          {"관람한 공연에 대한 후기를 공유해볼까요? :)"}
+        <TextStyle variant="black" size="smaller" weight="lighter">
+          {"관람한 공연에 대한 후기를 공유해주세요"}
         </TextStyle>
       </Box>
       {/* 리뷰 폼 */}
