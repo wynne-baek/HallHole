@@ -10,7 +10,6 @@ import CategoryDivider from "../atom/CategoryDivider";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { fetchJoinedChatRoom } from "../../apis/chat";
-import CategoryDivider from "../atom/CategoryDivider";
 
 export default function Main() {
   const user = useSelector(state => state.user.info);
