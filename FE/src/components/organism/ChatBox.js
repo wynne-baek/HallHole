@@ -189,7 +189,7 @@ export default function ChatBox({ messages, sendMessage, chatEnter, setMessages 
             type={chat.type}
             idTag={chat.idTag}
             char={chat.characterType}
-            acc={accessoryType}
+            acc={chat.accessoryType}
           />
         );
       })
