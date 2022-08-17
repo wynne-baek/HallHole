@@ -10,7 +10,7 @@ import { checkFollowStatus, followUser, unfollowUser } from "../../apis/follow";
 // props로 이미지 url과 username을 넘기면 됩니다
 // 클릭 이벤트는 추후에 달면 됩니다!
 
-export default function ProfileItem({ user, profileId, name }) {
+export default function ProfileItem({ user, profileId, name, char, acc }) {
   const [followStatus, setFollowStatus] = useState(true);
 
   useEffect(() => {
@@ -49,10 +49,19 @@ export default function ProfileItem({ user, profileId, name }) {
   }
 
   return (
-    <Box sx={{ width: 0.95, display: "flex", justifyContent: "space-between", alignItems: "center", marginY: 1, marginX: "auto"}}>
+    <Box
+      sx={{
+        width: 0.95,
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "center",
+        marginY: 1,
+        marginX: "auto",
+      }}
+    >
       <CardHeader
         sx={{ padding: 0.5 }}
-        avatar={<ProfileImage type="small" src="" />}
+        avatar={<ProfileImage type="small" char={char} acc={acc} />}
         title={
           <TextStyle size="medium" variant="black">
             {name}
@@ -61,7 +70,7 @@ export default function ProfileItem({ user, profileId, name }) {
       ></CardHeader>
       {followStatus ? (
         <ButtonStyle size="none" variant="grey" onClick={unfollow}>
-          <span style={{ width: "unset"}}>언팔로우</span>
+          <span style={{ width: "unset" }}>언팔로우</span>
         </ButtonStyle>
       ) : (
         <ButtonStyle size="none" variant="primary" onClick={follow}>

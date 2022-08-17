@@ -50,7 +50,7 @@ const NameBox = styled(Box)``;
 
 const TimeBox = styled(Box)``;
 
-export default function ChatItem({ whoseMessage = "other", name, message, time, currentTime, type, idTag }) {
+export default function ChatItem({ whoseMessage = "other", name, message, time, currentTime, type, idTag, char, acc }) {
   const theme = useTheme();
   const [menuAnchorElement, setMenuAnchorElement] = useState(null);
   const open = Boolean(menuAnchorElement);
@@ -97,7 +97,7 @@ export default function ChatItem({ whoseMessage = "other", name, message, time, 
   return (
     <Content whoseMessage={whoseMessage}>
       <ProfileImageBox onClick={handleClick}>
-        {whoseMessage == "other" && <ProfileImage size="small" />}
+        {whoseMessage == "other" && <ProfileImage size="small" char={char} acc={acc} />}
       </ProfileImageBox>
       <Menu
         id="basic-menu"

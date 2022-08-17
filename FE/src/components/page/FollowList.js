@@ -21,31 +21,26 @@ export default function FollowList() {
   const [followerList, setFollowerList] = useState([]);
   const user = useSelector(state => state.user.info);
   const [profileUser, setProfileUser] = useState([]);
-  
+
   useEffect(() => {
     requestUserInfo(id, getProfileUserSuccess, getProfileUserFail);
     requestfollowerList(id, 10, 0, getFollowerListSuccess, getFollowerListFail);
     requestfollowingList(id, 10, 0, getFollowingListSuccess, getFollowingListFail);
   }, [id]);
 
-  function getProfileUserSuccess(res) {
-    setProfileUser(res.data);
-  }
+  function getProfileUserSuccess(res) {}
 
-  function getProfileUserFail(err) {
-  }
+  function getProfileUserFail(err) {}
 
   function getFollowerListSuccess(res) {
     setFollowerList(res.data);
-     }
-  function getFollowerListFail(err) {
   }
+  function getFollowerListFail(err) {}
 
   function getFollowingListSuccess(res) {
-    setFollowingList(res.data); 
+    setFollowingList(res.data);
   }
-  function getFollowingListFail(err) {
-  }
+  function getFollowingListFail(err) {}
 
   function validateProfileUser(profileUser) {
     return profileUser !== [];
@@ -58,16 +53,16 @@ export default function FollowList() {
   const movePage = useNavigate();
 
   function backProfile() {
-    const userId = user.idTag
-    movePage(`/profile/${userId}`)
+    const userId = user.idTag;
+    movePage(`/profile/${userId}`);
   }
 
   return (
-    <Box sx={{mt : 2}}>
+    <Box sx={{ mt: 2 }}>
       {validateProfileUser ? (
-        <Box sx={{ width: "95%", margin: "auto"}}>
-          <KeyboardBackspaceIcon sx={{ ml: 1, fontSize:30 }} onClick={backProfile} />
-          <Box sx={{ display: "flex", margin:"auto", width: "97%" }}>
+        <Box sx={{ width: "95%", margin: "auto" }}>
+          <KeyboardBackspaceIcon sx={{ ml: 1, fontSize: 30 }} onClick={backProfile} />
+          <Box sx={{ display: "flex", margin: "auto", width: "97%" }}>
             {target.map((item, i) => (
               <CategorySelectButton
                 key={i}
@@ -78,13 +73,27 @@ export default function FollowList() {
             ))}
           </Box>
 
-          <Box sx={{ marginTop: 1, margin:"auto"}}>
+          <Box sx={{ marginTop: 1, margin: "auto" }}>
             {selectedTarget !== target[0]
               ? followingList.map((profile, i) => (
-                  <ProfileItem key={i} user={user?.idTag} name={profile.name} profileId={profile.idTag}></ProfileItem>
+                  <ProfileItem
+                    key={i}
+                    user={user?.idTag}
+                    name={profile.name}
+                    profileId={profile.idTag}
+                    char={profile?.nowChar}
+                    acc={profile?.nowAcc}
+                  ></ProfileItem>
                 ))
               : followerList.map((profile, i) => (
-                  <ProfileItem key={i} user={user?.idTag} name={profile.name} profileId={profile.idTag}></ProfileItem>
+                  <ProfileItem
+                    key={i}
+                    user={user?.idTag}
+                    name={profile.name}
+                    profileId={profile.idTag}
+                    char={profile?.nowChar}
+                    acc={profile?.nowAcc}
+                  ></ProfileItem>
                 ))}
           </Box>
         </Box>
