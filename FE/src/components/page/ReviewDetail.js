@@ -18,10 +18,11 @@ import CommentBox from "../organism/CommentBox";
 import TextStyle from "../atom/Text";
 import { Link } from "react-router-dom";
 
+const INITIAL_REVIEW_INFORMATION = [];
 export default function ReviewDetail() {
   const { reviewId } = useParams();
   const user = useSelector(state => state.user.info);
-  const [reviewInformation, setReviewInformation] = useState([]);
+  const [reviewInformation, setReviewInformation] = useState(INITIAL_REVIEW_INFORMATION);
   const [reviewPerfoInfo, setReviewPerfoInfo] = useState([]);
   const [commentCnt, setCommentCnt] = useState(0);
 
@@ -29,11 +30,7 @@ export default function ReviewDetail() {
     getReviewInfo(reviewId, getReviewInfoSuccess, getReviewInfoFail);
     getReviewCommentCnt(reviewId, getReviewCommentCntSuccess, getReviewCommentCntFail);
     checkUser();
-  }, [reviewId, user]);
-
-  useEffect(() => {
-    fetchPerformance(reviewInformation?.performanceId, getPerfoInfoSuccess, getPerfoInfoFail);
-  }, [reviewInformation]);
+  }, [reviewId]);
 
   function getReviewCommentCntSuccess(res) {
     setCommentCnt(res.data);
@@ -43,7 +40,12 @@ export default function ReviewDetail() {
 
   function getReviewInfoSuccess(res) {
     console.log("리뷰 요청 성공");
-    setReviewInformation(res.data);
+    const reviewInfo = res.data;
+    setReviewInformation(reviewInfo);
+    console.log(reviewInfo);
+    if (reviewInfo.performanceId) {
+      fetchPerformance(reviewInfo?.performanceId, getPerfoInfoSuccess, getPerfoInfoFail);
+    }
   }
 
   function getReviewInfoFail(err) {

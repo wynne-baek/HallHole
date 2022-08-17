@@ -21,14 +21,6 @@ export default function SimpleSlider({ rooms = [] }) {
   const user = useSelector(state => state.user.info);
   const dispatch = useDispatch();
 
-  function enterPerformanceChat(e) {
-    e.preventDefault();
-    // chat 연결 코드 추가 예정
-    // Link to 해야함
-    dispatch(setChatId(user?.id));
-    dispatch(setChatToggle("on"));
-  }
-
   const sliderSetting = {
     dots: true,
     infinite: true,
@@ -66,12 +58,32 @@ export default function SimpleSlider({ rooms = [] }) {
     backgroundSize: "cover",
   };
 
+  function getEnterPerformanceChat(chatId) {
+    return () => {
+      dispatch(setChatId(chatId));
+      dispatch(setChatToggle("on"));
+    };
+  }
+
+  // function enterPerformanceChat(e) {
+  //   e.preventDefault();
+  //   // chat 연결 코드 추가 예정
+  //   // Link to 해야함
+  //   // dispatch(setChatId());
+  //   dispatch(setChatId(`${room?.performance?.id}`));
+  //   dispatch(setChatToggle("on"));
+  // }
+
   function getSliderItems(rooms) {
     return rooms.map(room => {
       return (
         <Card sx={cardStyle} key={room?.performance?.id}>
           <Box>
-            <PosterSize size="large" src={room?.performance?.poster} onClick={enterPerformanceChat}></PosterSize>
+            <PosterSize
+              size="large"
+              src={room?.performance?.poster}
+              onClick={getEnterPerformanceChat(room?.performance?.id)}
+            ></PosterSize>
           </Box>
         </Card>
       );

@@ -133,7 +133,7 @@ export default function RouterConfiguration() {
         }
       />
       <Route
-        path="/editreview/:reviewId"
+        path="/editreview/:id"
         component={EditReview}
         element={
           <CheckAuth>

@@ -3,15 +3,14 @@ import React, { useEffect, useState } from "react";
 
 import TextStyle from "../atom/Text";
 import CategoryDivider from "../atom/CategoryDivider";
-import { fetchPerformance } from "../../apis/performance";
 import EditForm from "../organism/EditForm";
 import { useParams } from "react-router-dom";
 
-export default function WriteReview() {
+export default function EditReview() {
   const { id } = useParams();
 
   return (
-    <Box>
+    <Box sx={{ marginTop: 8 }}>
       <Box sx={{ width: "90%", margin: "auto", mt: 3 }}>
         <TextStyle variant="black" size="medium" weight="bold">
           ✍🏼 후기 수정
