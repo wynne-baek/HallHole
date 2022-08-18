@@ -33,7 +33,7 @@ function getSizeByType(type) {
 }
 
 export default function ProfileImage({ type, onClick, char, acc }) {
-  const imgUrl = char && acc && `/${char}_${acc}.png`;
+  const imgUrl = !!char && !!acc ? `/${char}_${acc}.png` : "/0_0.png";
   /**
    * props
    *  - type : "large" 또는 "small" 또는 "thumb"
