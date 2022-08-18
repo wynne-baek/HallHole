@@ -30,7 +30,7 @@ export default function WriteReview() {
       <PerformanceMiniPoster
         img={perfoInfo?.performance?.poster}
         title={perfoInfo?.performance?.name}
-        // date={perfoInfo?.performance?.endDate}
+        date={perfoInfo?.performance?.endDate}
       />
       <Box sx={{ width: "90%", margin: "auto", mt: 3 }}>
         <TextStyle variant="black" size="medium" weight="">
