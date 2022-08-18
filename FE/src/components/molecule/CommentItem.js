@@ -85,7 +85,7 @@ export default function CommentItem({ idTag, commentId, memberAcc, memberBg, mem
         sx={{ padding: 0.5 }}
         avatar={
           <Link to={`/profile/${idTag}`} style={{ textDecoration: "none" }}>
-            <ProfileImage type="small" src="" />
+            <ProfileImage type="small" char={memberChar} acc={memberAcc} />
           </Link>
         }
         title={
