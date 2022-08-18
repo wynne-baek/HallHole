@@ -2,9 +2,6 @@ import React from "react";
 import ReactDom from "react-dom";
 import App from "./components/App";
 
-<<<<<<< HEAD
-ReactDom.render(<App />, document.getElementById("app"));
-=======
 import Theme from "./configs/theme";
 import Store from "./configs/store";
 
@@ -22,4 +19,3 @@ ReactDOM.createRoot(rootElement).render(
     </ThemeProvider>
   </React.StrictMode>,
 );
->>>>>>> develop

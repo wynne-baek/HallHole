@@ -1,7 +1,4 @@
 FE/node_modules
-<<<<<<< HEAD
-FE/dist
-=======
 FE/dist
 BE/hallhole/.idea
 BE/hallhole/.gradle
@@ -10,4 +7,3 @@ BE/hallhole/src/main/resources/application.properties
 *.properties
 *.p12
 FE/package-lock.json
->>>>>>> develop

@@ -42,8 +42,6 @@ module.exports = {
       template: "./src/index.html",
     }),
   ],
-<<<<<<< HEAD
-=======
   devServer: {
     historyApiFallback: {
       index: "/index.html",
@@ -58,5 +56,4 @@ module.exports = {
       },
     },
   },
->>>>>>> develop
 };
