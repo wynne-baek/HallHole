@@ -41,7 +41,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             "/index",
             "/**/*.woff",
             "/**/*.ttf",
-            "/favicon.ico",
+            "/**/favicon.ico",
             "/performance/images",
             "/main",
             "/review/reviewdetail/**",
@@ -51,9 +51,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity web){ // 보안 예외처리(HTML, 정적리소스)
         web.ignoring()
-                .antMatchers("/resources/**","/char/**", "/acc/**", "/favicon.ico", "/index_bundle.js","/**/*.css", "/**/*.png", "/**/*.jpg",
+                .antMatchers("/resources/**","/char/**", "/acc/**", "/index_bundle.js","/**/*.css", "/**/*.png", "/**/*.jpg",
                         "/**/*.gif","/**/*.woff", "/**/*.ttf","/performance/images","/member/join","/review/reviewdetail/**","/editprofile/**",
-                        "/member/login");
+                        "/member/login","/**/favicon.ico");
         web.ignoring().antMatchers(PERMIT_URL_ARRAY);
         web.ignoring().requestMatchers(PathRequest.toStaticResources().atCommonLocations());
     }
@@ -80,7 +80,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
 //                .antMatchers("/member/**", "/comment/**","/facility/**","/follow/**","/item/**","/performance/**","/plike/**","/report/**",
-//                        "/review/**","/review-reaction/**","/twitter/**").hasRole("USER")
+//                        "/review/**","/review-reaction/**","/twitter/**","/ws/**","/profile/**").hasRole("USER")
 //                .antMatchers(PERMIT_URL_ARRAY).permitAll()
                 .antMatchers("/**").permitAll()
 //                .anyRequest().authenticated()   // 나머지 API 는 전부 인증 필요
