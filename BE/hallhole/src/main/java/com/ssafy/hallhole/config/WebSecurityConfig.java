@@ -80,7 +80,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 .antMatchers("/member/**", "/comment/**","/facility/**","/follow/**","/item/**","/performance/**","/plike/**","/report/**",
-                        "/review/**","/review-reaction/**","/twitter/**","/ws/**").hasRole("USER")
+                        "/review/**","/review-reaction/**","/twitter/**","/ws/**","/profile/**").hasRole("USER")
                 .antMatchers(PERMIT_URL_ARRAY).permitAll()
 //                .antMatchers("/**").permitAll()
                 .anyRequest().authenticated()   // 나머지 API 는 전부 인증 필요
